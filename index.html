@@ -1,128 +1,200 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Black Swan News — Inteligência de Mercado Global. Notícias em tempo real, análises SMC e vídeos de analistas que movem os mercados." />
-  <title>Black Swan News · Inteligência de Mercado Global</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%230a0a0a'/><path d='M8 26 C8 26 4 20 6 14 C8 8 14 6 18 8 C22 10 24 16 20 20 C18 22 14 22 12 20' stroke='%23dc2626' stroke-width='1.5' fill='none' stroke-linecap='round'/><path d='M12 20 C10 24 8 26 8 26' stroke='%23dc2626' stroke-width='1.5' fill='none' stroke-linecap='round'/><circle cx='20' cy='9' r='1.5' fill='%23dc2626'/></svg>" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Black Swan News · Inteligência de Mercado Global</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--red:#dc2626;--red-dark:#b91c1c;--bg:#0a0a0a;--bg2:#0f0f0f;--bg3:#111;--b1:#1e1e1e;--b2:#2a2a2a;--t1:#e8e4dc;--t2:#c8c4bc;--t3:#888880;--t4:#555550;--green:#22c55e;--redp:#ef4444;--amber:#fbbf24;--blue:#7dd3fc;}
+html{scroll-behavior:smooth;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;}
+.topbar{background:#050505;border-bottom:1px solid var(--b1);padding:6px 20px;display:flex;align-items:center;gap:14px;overflow:hidden;position:sticky;top:0;z-index:100;}
+.live-pill{background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:2px;padding:3px 8px;border-radius:2px;white-space:nowrap;font-family:'Space Mono',monospace;}
+.ticker-wrap{overflow:hidden;flex:1;}
+.ticker-inner{display:flex;gap:32px;animation:scrt 55s linear infinite;white-space:nowrap;}
+.ticker-inner:hover{animation-play-state:paused;}
+@keyframes scrt{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.tick{display:flex;gap:7px;align-items:center;font-family:'Space Mono',monospace;font-size:10px;}
+.tn{color:var(--t4);}.tv{color:var(--t2);font-weight:700;}.up{color:var(--green);}.dn{color:var(--redp);}
+.header{background:var(--bg);padding:18px 20px 0;border-bottom:1px solid var(--b1);}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:16px;flex-wrap:wrap;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;letter-spacing:-1.5px;line-height:1;color:var(--t1);display:flex;align-items:center;gap:12px;}
+.logo svg{width:36px;height:36px;flex-shrink:0;}
+.logo-red{color:var(--red);}
+.logo-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--t4);margin-top:4px;padding-left:48px;}
+.hright{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.hdate{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);}
+.hstatus{font-family:'Space Mono',monospace;font-size:9px;color:var(--red);}
+.srow{display:flex;gap:6px;}
+.sinput{background:var(--bg3);border:0.5px solid var(--b2);color:var(--t1);font-size:11px;padding:8px 14px;border-radius:3px;font-family:'Space Grotesk',sans-serif;width:240px;outline:none;}
+.sinput::placeholder{color:var(--t4);}
+.sinput:focus{border-color:var(--red);}
+.btn-ai{background:var(--red);color:#fff;border:none;padding:8px 14px;font-size:10px;font-weight:600;border-radius:3px;cursor:pointer;font-family:'Space Grotesk',sans-serif;white-space:nowrap;}
+.nav{display:flex;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nvi{padding:10px 14px;font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--t4);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s;user-select:none;}
+.nvi:hover{color:var(--t2);}.nvi.active{color:var(--t1);border-bottom:2px solid var(--red);}
+.alert{background:var(--red);padding:7px 20px;display:flex;align-items:center;gap:12px;overflow:hidden;}
+.adot{width:7px;height:7px;background:#fff;border-radius:50%;flex-shrink:0;animation:pdot 1s ease-in-out infinite;}
+@keyframes pdot{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.alabel{font-size:9px;font-weight:700;letter-spacing:2px;color:#fca5a5;white-space:nowrap;font-family:'Space Mono',monospace;}
+.atext{font-size:10px;color:#fff;font-family:'Space Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.layout{display:grid;grid-template-columns:1fr 210px;border-bottom:1px solid var(--b1);}
+.feed{padding:18px 20px;border-right:1px solid var(--b1);}
+.slabel{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--t4);padding-bottom:10px;border-bottom:1px solid var(--b1);margin-bottom:16px;font-weight:600;}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:2px;margin-bottom:8px;}
+.bc{background:#3f0000;color:#fca5a5;}.bh{background:#2a1a00;color:#fbbf24;}.bg{background:#1a0030;color:#c4b5fd;}.bco{background:#001a0a;color:#86efac;}.bcr{background:#1a0a00;color:#fdba74;}.bm{background:#001520;color:#7dd3fc;}
+.lead{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--b1);cursor:pointer;transition:opacity .15s;}
+.lead:hover{opacity:.82;}
+.lead h2{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:700;line-height:1.3;color:var(--t1);margin-bottom:7px;}
+.lead p{font-size:12px;color:var(--t3);line-height:1.65;margin-bottom:8px;}
+.meta{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);display:flex;gap:14px;flex-wrap:wrap;}
+.itag{color:var(--red);font-weight:700;}
+.mini{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--b1);cursor:pointer;transition:opacity .15s;}
+.mini:hover{opacity:.8;}
+.mnum{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--b2);min-width:24px;line-height:1;margin-top:2px;}
+.mtit{font-size:12px;font-weight:500;color:var(--t2);line-height:1.45;margin-bottom:4px;}
+.mmeta{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);}
+.skel{height:16px;background:var(--b1);border-radius:2px;margin-bottom:8px;animation:shimmer 1.5s ease-in-out infinite;}
+.skel.w90{width:90%;}.skel.w70{width:70%;}.skel.w50{width:50%;}.skel.h8{height:10px;}
+@keyframes shimmer{0%,100%{opacity:.4;}50%{opacity:.8;}}
+.sidebar{padding:16px 14px;}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:16px;}
+.hc{padding:7px 8px;border-radius:2px;font-family:'Space Mono',monospace;font-size:10px;line-height:1.6;font-weight:700;}
+.hsym{font-size:8px;opacity:.75;font-weight:400;display:block;}
+.hu3{background:#14532d;color:#86efac;}.hu2{background:#166534;color:#bbf7d0;}.hu1{background:#1c3a22;color:#4ade80;}.hd1{background:#3a1515;color:#fca5a5;}.hd2{background:#7f1d1d;color:#fecaca;}
+.mrow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid var(--b1);}
+.mname{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);}
+.mval{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--t2);}
+.mchg{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;min-width:52px;text-align:right;}
+.evts{font-size:10px;line-height:2.1;color:var(--t4);font-family:'Space Mono',monospace;}
+.er{color:var(--red);}.ea{color:var(--amber);}.eb{color:var(--blue);}.eg{color:var(--green);}
+.vsec{padding:18px 20px;border-top:1px solid var(--b1);}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.chip{font-size:9px;padding:4px 12px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;transition:all .15s;border:.5px solid var(--b2);color:var(--t3);background:transparent;}
+.chip:hover,.chip.active{border-color:var(--red);color:#fff;background:var(--red);}
+.chip-live{border-color:#3f0000;color:#fca5a5;background:#1a0000;}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.vcard{background:var(--bg2);border:.5px solid var(--b1);border-radius:4px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s;}
+.vcard:hover{border-color:var(--b2);transform:translateY(-2px);}
+.vthumb{background:#080808;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border-bottom:.5px solid var(--b1);}
+.pbtn{width:40px;height:40px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.ptri{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid #fff;margin-left:3px;}
+.vinfo{padding:10px 12px;}
+.vlive{display:inline-block;background:var(--red);color:#fff;font-size:8px;font-weight:700;letter-spacing:1.5px;padding:2px 6px;border-radius:2px;margin-bottom:5px;font-family:'Space Mono',monospace;}
+.vtit{font-size:11px;font-weight:500;color:var(--t2);line-height:1.45;margin-bottom:5px;}
+.vmeta{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);}
+.vtrans{font-size:9px;color:var(--green);margin-top:4px;font-family:'Space Mono',monospace;}
+.asec{padding:18px 20px;border-top:1px solid var(--b1);}
+.agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px;}
+.acard{background:var(--bg2);border:.5px solid var(--b1);border-radius:4px;padding:14px;}
+.atop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:8px;}
+.atit{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--t1);line-height:1.3;}
+.dir{font-size:10px;font-weight:700;letter-spacing:1px;white-space:nowrap;padding:3px 8px;border-radius:2px;flex-shrink:0;}
+.dlong{background:#001a0a;color:#86efac;}.dshort{background:#3f0000;color:#fca5a5;}.dwatch{background:#2a1a00;color:#fbbf24;}
+.alevs{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);margin-bottom:10px;line-height:2;}
+.lv{color:var(--t2);font-weight:700;}
+.anote{font-size:11px;color:var(--t3);line-height:1.6;border-top:.5px solid var(--b1);padding-top:10px;}
+.adate{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);margin-top:8px;}
+.btnnew{margin-top:14px;background:transparent;border:.5px solid var(--b2);color:var(--t3);font-size:11px;padding:10px 18px;border-radius:3px;cursor:pointer;font-family:'Space Grotesk',sans-serif;width:100%;}
+.btnnew:hover{border-color:var(--red);color:var(--red);}
+footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;display:flex;gap:14px;font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);flex-wrap:wrap;}
+.fdot{color:var(--red);}
+@media(max-width:768px){.layout{grid-template-columns:1fr;}.vgrid{grid-template-columns:1fr 1fr;}.agrid{grid-template-columns:1fr;}.logo{font-size:28px;}.header-top{flex-direction:column;}.hright{align-items:flex-start;}.sinput{width:100%;}}
+@media(max-width:480px){.vgrid{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
-
-<!-- ══ TICKER ══ -->
 <div class="topbar">
   <span class="live-pill">LIVE</span>
-  <div class="ticker-wrap">
-    <div class="ticker-inner" id="ticker-inner"></div>
-  </div>
+  <div class="ticker-wrap"><div class="ticker-inner" id="ticker"></div></div>
 </div>
-
-<!-- ══ HEADER ══ -->
 <div class="header">
   <div class="header-top">
-    <div class="logo-wrap">
+    <div>
       <div class="logo">
-        <svg class="logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 32 C10 32 5 24 8 16 C11 8 18 6 22 9 C27 12 28 20 23 25 C20 28 15 28 12 25" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <path d="M12 25 C10 29 10 32 10 32" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <circle cx="23" cy="10" r="2" fill="#dc2626"/>
-          <path d="M8 16 C5 13 4 10 6 9 C9 7 11 11 8 16" fill="#dc2626" opacity="0.7"/>
-        </svg>
+        <svg viewBox="0 0 38 38" fill="none"><path d="M10 32C10 32 5 24 8 16C11 8 18 6 22 9C27 12 28 20 23 25C20 28 15 28 12 25" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 25C10 29 10 32 10 32" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="23" cy="10" r="2" fill="#dc2626"/><path d="M8 16C5 13 4 10 6 9C9 7 11 11 8 16" fill="#dc2626" opacity="0.7"/></svg>
         BLACK<span class="logo-red">SWAN</span>
       </div>
-      <div class="logo-tagline">Inteligência de Mercado Global · O Imprevisto que Move o Mundo</div>
+      <div class="logo-tag">Inteligência de Mercado Global · O Imprevisto que Move o Mundo</div>
     </div>
-    <div class="header-right">
-      <div class="header-date" id="header-date">Carregando...</div>
-      <div class="header-status">● Notícias atualizando em tempo real</div>
-      <div class="search-row">
-        <input class="search-input" id="search-input" type="text" placeholder="Fed, OPEC, ouro, BTC, guerra, NQ..." />
-        <button class="btn-ai" id="btn-ai">Analisar com IA ↗</button>
+    <div class="hright">
+      <div class="hdate" id="hdate">Carregando...</div>
+      <div class="hstatus">● Notícias em tempo real</div>
+      <div class="srow">
+        <input class="sinput" id="sinput" type="text" placeholder="Fed, ouro, BTC, guerra..."/>
+        <button class="btn-ai" id="btnai">Analisar IA ↗</button>
       </div>
     </div>
   </div>
-
-  <!-- NAV -->
   <nav class="nav">
-    <div class="nav-item active">Destaques</div>
-    <div class="nav-item">Geopolítica</div>
-    <div class="nav-item">Commodities</div>
-    <div class="nav-item">CME · Futuros</div>
-    <div class="nav-item">Cripto</div>
-    <div class="nav-item">Bancos Centrais</div>
-    <div class="nav-item">Guerras & Conflitos</div>
-    <div class="nav-item">Saúde Global</div>
-    <div class="nav-item">Metais Preciosos</div>
-    <div class="nav-item">Análises SMC</div>
+    <div class="nvi active">Destaques</div>
+    <div class="nvi">Geopolítica</div>
+    <div class="nvi">Commodities</div>
+    <div class="nvi">CME · Futuros</div>
+    <div class="nvi">Cripto</div>
+    <div class="nvi">Bancos Centrais</div>
+    <div class="nvi">Guerras & Conflitos</div>
+    <div class="nvi">Saúde Global</div>
+    <div class="nvi">Metais Preciosos</div>
+    <div class="nvi">Análises SMC</div>
   </nav>
 </div>
-
-<!-- ══ ALERT ══ -->
-<div class="alert-bar">
-  <div class="alert-dot"></div>
-  <span class="alert-label">CISNE NEGRO</span>
-  <div class="alert-text">
-    Notícias carregando em tempo real via NewsAPI &nbsp;·&nbsp;
-    Atualizando a cada 5 minutos &nbsp;·&nbsp;
-    Fontes: Reuters · Bloomberg · AP · FT · CNBC · CoinDesk · WHO
-  </div>
+<div class="alert">
+  <div class="adot"></div>
+  <span class="alabel">CISNE NEGRO</span>
+  <div class="atext">Notícias em tempo real · Reuters · Bloomberg · AP · CNBC · FT · CoinDesk · WHO</div>
 </div>
-
-<!-- ══ MAIN ══ -->
-<div class="main-layout">
-
-  <!-- FEED — preenchido via JS -->
-  <main class="news-feed" id="news-feed">
-    <div class="section-label">Carregando Notícias...</div>
-  </main>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="section-label">Mapa de Calor CME</div>
-    <div class="heat-grid">
-      <div class="heat-cell hu2"><span class="heat-sym">NQ1!</span>+0.34%</div>
-      <div class="heat-cell hu1"><span class="heat-sym">ES1!</span>+0.21%</div>
-      <div class="heat-cell hu3"><span class="heat-sym">GC1!</span>+1.14%</div>
-      <div class="heat-cell hd1"><span class="heat-sym">CL1!</span>-0.87%</div>
-      <div class="heat-cell hu2"><span class="heat-sym">BTC</span>+2.31%</div>
-      <div class="heat-cell hu1"><span class="heat-sym">SI1!</span>+0.66%</div>
-      <div class="heat-cell hd2"><span class="heat-sym">ZW1!</span>-1.10%</div>
-      <div class="heat-cell hd1"><span class="heat-sym">RTY1!</span>-0.44%</div>
-      <div class="heat-cell hu1"><span class="heat-sym">ZS1!</span>+0.88%</div>
-      <div class="heat-cell hd1"><span class="heat-sym">NG1!</span>-0.62%</div>
+<div class="layout">
+  <main class="feed" id="feed">
+    <div class="slabel">Carregando...</div>
+    <div style="padding-top:8px;">
+      <div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
+      <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
+      <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
     </div>
-
-    <div class="section-label">Mercados Globais</div>
-    <div class="market-row"><span class="market-name">Nikkei 225</span><span class="market-val">38,420</span><span class="market-chg up">+0.58%</span></div>
-    <div class="market-row"><span class="market-name">DAX</span><span class="market-val">18,012</span><span class="market-chg dn">-0.31%</span></div>
-    <div class="market-row"><span class="market-name">FTSE 100</span><span class="market-val">8,341</span><span class="market-chg up">+0.12%</span></div>
-    <div class="market-row"><span class="market-name">IBOVESPA</span><span class="market-val">128,770</span><span class="market-chg dn">-0.22%</span></div>
-    <div class="market-row"><span class="market-name">USD/BRL</span><span class="market-val">5.14</span><span class="market-chg dn">-0.41%</span></div>
-    <div class="market-row"><span class="market-name">EUR/USD</span><span class="market-val">1.0731</span><span class="market-chg dn">-0.18%</span></div>
-    <div class="market-row"><span class="market-name">USD/JPY</span><span class="market-val">154.82</span><span class="market-chg up">+0.27%</span></div>
-    <div class="market-row"><span class="market-name">ZS1! Soja</span><span class="market-val">1,142</span><span class="market-chg up">+0.88%</span></div>
-    <div class="market-row"><span class="market-name">Boi Gordo</span><span class="market-val">302.40</span><span class="market-chg up">+0.55%</span></div>
-    <div class="market-row"><span class="market-name">KC1! Café</span><span class="market-val">214.50</span><span class="market-chg up">+1.22%</span></div>
-
-    <div class="section-label" style="margin-top:14px;">Próximos Eventos Macro</div>
-    <div class="events-list">
-      <div><span class="evt-red">●</span> 29/04 — PIB EUA (Q1 2025)</div>
-      <div><span class="evt-amber">●</span> 30/04 — CPI Eurozona</div>
-      <div><span class="evt-amber">●</span> 01/05 — FOMC Minutes</div>
-      <div><span class="evt-red">●</span> 02/05 — NFP / Payroll EUA</div>
-      <div><span class="evt-blue">●</span> 05/05 — Reunião BCE</div>
-      <div><span class="evt-green">●</span> 07/05 — Cúpula G7 Itália</div>
-      <div><span class="evt-amber">●</span> 09/05 — IPC Brasil (IBGE)</div>
-      <div><span class="evt-blue">●</span> 12/05 — Reunião COPOM</div>
+  </main>
+  <aside class="sidebar">
+    <div class="slabel">Mapa de Calor CME</div>
+    <div class="hgrid">
+      <div class="hc hu2"><span class="hsym">NQ1!</span>+0.34%</div>
+      <div class="hc hu1"><span class="hsym">ES1!</span>+0.21%</div>
+      <div class="hc hu3"><span class="hsym">GC1!</span>+1.14%</div>
+      <div class="hc hd1"><span class="hsym">CL1!</span>-0.87%</div>
+      <div class="hc hu2"><span class="hsym">BTC</span>+2.31%</div>
+      <div class="hc hu1"><span class="hsym">SI1!</span>+0.66%</div>
+      <div class="hc hd2"><span class="hsym">ZW1!</span>-1.10%</div>
+      <div class="hc hd1"><span class="hsym">RTY1!</span>-0.44%</div>
+    </div>
+    <div class="slabel">Mercados Globais</div>
+    <div class="mrow"><span class="mname">Nikkei 225</span><span class="mval">38,420</span><span class="mchg up">+0.58%</span></div>
+    <div class="mrow"><span class="mname">DAX</span><span class="mval">18,012</span><span class="mchg dn">-0.31%</span></div>
+    <div class="mrow"><span class="mname">FTSE 100</span><span class="mval">8,341</span><span class="mchg up">+0.12%</span></div>
+    <div class="mrow"><span class="mname">IBOVESPA</span><span class="mval">128,770</span><span class="mchg dn">-0.22%</span></div>
+    <div class="mrow"><span class="mname">USD/BRL</span><span class="mval">5.14</span><span class="mchg dn">-0.41%</span></div>
+    <div class="mrow"><span class="mname">EUR/USD</span><span class="mval">1.0731</span><span class="mchg dn">-0.18%</span></div>
+    <div class="mrow"><span class="mname">ZS1! Soja</span><span class="mval">1,142</span><span class="mchg up">+0.88%</span></div>
+    <div class="mrow"><span class="mname">Boi Gordo</span><span class="mval">302.40</span><span class="mchg up">+0.55%</span></div>
+    <div class="mrow"><span class="mname">KC1! Café</span><span class="mval">214.50</span><span class="mchg up">+1.22%</span></div>
+    <div class="slabel" style="margin-top:14px;">Próximos Eventos Macro</div>
+    <div class="evts">
+      <div><span class="er">●</span> 29/04 — PIB EUA (Q1)</div>
+      <div><span class="ea">●</span> 30/04 — CPI Eurozona</div>
+      <div><span class="ea">●</span> 01/05 — FOMC Minutes</div>
+      <div><span class="er">●</span> 02/05 — NFP Payroll EUA</div>
+      <div><span class="eb">●</span> 05/05 — Reunião BCE</div>
+      <div><span class="eg">●</span> 07/05 — Cúpula G7 Itália</div>
+      <div><span class="ea">●</span> 09/05 — IPC Brasil IBGE</div>
+      <div><span class="eb">●</span> 12/05 — Reunião COPOM</div>
     </div>
   </aside>
 </div>
-
-<!-- ══ VÍDEOS ══ -->
-<section class="video-section">
-  <div class="section-label">Vídeos · Analistas &amp; Entrevistas Globais</div>
-  <div class="filter-chips">
+<section class="vsec">
+  <div class="slabel">Vídeos · Analistas &amp; Entrevistas Globais</div>
+  <div class="chips">
     <span class="chip active">Todos</span>
     <span class="chip chip-live">● Ao Vivo</span>
     <span class="chip">Bloomberg TV</span>
@@ -130,140 +202,54 @@
     <span class="chip">Reuters</span>
     <span class="chip">Kitco Gold</span>
     <span class="chip">TradingView</span>
-    <span class="chip">BandNews</span>
     <span class="chip">CNN Brasil</span>
   </div>
-  <div class="video-grid">
-    <div class="video-card">
-      <div class="video-thumb"><div class="play-btn"><div class="play-tri"></div></div></div>
-      <div class="video-info">
-        <div class="live-badge">● AO VIVO</div>
-        <div class="video-title">Bloomberg Markets — sessão europeia e reação ao Fed</div>
-        <div class="video-meta">Bloomberg TV · Iniciado há 1h</div>
-        <div class="video-trans">✓ Legendas PT-BR disponíveis</div>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="video-thumb"><div class="play-btn"><div class="play-tri"></div></div></div>
-      <div class="video-info">
-        <div class="video-title">Peter Schiff: "Ouro vai a US$ 5.000 — dólar em colapso estrutural"</div>
-        <div class="video-meta">Kitco Gold · há 3h · 28min</div>
-        <div class="video-trans">✓ Legendas PT-BR disponíveis</div>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="video-thumb"><div class="play-btn"><div class="play-tri"></div></div></div>
-      <div class="video-info">
-        <div class="video-title">CNBC — Fed decision: what Wall Street is getting wrong</div>
-        <div class="video-meta">CNBC · há 5h · 18min</div>
-        <div class="video-trans">✓ Legendas PT-BR disponíveis</div>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="video-thumb"><div class="play-btn"><div class="play-tri"></div></div></div>
-      <div class="video-info">
-        <div class="video-title">Ray Dalio — The Changing World Order and positioning for 2025</div>
-        <div class="video-meta">Bloomberg · há 8h · 42min</div>
-        <div class="video-trans">✓ Legendas PT-BR disponíveis</div>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="video-thumb"><div class="play-btn"><div class="play-tri"></div></div></div>
-      <div class="video-info">
-        <div class="video-title">TradingView — Análise técnica NQ e ES: estrutura semanal SMC</div>
-        <div class="video-meta">TradingView · há 6h · 31min</div>
-        <div class="video-trans">✓ Legendas PT-BR disponíveis</div>
-      </div>
-    </div>
-    <div class="video-card">
-      <div class="video-thumb"><div class="play-btn"><div class="play-tri"></div></div></div>
-      <div class="video-info">
-        <div class="video-title">Reuters — Gaza ceasefire collapse and energy market response</div>
-        <div class="video-meta">Reuters · há 9h · 22min</div>
-        <div class="video-trans">✓ Legendas PT-BR disponíveis</div>
-      </div>
-    </div>
+  <div class="vgrid">
+    <div class="vcard"><div class="vthumb"><div class="pbtn"><div class="ptri"></div></div></div><div class="vinfo"><div class="vlive">● AO VIVO</div><div class="vtit">Bloomberg Markets — sessão europeia e reação ao Fed</div><div class="vmeta">Bloomberg TV · há 1h</div><div class="vtrans">✓ Legendas PT-BR disponíveis</div></div></div>
+    <div class="vcard"><div class="vthumb"><div class="pbtn"><div class="ptri"></div></div></div><div class="vinfo"><div class="vtit">Peter Schiff: "Ouro vai a US$ 5.000 — dólar em colapso estrutural"</div><div class="vmeta">Kitco Gold · há 3h · 28min</div><div class="vtrans">✓ Legendas PT-BR disponíveis</div></div></div>
+    <div class="vcard"><div class="vthumb"><div class="pbtn"><div class="ptri"></div></div></div><div class="vinfo"><div class="vtit">CNBC — Fed decision: what Wall Street is getting wrong</div><div class="vmeta">CNBC · há 5h · 18min</div><div class="vtrans">✓ Legendas PT-BR disponíveis</div></div></div>
+    <div class="vcard"><div class="vthumb"><div class="pbtn"><div class="ptri"></div></div></div><div class="vinfo"><div class="vtit">Ray Dalio — The Changing World Order and positioning 2025</div><div class="vmeta">Bloomberg · há 8h · 42min</div><div class="vtrans">✓ Legendas PT-BR disponíveis</div></div></div>
+    <div class="vcard"><div class="vthumb"><div class="pbtn"><div class="ptri"></div></div></div><div class="vinfo"><div class="vtit">TradingView — Análise técnica NQ e ES: estrutura semanal SMC</div><div class="vmeta">TradingView · há 6h · 31min</div><div class="vtrans">✓ Legendas PT-BR disponíveis</div></div></div>
+    <div class="vcard"><div class="vthumb"><div class="pbtn"><div class="ptri"></div></div></div><div class="vinfo"><div class="vtit">Reuters — Gaza ceasefire collapse and energy market response</div><div class="vmeta">Reuters · há 9h · 22min</div><div class="vtrans">✓ Legendas PT-BR disponíveis</div></div></div>
   </div>
 </section>
-
-<!-- ══ ANÁLISES SMC ══ -->
-<section class="analysis-section">
-  <div class="section-label">Análises Exclusivas — Black Swan Intelligence · SMC</div>
-  <div class="analysis-grid">
-    <div class="analysis-card">
-      <div class="analysis-top">
-        <div class="analysis-title">Nasdaq Futures (NQ1!) — Estrutura Semanal</div>
-        <span class="direction dir-watch">AGUARDAR</span>
-      </div>
-      <div class="analysis-levels">
-        <div>Resistência: <span class="level-val">21,940 · 22,200</span></div>
-        <div>Suporte: <span class="level-val">21,600 · 21,280</span></div>
-        <div>OB Bearish: <span class="level-val">21,880 – 21,920</span></div>
-        <div>FVG: <span class="level-val">21,500 – 21,560</span></div>
-      </div>
-      <div class="analysis-note">Mercado em distribuição no topo da range semanal. Aguardar rejeição no OB ou reclaim acima de 22.200 para definir bias direcional.</div>
-      <div class="analysis-date">27 Abr 2025 · 08:00 BRT</div>
-    </div>
-    <div class="analysis-card">
-      <div class="analysis-top">
-        <div class="analysis-title">Ouro (GC1!) — Setup de Alta em Confluência</div>
-        <span class="direction dir-long">LONG</span>
-      </div>
-      <div class="analysis-levels">
-        <div>Entrada: <span class="level-val">3,285 – 3,295</span></div>
-        <div>Alvo 1: <span class="level-val">3,340</span></div>
-        <div>Alvo 2: <span class="level-val">3,390</span></div>
-        <div>Stop: <span class="level-val">3,268</span></div>
-        <div>OB Semanal: <span class="level-val">3,280 – 3,295</span></div>
-      </div>
-      <div class="analysis-note">OB semanal testado com absorção. Estrutura de alta intacta. Geopolítica e Fed sustentam bias. R:R 1:3 favorável acima de 3.268.</div>
-      <div class="analysis-date">27 Abr 2025 · 07:30 BRT</div>
-    </div>
-    <div class="analysis-card">
-      <div class="analysis-top">
-        <div class="analysis-title">Bitcoin (BTC/USD) — Breakout ou Fakeout?</div>
-        <span class="direction dir-watch">MONITORAR</span>
-      </div>
-      <div class="analysis-levels">
-        <div>Resistência chave: <span class="level-val">94,500</span></div>
-        <div>Liquidez sell-side: <span class="level-val">95,000 – 96,200</span></div>
-        <div>Suporte: <span class="level-val">89,000 · 85,400</span></div>
-        <div>FVG diário: <span class="level-val">90,200 – 91,000</span></div>
-      </div>
-      <div class="analysis-note">Rally varrendo liquidez acima de 94,5k. Reclaim sustentado = alvo 98k. Abaixo de 89k estrutura deteriora.</div>
-      <div class="analysis-date">27 Abr 2025 · 09:15 BRT</div>
-    </div>
-    <div class="analysis-card">
-      <div class="analysis-top">
-        <div class="analysis-title">Petróleo (CL1!) — Pressão Vendedora</div>
-        <span class="direction dir-short">SHORT</span>
-      </div>
-      <div class="analysis-levels">
-        <div>Entrada: <span class="level-val">83,00 – 83,80</span></div>
-        <div>Alvo 1: <span class="level-val">79.50</span></div>
-        <div>Alvo 2: <span class="level-val">77.00</span></div>
-        <div>Stop: <span class="level-val">84.20</span></div>
-        <div>OB Bearish D: <span class="level-val">83.00 – 83.80</span></div>
-      </div>
-      <div class="analysis-note">OPEC+ sinaliza reversão de cortes. Demanda chinesa decepcionante. OB bearish como zona de entrada. R:R 1:4.</div>
-      <div class="analysis-date">26 Abr 2025 · 18:00 BRT</div>
-    </div>
+<section class="asec">
+  <div class="slabel">Análises Exclusivas — Black Swan Intelligence · SMC</div>
+  <div class="agrid">
+    <div class="acard"><div class="atop"><div class="atit">Nasdaq Futures (NQ1!) — Estrutura Semanal</div><span class="dir dwatch">AGUARDAR</span></div><div class="alevs"><div>Resistência: <span class="lv">21,940 · 22,200</span></div><div>Suporte: <span class="lv">21,600 · 21,280</span></div><div>OB Bearish: <span class="lv">21,880–21,920</span></div><div>FVG: <span class="lv">21,500–21,560</span></div></div><div class="anote">Mercado em distribuição no topo da range semanal. Aguardar rejeição no OB ou reclaim acima de 22.200 para bias direcional.</div><div class="adate">27 Abr 2025 · 08:00 BRT</div></div>
+    <div class="acard"><div class="atop"><div class="atit">Ouro (GC1!) — Setup de Alta em Confluência</div><span class="dir dlong">LONG</span></div><div class="alevs"><div>Entrada: <span class="lv">3,285–3,295</span></div><div>Alvo 1: <span class="lv">3,340</span></div><div>Alvo 2: <span class="lv">3,390</span></div><div>Stop: <span class="lv">3,268</span></div></div><div class="anote">OB semanal testado com absorção. Estrutura de alta intacta. R:R 1:3 favorável.</div><div class="adate">27 Abr 2025 · 07:30 BRT</div></div>
+    <div class="acard"><div class="atop"><div class="atit">Bitcoin (BTC/USD) — Breakout ou Fakeout?</div><span class="dir dwatch">MONITORAR</span></div><div class="alevs"><div>Resistência: <span class="lv">94,500</span></div><div>Liquidez: <span class="lv">95,000–96,200</span></div><div>Suporte: <span class="lv">89,000 · 85,400</span></div><div>FVG: <span class="lv">90,200–91,000</span></div></div><div class="anote">Rally varrendo liquidez acima de 94,5k. Reclaim = alvo 98k. Abaixo de 89k estrutura deteriora.</div><div class="adate">27 Abr 2025 · 09:15 BRT</div></div>
+    <div class="acard"><div class="atop"><div class="atit">Petróleo (CL1!) — Pressão Vendedora</div><span class="dir dshort">SHORT</span></div><div class="alevs"><div>Entrada: <span class="lv">83,00–83,80</span></div><div>Alvo 1: <span class="lv">79.50</span></div><div>Alvo 2: <span class="lv">77.00</span></div><div>Stop: <span class="lv">84.20</span></div></div><div class="anote">OPEC+ sinaliza reversão de cortes. OB bearish como entrada. R:R 1:4.</div><div class="adate">26 Abr 2025 · 18:00 BRT</div></div>
   </div>
-  <button class="btn-new" id="btn-new">+ Nova Análise SMC — Black Swan Intelligence ↗</button>
+  <button class="btnnew" id="btnnew">+ Nova Análise SMC — Black Swan Intelligence ↗</button>
 </section>
-
-<!-- ══ FOOTER ══ -->
-<footer class="footer">
-  <span class="footer-dot">●</span>
-  <span>BLACK SWAN NEWS</span>
-  <span>·</span>
-  <span>Inteligência de Mercado Global</span>
-  <span>·</span>
-  <span>Notícias via NewsAPI · Reuters · Bloomberg · AP · CNBC · FT</span>
-  <span>·</span>
-  <span>v2.0 · 2025 · Inspirado em Nassim Nicholas Taleb</span>
+<footer>
+  <span class="fdot">●</span><span>BLACK SWAN NEWS</span><span>·</span>
+  <span>Inteligência de Mercado Global</span><span>·</span>
+  <span>v3.0 · 2025 · Inspirado em Nassim Nicholas Taleb</span>
 </footer>
-
-<script src="app.js"></script>
+<script>
+const API_KEY='fdae4d04533a42baa37f26fcefd085ef';
+const QUERIES={'Destaques':'finance OR economy OR federal reserve OR gold OR oil OR war','Geopolítica':'geopolitics OR war OR conflict OR sanctions OR NATO','Commodities':'gold OR oil OR wheat OR soybean OR commodity OR OPEC','CME · Futuros':'futures OR nasdaq OR S&P500 OR CME OR treasury','Cripto':'bitcoin OR ethereum OR cryptocurrency OR BTC','Bancos Centrais':'federal reserve OR ECB OR central bank OR interest rate OR inflation','Guerras & Conflitos':'war OR conflict OR Ukraine OR Russia OR Gaza OR NATO','Saúde Global':'pandemic OR WHO OR disease OR outbreak OR virus','Metais Preciosos':'gold OR silver OR platinum OR precious metals','Análises SMC':'market structure OR liquidity OR institutional trading'};
+let cat='Destaques';
+function clock(){const n=new Date();const d=n.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});const t=n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+' BRT';const el=document.getElementById('hdate');if(el)el.textContent=d+' · '+t;}
+clock();setInterval(clock,30000);
+const TKS=[{s:'NQ1!',v:'21,847',c:'+0.34%',u:true},{s:'ES1!',v:'5,912',c:'+0.21%',u:true},{s:'YM1!',v:'42,160',c:'+0.18%',u:true},{s:'RTY1!',v:'2,071',c:'-0.44%',u:false},{s:'GC1!',v:'3,312',c:'+1.14%',u:true},{s:'SI1!',v:'31.88',c:'+0.66%',u:true},{s:'CL1!',v:'82.40',c:'-0.87%',u:false},{s:'NG1!',v:'2.41',c:'+1.30%',u:true},{s:'ZW1!',v:'538',c:'-1.10%',u:false},{s:'ZS1!',v:'1,142',c:'+0.88%',u:true},{s:'BTC',v:'93,210',c:'+2.31%',u:true},{s:'ETH',v:'3,440',c:'+1.77%',u:true},{s:'SOL',v:'172.40',c:'+3.12%',u:true},{s:'DXY',v:'104.21',c:'-0.32%',u:false},{s:'US10Y',v:'4.41%',c:'-0.04',u:false},{s:'USD/BRL',v:'5.14',c:'-0.41%',u:false},{s:'IBOV',v:'128,770',c:'-0.22%',u:false},{s:'EUR/USD',v:'1.0731',c:'-0.18%',u:false},{s:'KC1!',v:'214.50',c:'+1.22%',u:true},{s:'HG1!',v:'4.72',c:'+0.44%',u:true}];
+function buildTicker(){const el=document.getElementById('ticker');if(!el)return;el.innerHTML=[...TKS,...TKS].map(t=>`<span class="tick"><span class="tn">${t.s}</span><span class="tv">${t.v}</span><span class="${t.u?'up':'dn'}">${t.c}</span></span>`).join('');}
+buildTicker();
+document.querySelectorAll('.nvi').forEach(n=>{n.addEventListener('click',function(){document.querySelectorAll('.nvi').forEach(x=>x.classList.remove('active'));n.classList.add('active');cat=n.textContent.trim();loadNews(cat);});});
+document.querySelectorAll('.chip:not(.chip-live)').forEach(c=>{c.addEventListener('click',function(){document.querySelectorAll('.chip:not(.chip-live)').forEach(x=>x.classList.remove('active'));c.classList.add('active');});});
+function doSearch(){const v=document.getElementById('sinput').value.trim();if(!v)return;window.open('https://claude.ai/new?q='+encodeURIComponent('Analise o impacto nos mercados globais e CME com visão SMC: '+v),'_blank');}
+document.getElementById('sinput').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+document.getElementById('btnai').addEventListener('click',doSearch);
+document.getElementById('btnnew').addEventListener('click',()=>{window.open('https://claude.ai/new?q='+encodeURIComponent('Crie uma análise SMC para o Black Swan News com: ativo, timeframe, OBs, FVGs, direção, entrada, stop e alvos.'),'_blank');});
+function badge(a){const t=(a.title+' '+(a.description||'')).toLowerCase();if(t.match(/war|attack|military|nato|nuclear/))return{c:'bg',l:'● Geopolítica'};if(t.match(/bitcoin|crypto|ethereum|btc|eth/))return{c:'bcr',l:'● Cripto'};if(t.match(/gold|silver|oil|wheat|opec|commodity/))return{c:'bco',l:'● Commodities'};if(t.match(/pandemic|disease|outbreak|virus|who/))return{c:'bm',l:'● Saúde Global'};if(t.match(/crash|crisis|collapse|recession/))return{c:'bc',l:'● Crítico'};return{c:'bh',l:'● Mercados'};}
+function itag(a){const t=(a.title+' '+(a.description||'')).toLowerCase();const tags=[];if(t.match(/nasdaq|nq/))tags.push('NQ1!');if(t.match(/gold|ouro/))tags.push('GC1!');if(t.match(/oil|crude|opec/))tags.push('CL1!');if(t.match(/bitcoin|btc/))tags.push('BTC');if(t.match(/dollar|dxy/))tags.push('DXY');return tags.length?'▲ '+tags.join(' · '):'▲ Mercados Globais';}
+function ago(d){const s=(Date.now()-new Date(d))/1000;if(s<3600)return Math.floor(s/60)+'min atrás';if(s<86400)return Math.floor(s/3600)+'h atrás';return Math.floor(s/86400)+'d atrás';}
+function render(arts){const feed=document.getElementById('feed');if(!feed)return;if(!arts||!arts.length){feed.innerHTML=`<div class="slabel">Notícias · ${cat}</div><p style="color:var(--t4);font-size:12px;padding:20px 0;">Nenhuma notícia encontrada.</p>`;return;}const leads=arts.slice(0,3),minis=arts.slice(3);let h=`<div class="slabel">Notícias · ${cat} · Tempo Real</div>`;leads.forEach(a=>{const b=badge(a),i=itag(a),src=a.source?.name||'Internacional',tm=ago(a.publishedAt);h+=`<article class="lead" onclick="window.open('${a.url}','_blank')"><span class="badge ${b.c}">${b.l}</span><h2>${a.title}</h2>${a.description?`<p>${a.description}</p>`:''}<div class="meta"><span>${src} · ${tm}</span><span class="itag">${i}</span></div></article>`;});if(minis.length){h+=`<div class="slabel">Mais Notícias</div>`;minis.forEach((a,i)=>{const src=a.source?.name||'Internacional',tm=ago(a.publishedAt);h+=`<article class="mini" onclick="window.open('${a.url}','_blank')"><div class="mnum">0${i+1}</div><div><div class="mtit">${a.title}</div><div class="mmeta">${src} · ${tm}</div></div></article>`;});}feed.innerHTML=h;}
+function loading(){document.getElementById('feed').innerHTML=`<div class="slabel">Carregando · ${cat}...</div><div style="padding-top:8px;">${[1,2,3].map(()=>`<div style="margin-bottom:20px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>`).join('')}</div>`;}
+async function loadNews(q){loading();const query=QUERIES[q]||QUERIES['Destaques'];try{const r=await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=en&sortBy=publishedAt&pageSize=10&apiKey=${API_KEY}`);const d=await r.json();if(d.status==='ok')render(d.articles.filter(a=>a.title&&a.title!=='[Removed]'));else render(null);}catch(e){console.error(e);render(null);}}
+document.addEventListener('DOMContentLoaded',()=>{loadNews('Destaques');setInterval(()=>loadNews(cat),5*60*1000);});
+</script>
 </body>
 </html>
