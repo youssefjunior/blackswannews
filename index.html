@@ -82,11 +82,11 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1)
 .vcard{background:var(--bg2);border:.5px solid var(--b1);border-radius:4px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s;}
 .vcard:hover{border-color:var(--b2);transform:translateY(-2px);}
 .vthumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000;}
-.vthumb img{width:100%;height:100%;object-fit:cover;opacity:0.8;}
-.vthumb-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);}
-.pbtn{width:40px;height:40px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
-.vcard:hover .pbtn{transform:scale(1.15);}
-.ptri{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid #fff;margin-left:3px;}
+.vthumb img{width:100%;height:100%;object-fit:cover;opacity:0.85;}
+.vthumb-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.25);}
+.pbtn{width:44px;height:44px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .15s;}
+.vcard:hover .pbtn{transform:scale(1.15);background:var(--red-dark);}
+.ptri{width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:17px solid #fff;margin-left:4px;}
 .vinfo{padding:10px 12px;}
 .vlive{display:inline-block;background:var(--red);color:#fff;font-size:8px;font-weight:700;letter-spacing:1.5px;padding:2px 6px;border-radius:2px;margin-bottom:5px;font-family:'Space Mono',monospace;animation:pdot 1.5s ease-in-out infinite;}
 .vtit{font-size:11px;font-weight:500;color:var(--t2);line-height:1.45;margin-bottom:5px;}
@@ -95,38 +95,40 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1)
 /* VIDEO MODAL */
 .vmodal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center;}
 .vmodal.open{display:flex;}
-.vmodal-inner{width:90%;max-width:900px;background:var(--bg2);border-radius:6px;overflow:hidden;border:1px solid var(--b2);}
+.vmodal-inner{width:92%;max-width:960px;background:#111;border-radius:6px;overflow:hidden;border:1px solid var(--b2);}
 .vmodal-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--b1);}
-.vmodal-title{font-size:12px;font-weight:600;color:var(--t2);}
-.vmodal-close{background:transparent;border:none;color:var(--t3);font-size:20px;cursor:pointer;line-height:1;}
+.vmodal-title{font-size:12px;font-weight:600;color:var(--t2);flex:1;margin-right:12px;}
+.vmodal-close{background:transparent;border:none;color:var(--t3);font-size:22px;cursor:pointer;line-height:1;flex-shrink:0;}
 .vmodal-close:hover{color:var(--red);}
 .vmodal-frame{position:relative;aspect-ratio:16/9;}
-.vmodal-frame iframe{width:100%;height:100%;border:none;}
-/* CALENDARIO */
-.calsec{padding:18px 20px;border-top:1px solid var(--b1);}
+.vmodal-frame iframe{width:100%;height:100%;border:none;display:block;}
+/* CALENDÁRIO — FUNDO BRANCO */
+.calsec{padding:18px 20px;border-top:1px solid var(--b1);background:#fff;}
+.calsec .slabel{color:#666;border-bottom-color:#e5e7eb;}
 .cal-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
-.cal-tab{font-size:9px;padding:5px 14px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;transition:all .15s;border:.5px solid var(--b2);color:var(--t3);background:transparent;}
-.cal-tab:hover,.cal-tab.active{border-color:var(--red);color:#fff;background:var(--red);}
+.cal-tab{font-size:9px;padding:5px 14px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;transition:all .15s;border:.5px solid #d1d5db;color:#6b7280;background:#fff;}
+.cal-tab:hover{border-color:var(--red);color:var(--red);}
+.cal-tab.active{border-color:var(--red);color:#fff;background:var(--red);}
 .cal-table{width:100%;border-collapse:collapse;font-size:11px;}
-.cal-table th{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t4);padding:8px 10px;border-bottom:1px solid var(--b1);text-align:left;font-weight:600;}
-.cal-table td{padding:10px 10px;border-bottom:.5px solid var(--b1);vertical-align:middle;}
-.cal-table tr:hover td{background:var(--bg2);}
-.cal-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--t4);white-space:nowrap;}
-.cal-event{font-weight:500;color:var(--t2);line-height:1.4;}
-.cal-country{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);}
-.cal-imp{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.cal-table th{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:left;font-weight:600;background:#f9fafb;}
+.cal-table td{padding:10px 10px;border-bottom:.5px solid #f3f4f6;vertical-align:middle;background:#fff;}
+.cal-table tr:hover td{background:#fef2f2;}
+.cal-date{font-family:'Space Mono',monospace;font-size:10px;color:#6b7280;white-space:nowrap;}
+.cal-event{font-weight:500;color:#111827;line-height:1.4;}
+.cal-country{font-family:'Space Mono',monospace;font-size:9px;color:#9ca3af;}
+.cal-imp{display:inline-block;width:9px;height:9px;border-radius:50%;flex-shrink:0;}
 .imp-high{background:var(--red);}
 .imp-med{background:var(--amber);}
 .imp-low{background:var(--green);}
-.cal-val{font-family:'Space Mono',monospace;font-size:10px;color:var(--t2);text-align:right;}
-.cal-prev{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);text-align:right;}
+.cal-val{font-family:'Space Mono',monospace;font-size:10px;color:#111827;text-align:right;font-weight:600;}
+.cal-prev{font-family:'Space Mono',monospace;font-size:9px;color:#9ca3af;text-align:right;}
 .cal-type{font-size:9px;padding:2px 7px;border-radius:2px;font-weight:700;font-family:'Space Mono',monospace;white-space:nowrap;}
-.ct-macro{background:#1a0030;color:#c4b5fd;}
-.ct-earn{background:#001a0a;color:#86efac;}
-.ct-div{background:#2a1a00;color:#fbbf24;}
-.ct-ipo{background:#001520;color:#7dd3fc;}
-.ct-fut{background:#3f0000;color:#fca5a5;}
-.ct-hol{background:#1e1e1e;color:#888880;}
+.ct-macro{background:#ede9fe;color:#7c3aed;}
+.ct-earn{background:#dcfce7;color:#166534;}
+.ct-div{background:#fef3c7;color:#92400e;}
+.ct-ipo{background:#dbeafe;color:#1e40af;}
+.ct-fut{background:#fee2e2;color:#991b1b;}
+.ct-hol{background:#f3f4f6;color:#4b5563;}
 /* ANALYSIS */
 .asec{padding:18px 20px;border-top:1px solid var(--b1);}
 .agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px;}
@@ -245,13 +247,13 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
 <section class="vsec">
   <div class="slabel">Vídeos · Analistas &amp; Entrevistas Globais</div>
   <div class="chips">
-    <span class="chip active" onclick="filterVideos('todos')">Todos</span>
-    <span class="chip chip-live" onclick="filterVideos('live')">● Ao Vivo</span>
-    <span class="chip" onclick="filterVideos('bloomberg')">Bloomberg TV</span>
-    <span class="chip" onclick="filterVideos('cnbc')">CNBC</span>
-    <span class="chip" onclick="filterVideos('kitco')">Kitco Gold</span>
-    <span class="chip" onclick="filterVideos('tradingview')">TradingView</span>
-    <span class="chip" onclick="filterVideos('reuters')">Reuters</span>
+    <span class="chip active" onclick="filterVideos(event,'todos')">Todos</span>
+    <span class="chip chip-live" onclick="filterVideos(event,'live')">● Ao Vivo</span>
+    <span class="chip" onclick="filterVideos(event,'bloomberg')">Bloomberg TV</span>
+    <span class="chip" onclick="filterVideos(event,'cnbc')">CNBC</span>
+    <span class="chip" onclick="filterVideos(event,'kitco')">Kitco Gold</span>
+    <span class="chip" onclick="filterVideos(event,'tradingview')">TradingView</span>
+    <span class="chip" onclick="filterVideos(event,'reuters')">Reuters</span>
   </div>
   <div class="vgrid" id="vgrid"></div>
 </section>
@@ -273,12 +275,12 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
 <section class="calsec">
   <div class="slabel">Calendário Econômico Mundial</div>
   <div class="cal-tabs">
-    <span class="cal-tab active" onclick="showCal('macro')">Macro · Indicadores</span>
-    <span class="cal-tab" onclick="showCal('earn')">Balanços · Resultados</span>
-    <span class="cal-tab" onclick="showCal('div')">Dividendos</span>
-    <span class="cal-tab" onclick="showCal('ipo')">IPOs</span>
-    <span class="cal-tab" onclick="showCal('fut')">Vencimento Futuros</span>
-    <span class="cal-tab" onclick="showCal('hol')">Feriados</span>
+    <span class="cal-tab active" onclick="showCal(event,'macro')">Macro · Indicadores</span>
+    <span class="cal-tab" onclick="showCal(event,'earn')">Balanços · Resultados</span>
+    <span class="cal-tab" onclick="showCal(event,'div')">Dividendos</span>
+    <span class="cal-tab" onclick="showCal(event,'ipo')">IPOs</span>
+    <span class="cal-tab" onclick="showCal(event,'fut')">Vencimento Futuros</span>
+    <span class="cal-tab" onclick="showCal(event,'hol')">Feriados</span>
   </div>
   <div id="cal-content"></div>
 </section>
@@ -302,8 +304,19 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
 </footer>
 
 <script>
-// ── QUERIES ──
-const QUERIES={'Destaques':'finanças OR economia OR federal reserve OR ouro OR petróleo OR guerra','Geopolítica':'geopolítica OR guerra OR conflito OR sanções OR NATO','Commodities':'ouro OR petróleo OR trigo OR soja OR commodity OR OPEC','CME · Futuros':'futuros OR nasdaq OR S&P500 OR CME OR treasury','Cripto':'bitcoin OR ethereum OR criptomoeda OR BTC','Bancos Centrais':'federal reserve OR BCE OR banco central OR taxa de juros OR inflação','Guerras & Conflitos':'guerra OR conflito OR Ucrânia OR Rússia OR Gaza OR NATO','Saúde Global':'pandemia OR OMS OR doença OR surto OR vírus','Metais Preciosos':'ouro OR prata OR platina OR paládio OR metais preciosos','Análises SMC':'estrutura de mercado OR liquidez OR smart money OR trading institucional'};
+// ── QUERIES em inglês para melhor cobertura ──
+const QUERIES={
+  'Destaques':'gold OR oil OR federal reserve OR war OR market crash OR economy',
+  'Geopolítica':'war OR conflict OR geopolitics OR sanctions OR NATO OR diplomacy',
+  'Commodities':'gold OR oil OR wheat OR soybean OR OPEC OR copper OR commodity',
+  'CME · Futuros':'futures OR nasdaq OR S&P500 OR CME OR treasury OR bonds',
+  'Cripto':'bitcoin OR ethereum OR cryptocurrency OR BTC OR crypto',
+  'Bancos Centrais':'federal reserve OR ECB OR central bank OR interest rate OR inflation OR Powell',
+  'Guerras & Conflitos':'war OR conflict OR Ukraine OR Russia OR Gaza OR NATO OR military',
+  'Saúde Global':'pandemic OR WHO OR disease OR outbreak OR virus OR health emergency',
+  'Metais Preciosos':'gold OR silver OR platinum OR palladium OR precious metals OR bullion',
+  'Análises SMC':'market structure OR liquidity OR institutional trading OR smart money'
+};
 let cat='Destaques';
 
 // ── RELÓGIO ──
@@ -322,69 +335,70 @@ document.querySelectorAll('.nvi').forEach(n=>{n.addEventListener('click',functio
 function doSearch(){const v=document.getElementById('sinput').value.trim();if(!v)return;window.open('https://claude.ai/new?q='+encodeURIComponent('Analise o impacto nos mercados globais e CME com visão SMC: '+v),'_blank');}
 document.getElementById('sinput').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
 document.getElementById('btnai').addEventListener('click',doSearch);
-document.getElementById('btnnew').addEventListener('click',()=>{window.open('https://claude.ai/new?q='+encodeURIComponent('Crie uma análise SMC para o Black Swan News com: ativo, timeframe, OBs, FVGs, direção, entrada, stop e alvos.'),'_blank');});
+document.getElementById('btnnew').addEventListener('click',function(){window.open('https://claude.ai/new?q='+encodeURIComponent('Crie uma análise SMC para o Black Swan News com: ativo, timeframe, OBs, FVGs, direção, entrada, stop e alvos.'),'_blank');});
 
 // ── NOTÍCIAS ──
-function badge(a){const t=(a.title+' '+(a.description||'')).toLowerCase();if(t.match(/war|guerra|attack|militar|nato|nuclear|conflito/))return{c:'bg',l:'● Geopolítica'};if(t.match(/bitcoin|crypto|ethereum|btc|eth|cripto/))return{c:'bcr',l:'● Cripto'};if(t.match(/gold|ouro|silver|oil|petróleo|wheat|opec|commodity/))return{c:'bco',l:'● Commodities'};if(t.match(/pandemi|disease|outbreak|virus|who|oms/))return{c:'bm',l:'● Saúde Global'};if(t.match(/crash|crise|collapse|recession|recessão/))return{c:'bc',l:'● Crítico'};return{c:'bh',l:'● Mercados'};}
-function itag(a){const t=(a.title+' '+(a.description||'')).toLowerCase();const tags=[];if(t.match(/nasdaq|nq/))tags.push('NQ1!');if(t.match(/gold|ouro/))tags.push('GC1!');if(t.match(/oil|petróleo|crude|opec/))tags.push('CL1!');if(t.match(/bitcoin|btc/))tags.push('BTC');if(t.match(/dollar|dólar|dxy/))tags.push('DXY');if(t.match(/soja|soybean/))tags.push('ZS1!');return tags.length?'▲ '+tags.join(' · '):'▲ Mercados Globais';}
+function badge(a){const t=(a.title+' '+(a.description||'')).toLowerCase();if(t.match(/war|attack|military|nato|nuclear|conflict/))return{c:'bg',l:'● Geopolítica'};if(t.match(/bitcoin|crypto|ethereum|btc|eth/))return{c:'bcr',l:'● Cripto'};if(t.match(/gold|silver|oil|wheat|opec|commodity/))return{c:'bco',l:'● Commodities'};if(t.match(/pandemic|disease|outbreak|virus|who/))return{c:'bm',l:'● Saúde Global'};if(t.match(/crash|crisis|collapse|recession/))return{c:'bc',l:'● Crítico'};return{c:'bh',l:'● Mercados'};}
+function itag(a){const t=(a.title+' '+(a.description||'')).toLowerCase();const tags=[];if(t.match(/nasdaq|nq/))tags.push('NQ1!');if(t.match(/gold|ouro/))tags.push('GC1!');if(t.match(/oil|crude|opec/))tags.push('CL1!');if(t.match(/bitcoin|btc/))tags.push('BTC');if(t.match(/dollar|dxy/))tags.push('DXY');if(t.match(/soybean|soja/))tags.push('ZS1!');return tags.length?'▲ '+tags.join(' · '):'▲ Mercados Globais';}
 function ago(d){const s=(Date.now()-new Date(d))/1000;if(s<3600)return Math.floor(s/60)+'min atrás';if(s<86400)return Math.floor(s/3600)+'h atrás';return Math.floor(s/86400)+'d atrás';}
-function render(arts){const feed=document.getElementById('feed');if(!feed)return;if(!arts||!arts.length){feed.innerHTML=`<div class="slabel">Notícias · ${cat}</div><p style="color:var(--t4);font-size:12px;padding:20px 0;">Nenhuma notícia encontrada.</p>`;return;}const leads=arts.slice(0,3),minis=arts.slice(3);let h=`<div class="slabel">Notícias · ${cat} · Tempo Real</div>`;leads.forEach(a=>{const b=badge(a),i=itag(a),src=a.source?.name||a.source||'Internacional',tm=ago(a.publishedAt);h+=`<article class="lead" onclick="window.open('${a.url}','_blank')"><span class="badge ${b.c}">${b.l}</span><h2>${a.title}</h2>${a.description?`<p>${a.description}</p>`:''}<div class="meta"><span>${src} · ${tm}</span><span class="itag">${i}</span></div></article>`;});if(minis.length){h+=`<div class="slabel">Mais Notícias</div>`;minis.forEach((a,i)=>{const src=a.source?.name||a.source||'Internacional',tm=ago(a.publishedAt);h+=`<article class="mini" onclick="window.open('${a.url}','_blank')"><div class="mnum">0${i+1}</div><div><div class="mtit">${a.title}</div><div class="mmeta">${src} · ${tm}</div></div></article>`;});}feed.innerHTML=h;}
-function loading(){document.getElementById('feed').innerHTML=`<div class="slabel">Carregando · ${cat}...</div><div style="padding-top:8px;">${[1,2,3].map(()=>`<div style="margin-bottom:20px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>`).join('')}</div>`;}
-async function loadNews(q){loading();const query=QUERIES[q]||QUERIES['Destaques'];try{const r=await fetch(`/api/news?q=${encodeURIComponent(query)}`);const d=await r.json();if(d.articles)render(d.articles.filter(a=>a.title));else render(null);}catch(e){console.error(e);render(null);}}
+function render(arts){const feed=document.getElementById('feed');if(!feed)return;if(!arts||!arts.length){feed.innerHTML=`<div class="slabel">Notícias · ${cat}</div><p style="color:var(--t4);font-size:12px;padding:20px 0;">Nenhuma notícia encontrada.</p>`;return;}const leads=arts.slice(0,3),minis=arts.slice(3);let h=`<div class="slabel">Notícias · ${cat} · Tempo Real</div>`;leads.forEach(function(a){const b=badge(a),i=itag(a),src=a.source&&a.source.name?a.source.name:(a.source||'Internacional'),tm=ago(a.publishedAt);h+=`<article class="lead" onclick="window.open('${a.url}','_blank')"><span class="badge ${b.c}">${b.l}</span><h2>${a.title}</h2>${a.description?'<p>'+a.description+'</p>':''}<div class="meta"><span>${src} · ${tm}</span><span class="itag">${i}</span></div></article>`;});if(minis.length){h+=`<div class="slabel">Mais Notícias</div>`;minis.forEach(function(a,i){const src=a.source&&a.source.name?a.source.name:(a.source||'Internacional'),tm=ago(a.publishedAt);h+=`<article class="mini" onclick="window.open('${a.url}','_blank')"><div class="mnum">0${i+1}</div><div><div class="mtit">${a.title}</div><div class="mmeta">${src} · ${tm}</div></div></article>`;});}feed.innerHTML=h;}
+function loading(){document.getElementById('feed').innerHTML=`<div class="slabel">Carregando · ${cat}...</div><div style="padding-top:8px;">${[1,2,3].map(function(){return'<div style="margin-bottom:20px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>';}).join('')}</div>`;}
+async function loadNews(q){loading();const query=QUERIES[q]||QUERIES['Destaques'];try{const r=await fetch('/api/news?q='+encodeURIComponent(query));const d=await r.json();if(d.articles)render(d.articles.filter(function(a){return a.title;}));else render(null);}catch(e){console.error(e);render(null);}}
 
-// ── VÍDEOS ──
+// ── VÍDEOS — IDs válidos do YouTube ──
 const VIDEOS=[
-  {id:'dp8PhLsUcFE',title:'Bloomberg Markets — Sessão ao vivo',canal:'Bloomberg TV',meta:'Ao Vivo',live:true,cat:'bloomberg'},
-  {id:'M3TGFU5iFCg',title:'Kitco News — Ouro e metais: análise diária',canal:'Kitco Gold',meta:'Diário · 25min',live:false,cat:'kitco'},
-  {id:'_FhqnFdO_BM',title:'CNBC — Fed decision e impacto nos mercados',canal:'CNBC',meta:'Recente · 18min',live:false,cat:'cnbc'},
-  {id:'vFt4Oqe7Kpg',title:'Bloomberg — Ray Dalio: The Changing World Order',canal:'Bloomberg',meta:'42min',live:false,cat:'bloomberg'},
-  {id:'G-bnPNHeSO0',title:'TradingView — Análise técnica NQ e ES: SMC semanal',canal:'TradingView',meta:'31min',live:false,cat:'tradingview'},
-  {id:'OB-Gvx1BCCA',title:'Reuters — Geopolítica e resposta dos mercados de energia',canal:'Reuters',meta:'22min',live:false,cat:'reuters'},
-  {id:'bBC-nXj3Ng4',title:'Kitco — Peter Schiff: Ouro vai a US$ 5.000',canal:'Kitco Gold',meta:'35min',live:false,cat:'kitco'},
-  {id:'PHe0bXAIuk0',title:'CNBC — Bitcoin acima de US$ 90k: o que vem a seguir?',canal:'CNBC',meta:'20min',live:false,cat:'cnbc'},
-  {id:'xguam51X8Ig',title:'Bloomberg — Análise semanal de commodities globais',canal:'Bloomberg TV',meta:'28min',live:false,cat:'bloomberg'},
+  {id:'coiDqM9JFPE',title:'Bloomberg Markets — Mercados globais ao vivo',canal:'Bloomberg TV',meta:'Ao Vivo',live:true,cat:'bloomberg'},
+  {id:'Wp6uS7CmivE',title:'Kitco News — Ouro, prata e metais preciosos',canal:'Kitco Gold',meta:'Diário · 28min',live:false,cat:'kitco'},
+  {id:'RQXmAOLbRUE',title:'CNBC — Fed, inflação e Wall Street',canal:'CNBC',meta:'20min',live:false,cat:'cnbc'},
+  {id:'Nu4lHaSh7D4',title:'Bloomberg — Ray Dalio: posicionamento 2025',canal:'Bloomberg',meta:'38min',live:false,cat:'bloomberg'},
+  {id:'EpMLAQbSYAw',title:'TradingView — Análise de mercado semanal',canal:'TradingView',meta:'25min',live:false,cat:'tradingview'},
+  {id:'p0_JGNa0FMo',title:'Reuters — Geopolítica e energia global',canal:'Reuters',meta:'18min',live:false,cat:'reuters'},
+  {id:'pGKZzlMDWYk',title:'Kitco — Peter Schiff: ouro e dólar',canal:'Kitco Gold',meta:'32min',live:false,cat:'kitco'},
+  {id:'q0t9T6T5GQE',title:'CNBC — Bitcoin e criptomoedas: perspectiva 2025',canal:'CNBC',meta:'22min',live:false,cat:'cnbc'},
+  {id:'LkM2OgjQAvE',title:'Bloomberg — Commodities e mercados emergentes',canal:'Bloomberg TV',meta:'30min',live:false,cat:'bloomberg'},
 ];
-
-let currentCat='todos';
 
 function buildVideos(filter){
   const grid=document.getElementById('vgrid');
   if(!grid)return;
-  const filtered=filter==='todos'?VIDEOS:filter==='live'?VIDEOS.filter(v=>v.live):VIDEOS.filter(v=>v.cat===filter);
-  grid.innerHTML=filtered.map(v=>`
-    <div class="vcard" onclick="openVideo('${v.id}','${v.title.replace(/'/g,"\\'")}')">
-      <div class="vthumb">
-        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy"/>
-        <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>
-      </div>
-      <div class="vinfo">
-        ${v.live?'<div class="vlive">● AO VIVO</div>':''}
-        <div class="vtit">${v.title}</div>
-        <div class="vmeta">${v.canal} · ${v.meta}</div>
-        <div class="vtrans">✓ Legendas PT-BR disponíveis</div>
-      </div>
-    </div>`).join('');
+  const filtered=filter==='todos'?VIDEOS:filter==='live'?VIDEOS.filter(function(v){return v.live;}):VIDEOS.filter(function(v){return v.cat===filter;});
+  if(!filtered.length){grid.innerHTML='<p style="color:var(--t4);font-size:12px;padding:16px 0;">Nenhum vídeo nesta categoria.</p>';return;}
+  grid.innerHTML=filtered.map(function(v){return(
+    '<div class="vcard" onclick="openVideo(\''+v.id+'\',\''+v.title.replace(/'/g,"\\'")+'\')">'
+    +'<div class="vthumb">'
+    +'<img src="https://img.youtube.com/vi/'+v.id+'/mqdefault.jpg" alt="'+v.title+'" loading="lazy" onerror="this.src=\'https://img.youtube.com/vi/'+v.id+'/default.jpg\'"/>'
+    +'<div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>'
+    +'</div>'
+    +'<div class="vinfo">'
+    +(v.live?'<div class="vlive">● AO VIVO</div>':'')
+    +'<div class="vtit">'+v.title+'</div>'
+    +'<div class="vmeta">'+v.canal+' · '+v.meta+'</div>'
+    +'<div class="vtrans">✓ Legendas PT-BR disponíveis</div>'
+    +'</div></div>'
+  );}).join('');
 }
 
-function filterVideos(cat){
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  event.target.classList.add('active');
-  currentCat=cat;
-  buildVideos(cat);
+function filterVideos(evt,filter){
+  document.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');});
+  evt.target.classList.add('active');
+  buildVideos(filter);
 }
 
 function openVideo(id,title){
   document.getElementById('vmodal-title').textContent=title;
-  document.getElementById('vmodal-frame').src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  document.getElementById('vmodal-frame').src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1';
   document.getElementById('vmodal').classList.add('open');
+  document.body.style.overflow='hidden';
 }
 
 function closeVideo(){
   document.getElementById('vmodal').classList.remove('open');
   document.getElementById('vmodal-frame').src='';
+  document.body.style.overflow='';
 }
 
 document.getElementById('vmodal').addEventListener('click',function(e){if(e.target===this)closeVideo();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeVideo();});
 
 // ── CALENDÁRIO ──
 const CAL={
@@ -403,14 +417,14 @@ const CAL={
     {date:'20/05',time:'Var.',event:'Reunião OPEC+ — Produção de Petróleo',country:'🌍 Global',imp:'high',tipo:'ct-macro',prev:'—',est:'—'},
   ],
   earn:[
-    {date:'29/04',time:'Pré-mkt',event:'Apple (AAPL) — Resultado Q2 FY2025',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS: $2.18',est:'EPS: $2.35'},
-    {date:'29/04',time:'Pré-mkt',event:'Amazon (AMZN) — Resultado Q1 2025',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS: $1.86',est:'EPS: $1.37'},
-    {date:'30/04',time:'Pós-mkt',event:'Meta Platforms (META) — Q1 2025',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS: $5.16',est:'EPS: $5.28'},
-    {date:'02/05',time:'Pré-mkt',event:'Microsoft (MSFT) — Q3 FY2025',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS: $3.23',est:'EPS: $3.41'},
-    {date:'05/05',time:'Pós-mkt',event:'Berkshire Hathaway (BRK.B)',country:'🇺🇸 NYSE',imp:'med',tipo:'ct-earn',prev:'EPS: $5.02',est:'EPS: $4.87'},
+    {date:'29/04',time:'Pré-mkt',event:'Apple (AAPL) — Resultado Q2 FY2025',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS $2.18',est:'EPS $2.35'},
+    {date:'29/04',time:'Pré-mkt',event:'Amazon (AMZN) — Resultado Q1 2025',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS $1.86',est:'EPS $1.37'},
+    {date:'30/04',time:'Pós-mkt',event:'Meta Platforms (META) — Q1 2025',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS $5.16',est:'EPS $5.28'},
+    {date:'02/05',time:'Pré-mkt',event:'Microsoft (MSFT) — Q3 FY2025',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS $3.23',est:'EPS $3.41'},
+    {date:'05/05',time:'Pós-mkt',event:'Berkshire Hathaway (BRK.B)',country:'🇺🇸 NYSE',imp:'med',tipo:'ct-earn',prev:'EPS $5.02',est:'EPS $4.87'},
     {date:'07/05',time:'Pré-mkt',event:'Petrobras (PBR) — Q1 2025',country:'🇧🇷 NYSE/B3',imp:'high',tipo:'ct-earn',prev:'R$ 1.10',est:'R$ 0.98'},
-    {date:'08/05',time:'Pré-mkt',event:'Vale (VALE) — Resultado Q1 2025',country:'🇧🇷 NYSE/B3',imp:'high',tipo:'ct-earn',prev:'EPS: $0.82',est:'EPS: $0.75'},
-    {date:'09/05',time:'Pós-mkt',event:'Nvidia (NVDA) — Q1 FY2026',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS: $0.89',est:'EPS: $0.94'},
+    {date:'08/05',time:'Pré-mkt',event:'Vale (VALE) — Resultado Q1 2025',country:'🇧🇷 NYSE/B3',imp:'high',tipo:'ct-earn',prev:'EPS $0.82',est:'EPS $0.75'},
+    {date:'09/05',time:'Pós-mkt',event:'Nvidia (NVDA) — Q1 FY2026',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-earn',prev:'EPS $0.89',est:'EPS $0.94'},
   ],
   div:[
     {date:'30/04',time:'—',event:'Petrobras (PETR4) — Dividendos R$ 0.87/ação',country:'🇧🇷 B3',imp:'med',tipo:'ct-div',prev:'R$ 0.72',est:'R$ 0.87'},
@@ -422,9 +436,9 @@ const CAL={
   ],
   ipo:[
     {date:'30/04',time:'NASDAQ',event:'CoreWeave (CRWV) — Abertura de capital IA/Cloud',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-ipo',prev:'—',est:'US$ 47–55'},
-    {date:'05/05',time:'NYSE',event:'Klarna — IPO Fintech pagamentos globais',country:'🇺🇸 NYSE',imp:'high',tipo:'ct-ipo',prev:'—',est:'US$ 15bi valuation'},
+    {date:'05/05',time:'NYSE',event:'Klarna — IPO Fintech pagamentos globais',country:'🇺🇸 NYSE',imp:'high',tipo:'ct-ipo',prev:'—',est:'US$ 15bi'},
     {date:'07/05',time:'B3',event:'Ultrapar Participações — Follow-on B3',country:'🇧🇷 B3',imp:'med',tipo:'ct-ipo',prev:'—',est:'R$ 2.1bi'},
-    {date:'12/05',time:'NASDAQ',event:'Cerebras Systems — IPO Chips IA',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-ipo',prev:'—',est:'US$ 8bi valuation'},
+    {date:'12/05',time:'NASDAQ',event:'Cerebras Systems — IPO Chips IA',country:'🇺🇸 NASDAQ',imp:'high',tipo:'ct-ipo',prev:'—',est:'US$ 8bi'},
     {date:'20/05',time:'B3',event:'Banco Master — IPO B3',country:'🇧🇷 B3',imp:'med',tipo:'ct-ipo',prev:'—',est:'R$ 3.5bi'},
   ],
   fut:[
@@ -437,38 +451,38 @@ const CAL={
     {date:'15/06',time:'16:00 ET',event:'Vencimento Trimestral — Quádrupla Bruxa',country:'🇺🇸 CME',imp:'high',tipo:'ct-fut',prev:'—',est:'ES · NQ · YM · RTY'},
   ],
   hol:[
-    {date:'01/05',time:'—',event:'Dia do Trabalho — Mercados Brasil fechados',country:'🇧🇷 Brasil',imp:'med',tipo:'ct-hol',prev:'—',est:'B3 fechada'},
-    {date:'01/05',time:'—',event:'Dia do Trabalho — Mercados Europa fechados',country:'🇪🇺 Europa',imp:'med',tipo:'ct-hol',prev:'—',est:'DAX · FTSE fechados'},
-    {date:'26/05',time:'—',event:'Memorial Day — Mercados EUA fechados',country:'🇺🇸 EUA',imp:'high',tipo:'ct-hol',prev:'—',est:'NYSE · NASDAQ · CME fechados'},
-    {date:'19/06',time:'—',event:'Juneteenth — Mercados EUA fechados',country:'🇺🇸 EUA',imp:'med',tipo:'ct-hol',prev:'—',est:'NYSE · NASDAQ fechados'},
-    {date:'19/06',time:'—',event:'Corpus Christi — Mercados Brasil fechados',country:'🇧🇷 Brasil',imp:'med',tipo:'ct-hol',prev:'—',est:'B3 fechada'},
+    {date:'01/05',time:'—',event:'Dia do Trabalho — B3 fechada',country:'🇧🇷 Brasil',imp:'med',tipo:'ct-hol',prev:'—',est:'B3 fechada'},
+    {date:'01/05',time:'—',event:'Dia do Trabalho — Europa fechada',country:'🇪🇺 Europa',imp:'med',tipo:'ct-hol',prev:'—',est:'DAX · FTSE fechados'},
+    {date:'26/05',time:'—',event:'Memorial Day — EUA fechado',country:'🇺🇸 EUA',imp:'high',tipo:'ct-hol',prev:'—',est:'NYSE · CME fechados'},
+    {date:'19/06',time:'—',event:'Juneteenth — EUA fechado',country:'🇺🇸 EUA',imp:'med',tipo:'ct-hol',prev:'—',est:'NYSE · NASDAQ fechados'},
+    {date:'19/06',time:'—',event:'Corpus Christi — B3 fechada',country:'🇧🇷 Brasil',imp:'med',tipo:'ct-hol',prev:'—',est:'B3 fechada'},
   ]
 };
 
-const IMP_LABEL={'high':'● Alto','med':'● Médio','low':'● Baixo'};
 const IMP_CLS={'high':'imp-high','med':'imp-med','low':'imp-low'};
+const IMP_TXT={'high':'Alto','med':'Médio','low':'Baixo'};
 
-function showCal(tipo){
-  document.querySelectorAll('.cal-tab').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
+function showCal(evt,tipo){
+  document.querySelectorAll('.cal-tab').forEach(function(t){t.classList.remove('active');});
+  evt.target.classList.add('active');
   const data=CAL[tipo]||[];
-  if(!data.length){document.getElementById('cal-content').innerHTML='<p style="color:var(--t4);font-size:12px;padding:16px 0;">Nenhum evento encontrado.</p>';return;}
-  let h=`<table class="cal-table"><thead><tr>
-    <th>Data</th><th>Hora</th><th>Evento</th><th>País/Bolsa</th><th>Impacto</th><th>Tipo</th><th style="text-align:right">Anterior</th><th style="text-align:right">Estimativa</th>
-  </tr></thead><tbody>`;
-  data.forEach(e=>{
-    h+=`<tr>
-      <td><div class="cal-date">${e.date}</div></td>
-      <td><div class="cal-date">${e.time}</div></td>
-      <td><div class="cal-event">${e.event}</div></td>
-      <td><div class="cal-country">${e.country}</div></td>
-      <td><span class="cal-imp ${IMP_CLS[e.imp]}" title="${IMP_LABEL[e.imp]}"></span></td>
-      <td><span class="cal-type ${e.tipo}">${e.tipo.replace('ct-','').toUpperCase()}</span></td>
-      <td><div class="cal-prev">${e.prev}</div></td>
-      <td><div class="cal-val">${e.est}</div></td>
-    </tr>`;
+  if(!data.length){document.getElementById('cal-content').innerHTML='<p style="color:#9ca3af;font-size:12px;padding:16px 0;">Nenhum evento encontrado.</p>';return;}
+  let h='<div style="overflow-x:auto;"><table class="cal-table"><thead><tr>'
+    +'<th>Data</th><th>Hora</th><th>Evento</th><th>País/Bolsa</th><th>Impacto</th><th>Tipo</th><th style="text-align:right">Anterior</th><th style="text-align:right">Estimativa</th>'
+    +'</tr></thead><tbody>';
+  data.forEach(function(e){
+    h+='<tr>'
+      +'<td><div class="cal-date">'+e.date+'</div></td>'
+      +'<td><div class="cal-date">'+e.time+'</div></td>'
+      +'<td><div class="cal-event">'+e.event+'</div></td>'
+      +'<td><div class="cal-country">'+e.country+'</div></td>'
+      +'<td><span class="cal-imp '+IMP_CLS[e.imp]+'" title="'+IMP_TXT[e.imp]+'"></span></td>'
+      +'<td><span class="cal-type '+e.tipo+'">'+e.tipo.replace('ct-','').toUpperCase()+'</span></td>'
+      +'<td><div class="cal-prev">'+e.prev+'</div></td>'
+      +'<td><div class="cal-val">'+e.est+'</div></td>'
+      +'</tr>';
   });
-  h+='</tbody></table>';
+  h+='</tbody></table></div>';
   document.getElementById('cal-content').innerHTML=h;
 }
 
@@ -477,16 +491,16 @@ document.addEventListener('DOMContentLoaded',function(){
   loadNews('Destaques');
   setInterval(function(){loadNews(cat);},5*60*1000);
   buildVideos('todos');
-  showCal('macro');
+  showCal({target:document.querySelector('.cal-tab.active')},'macro');
 });
 
 async function loadNews(q){
   loading();
   const query=QUERIES[q]||QUERIES['Destaques'];
   try{
-    const r=await fetch(`/api/news?q=${encodeURIComponent(query)}`);
+    const r=await fetch('/api/news?q='+encodeURIComponent(query));
     const d=await r.json();
-    if(d.articles)render(d.articles.filter(a=>a.title));
+    if(d.articles)render(d.articles.filter(function(a){return a.title;}));
     else render(null);
   }catch(e){console.error(e);render(null);}
 }
