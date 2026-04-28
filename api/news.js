@@ -10,22 +10,36 @@ export default async function handler(req, res) {
   }
 
   try {
-    const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=en&sortby=publishedAt&max=10&apikey=${API_KEY}`;
-    const response = await fetch(url);
-    const data = await response.json();
+    // Busca em português primeiro
+    const urlPT = `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=pt&sortby=publishedAt&max=5&apikey=${API_KEY}`;
+    // Busca em inglês para complementar
+    const urlEN = `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=en&sortby=publishedAt&max=5&apikey=${API_KEY}`;
 
-    // Normaliza campos para o formato esperado pelo portal
-    if (data.articles) {
-      data.articles = data.articles.map(a => ({
-        title: a.title,
-        description: a.description,
-        url: a.url,
-        publishedAt: a.publishedAt,
-        source: { name: a.source?.name || a.source?.url || 'Internacional' }
-      }));
-    }
+    const [resPT, resEN] = await Promise.all([
+      fetch(urlPT),
+      fetch(urlEN)
+    ]);
 
-    res.status(200).json(data);
+    const [dataPT, dataEN] = await Promise.all([
+      resPT.json(),
+      resEN.json()
+    ]);
+
+    const normalize = (articles) => (articles || []).map(a => ({
+      title: a.title,
+      description: a.description,
+      url: a.url,
+      publishedAt: a.publishedAt,
+      source: { name: a.source?.name || a.source?.url || 'Internacional' }
+    }));
+
+    const combined = [
+      ...normalize(dataPT.articles),
+      ...normalize(dataEN.articles)
+    ].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+
+    res.status(200).json({ articles: combined });
+
   } catch (error) {
     res.status(500).json({ error: 'Erro ao buscar notícias', detail: error.message });
   }
