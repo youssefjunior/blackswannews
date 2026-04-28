@@ -229,7 +229,8 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
   <span>v3.0 · 2025 · Inspirado em Nassim Nicholas Taleb</span>
 </footer>
 <script>
-const API_KEY='fdae4d04533a42baa37f26fcefd085ef';
+const API_KEY='04f413eb2a4ae3328cb53b20ef166088';
+const API_URL='https://gnews.io/api/v4/search';
 const QUERIES={'Destaques':'finance OR economy OR federal reserve OR gold OR oil OR war','Geopolítica':'geopolitics OR war OR conflict OR sanctions OR NATO','Commodities':'gold OR oil OR wheat OR soybean OR commodity OR OPEC','CME · Futuros':'futures OR nasdaq OR S&P500 OR CME OR treasury','Cripto':'bitcoin OR ethereum OR cryptocurrency OR BTC','Bancos Centrais':'federal reserve OR ECB OR central bank OR interest rate OR inflation','Guerras & Conflitos':'war OR conflict OR Ukraine OR Russia OR Gaza OR NATO','Saúde Global':'pandemic OR WHO OR disease OR outbreak OR virus','Metais Preciosos':'gold OR silver OR platinum OR precious metals','Análises SMC':'market structure OR liquidity OR institutional trading'};
 let cat='Destaques';
 function clock(){const n=new Date();const d=n.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});const t=n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+' BRT';const el=document.getElementById('hdate');if(el)el.textContent=d+' · '+t;}
@@ -248,7 +249,9 @@ function itag(a){const t=(a.title+' '+(a.description||'')).toLowerCase();const t
 function ago(d){const s=(Date.now()-new Date(d))/1000;if(s<3600)return Math.floor(s/60)+'min atrás';if(s<86400)return Math.floor(s/3600)+'h atrás';return Math.floor(s/86400)+'d atrás';}
 function render(arts){const feed=document.getElementById('feed');if(!feed)return;if(!arts||!arts.length){feed.innerHTML=`<div class="slabel">Notícias · ${cat}</div><p style="color:var(--t4);font-size:12px;padding:20px 0;">Nenhuma notícia encontrada.</p>`;return;}const leads=arts.slice(0,3),minis=arts.slice(3);let h=`<div class="slabel">Notícias · ${cat} · Tempo Real</div>`;leads.forEach(a=>{const b=badge(a),i=itag(a),src=a.source?.name||'Internacional',tm=ago(a.publishedAt);h+=`<article class="lead" onclick="window.open('${a.url}','_blank')"><span class="badge ${b.c}">${b.l}</span><h2>${a.title}</h2>${a.description?`<p>${a.description}</p>`:''}<div class="meta"><span>${src} · ${tm}</span><span class="itag">${i}</span></div></article>`;});if(minis.length){h+=`<div class="slabel">Mais Notícias</div>`;minis.forEach((a,i)=>{const src=a.source?.name||'Internacional',tm=ago(a.publishedAt);h+=`<article class="mini" onclick="window.open('${a.url}','_blank')"><div class="mnum">0${i+1}</div><div><div class="mtit">${a.title}</div><div class="mmeta">${src} · ${tm}</div></div></article>`;});}feed.innerHTML=h;}
 function loading(){document.getElementById('feed').innerHTML=`<div class="slabel">Carregando · ${cat}...</div><div style="padding-top:8px;">${[1,2,3].map(()=>`<div style="margin-bottom:20px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>`).join('')}</div>`;}
-async function loadNews(q){loading();const query=QUERIES[q]||QUERIES['Destaques'];try{const r=await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=en&sortBy=publishedAt&pageSize=10&apiKey=${API_KEY}`);const d=await r.json();if(d.status==='ok')render(d.articles.filter(a=>a.title&&a.title!=='[Removed]'));else render(null);}catch(e){console.error(e);render(null);}}
+async function loadNews(q){loading();const query=QUERIES[q]||QUERIES['Destaques'];try{const r=await fetch(`${API_URL}?q=${encodeURIComponent(query)}&lang=en&sortby=publishedAt&max=10&apikey=${API_KEY}`);
+const d=await r.json();
+if(d.articles)render(d.articles.filter(a=>a.title));else render(null);}catch(e){console.error(e);render(null);}}
 document.addEventListener('DOMContentLoaded',()=>{loadNews('Destaques');setInterval(()=>loadNews(cat),5*60*1000);});
 </script>
 </body>
