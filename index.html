@@ -86,7 +86,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1)
 .vthumb img{width:100%;height:100%;object-fit:cover;display:block;}
 .vthumb-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;transition:background .2s;}
 .vcard:hover .vthumb-overlay{background:rgba(0,0,0,0.2);}
-.pbtn{width:44px;height:44px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
+.pbtn{width:40px;height:40px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
 .vcard:hover .pbtn{transform:scale(1.1);}
 .ptri{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid #fff;margin-left:3px;}
 .vinfo{padding:10px 12px;}
@@ -95,43 +95,18 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1)
 .vmeta{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);}
 .vtrans{font-size:9px;color:var(--green);margin-top:4px;font-family:'Space Mono',monospace;}
 
-/* MODAL VIDEO */
-.vmodal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;align-items:center;justify-content:center;}
+/* VIDEO MODAL */
+.vmodal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;align-items:center;justify-content:center;padding:20px;}
 .vmodal.open{display:flex;}
-.vmodal-inner{width:90%;max-width:900px;position:relative;}
-.vmodal-close{position:absolute;top:-36px;right:0;color:#fff;font-size:24px;cursor:pointer;font-family:'Space Mono',monospace;opacity:.7;}
-.vmodal-close:hover{opacity:1;}
-.vmodal iframe{width:100%;aspect-ratio:16/9;border:none;border-radius:4px;}
+.vmodal-inner{width:100%;max-width:900px;background:var(--bg2);border-radius:6px;overflow:hidden;border:.5px solid var(--b2);}
+.vmodal-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:.5px solid var(--b1);}
+.vmodal-title{font-size:13px;font-weight:500;color:var(--t1);}
+.vmodal-close{background:transparent;border:none;color:var(--t3);font-size:20px;cursor:pointer;line-height:1;padding:4px 8px;}
+.vmodal-close:hover{color:var(--t1);}
+.vmodal-frame{width:100%;aspect-ratio:16/9;}
+.vmodal-frame iframe{width:100%;height:100%;border:none;}
 
-/* CALENDÁRIO */
-.calsec{padding:18px 20px;border-top:1px solid var(--b1);}
-.cal-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
-.cal-tab{font-size:9px;padding:5px 14px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;border:.5px solid var(--b2);color:var(--t3);background:transparent;transition:all .15s;}
-.cal-tab:hover,.cal-tab.active{background:var(--red);color:#fff;border-color:var(--red);}
-.cal-table{width:100%;border-collapse:collapse;font-size:11px;}
-.cal-table th{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--t4);padding:8px 12px;border-bottom:1px solid var(--b1);text-align:left;font-weight:600;}
-.cal-table td{padding:10px 12px;border-bottom:.5px solid var(--b1);vertical-align:middle;}
-.cal-table tr:hover td{background:var(--bg2);}
-.cal-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--t4);white-space:nowrap;}
-.cal-event{font-weight:500;color:var(--t2);line-height:1.4;}
-.cal-country{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);}
-.cal-impact{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.imp-high{background:var(--red);}
-.imp-med{background:var(--amber);}
-.imp-low{background:var(--green);}
-.cal-val{font-family:'Space Mono',monospace;font-size:10px;color:var(--t2);font-weight:700;}
-.cal-prev{font-family:'Space Mono',monospace;font-size:10px;color:var(--t4);}
-.cal-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;letter-spacing:.5px;}
-.cb-macro{background:#2a1a00;color:#fbbf24;}
-.cb-earn{background:#001a0a;color:#86efac;}
-.cb-ipo{background:#1a0030;color:#c4b5fd;}
-.cb-div{background:#001520;color:#7dd3fc;}
-.cb-fut{background:#3f0000;color:#fca5a5;}
-.cb-hol{background:#1a1a1a;color:#888;}
-.cal-panel{display:none;}
-.cal-panel.active{display:block;}
-
-/* ANALYSIS */
+/* ANÁLISES */
 .asec{padding:18px 20px;border-top:1px solid var(--b1);}
 .agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px;}
 .acard{background:var(--bg2);border:.5px solid var(--b1);border-radius:4px;padding:14px;}
@@ -145,21 +120,48 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1)
 .adate{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);margin-top:8px;}
 .btnnew{margin-top:14px;background:transparent;border:.5px solid var(--b2);color:var(--t3);font-size:11px;padding:10px 18px;border-radius:3px;cursor:pointer;font-family:'Space Grotesk',sans-serif;width:100%;}
 .btnnew:hover{border-color:var(--red);color:var(--red);}
+
+/* CALENDÁRIO */
+.calsec{padding:18px 20px;border-top:1px solid var(--b1);}
+.cal-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.cal-tab{font-size:9px;padding:5px 14px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;border:.5px solid var(--b2);color:var(--t3);background:transparent;transition:all .15s;}
+.cal-tab:hover,.cal-tab.active{background:var(--red);color:#fff;border-color:var(--red);}
+.cal-table{width:100%;border-collapse:collapse;font-size:11px;}
+.cal-table th{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--t4);padding:8px 10px;border-bottom:1px solid var(--b1);text-align:left;font-weight:600;}
+.cal-table td{padding:9px 10px;border-bottom:.5px solid var(--b1);vertical-align:middle;}
+.cal-table tr:hover td{background:var(--bg2);}
+.cal-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--t4);white-space:nowrap;}
+.cal-event{font-size:12px;font-weight:500;color:var(--t2);}
+.cal-country{font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);}
+.cal-impact{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.imp-high{background:var(--red);}
+.imp-med{background:var(--amber);}
+.imp-low{background:var(--green);}
+.cal-val{font-family:'Space Mono',monospace;font-size:10px;color:var(--t2);text-align:right;}
+.cal-prev{font-family:'Space Mono',monospace;font-size:10px;color:var(--t4);text-align:right;}
+.cal-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;font-family:'Space Mono',monospace;}
+.cb-macro{background:#1a0030;color:#c4b5fd;}
+.cb-earn{background:#001a0a;color:#86efac;}
+.cb-div{background:#2a1a00;color:#fbbf24;}
+.cb-ipo{background:#001520;color:#7dd3fc;}
+.cb-fut{background:#3f0000;color:#fca5a5;}
+.cb-hol{background:#1a1a1a;color:#888;}
+.cal-panel{display:none;}
+.cal-panel.active{display:block;}
+
 footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;display:flex;gap:14px;font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);flex-wrap:wrap;}
 .fdot{color:var(--red);}
-@media(max-width:768px){.layout{grid-template-columns:1fr;}.vgrid{grid-template-columns:1fr 1fr;}.agrid{grid-template-columns:1fr;}.logo{font-size:28px;}.header-top{flex-direction:column;}.hright{align-items:flex-start;}.sinput{width:100%;}.cal-table{font-size:10px;}}
+@media(max-width:768px){.layout{grid-template-columns:1fr;}.vgrid{grid-template-columns:1fr 1fr;}.agrid{grid-template-columns:1fr;}.logo{font-size:28px;}.header-top{flex-direction:column;}.hright{align-items:flex-start;}.sinput{width:100%;}}
 @media(max-width:480px){.vgrid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<!-- TICKER -->
 <div class="topbar">
   <span class="live-pill">LIVE</span>
   <div class="ticker-wrap"><div class="ticker-inner" id="ticker"></div></div>
 </div>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-top">
     <div>
@@ -192,14 +194,12 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
   </nav>
 </div>
 
-<!-- ALERT -->
 <div class="alert">
   <div class="adot"></div>
   <span class="alabel">CISNE NEGRO</span>
   <div class="atext">Notícias em tempo real · Reuters · Bloomberg · AP · CNBC · FT · CoinDesk · WHO</div>
 </div>
 
-<!-- MAIN -->
 <div class="layout">
   <main class="feed" id="feed">
     <div class="slabel">Carregando...</div>
@@ -249,132 +249,27 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
 <section class="vsec">
   <div class="slabel">Vídeos · Analistas &amp; Entrevistas Globais</div>
   <div class="chips">
-    <span class="chip active">Todos</span>
-    <span class="chip chip-live">● Ao Vivo</span>
-    <span class="chip">Bloomberg TV</span>
-    <span class="chip">CNBC</span>
-    <span class="chip">Kitco Gold</span>
-    <span class="chip">TradingView</span>
-    <span class="chip">CNN Brasil</span>
+    <span class="chip active" onclick="filterVideos('todos')">Todos</span>
+    <span class="chip chip-live" onclick="filterVideos('live')">● Ao Vivo</span>
+    <span class="chip" onclick="filterVideos('bloomberg')">Bloomberg TV</span>
+    <span class="chip" onclick="filterVideos('cnbc')">CNBC</span>
+    <span class="chip" onclick="filterVideos('kitco')">Kitco Gold</span>
+    <span class="chip" onclick="filterVideos('tradingview')">TradingView</span>
+    <span class="chip" onclick="filterVideos('reuters')">Reuters</span>
   </div>
   <div class="vgrid" id="vgrid"></div>
 </section>
 
-<!-- MODAL -->
+<!-- MODAL DE VÍDEO -->
 <div class="vmodal" id="vmodal">
   <div class="vmodal-inner">
-    <div class="vmodal-close" onclick="closeVideo()">✕ Fechar</div>
-    <iframe id="vframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    <div class="vmodal-header">
+      <span class="vmodal-title" id="vmodal-title"></span>
+      <button class="vmodal-close" onclick="closeVideo()">✕</button>
+    </div>
+    <div class="vmodal-frame"><iframe id="vmodal-frame" allowfullscreen allow="autoplay"></iframe></div>
   </div>
 </div>
-
-<!-- CALENDÁRIO ECONÔMICO -->
-<section class="calsec">
-  <div class="slabel">Calendário Econômico Mundial</div>
-  <div class="cal-tabs">
-    <div class="cal-tab active" onclick="showCal('macro')">Macro &amp; Dados</div>
-    <div class="cal-tab" onclick="showCal('earn')">Balanços &amp; Resultados</div>
-    <div class="cal-tab" onclick="showCal('ipo')">IPOs</div>
-    <div class="cal-tab" onclick="showCal('div')">Dividendos</div>
-    <div class="cal-tab" onclick="showCal('fut')">Vencimento Futuros</div>
-    <div class="cal-tab" onclick="showCal('hol')">Feriados</div>
-  </div>
-
-  <!-- MACRO -->
-  <div class="cal-panel active" id="cal-macro">
-    <table class="cal-table">
-      <thead><tr><th>Data</th><th>Imp.</th><th>Evento</th><th>País</th><th>Anterior</th><th>Estimativa</th></tr></thead>
-      <tbody>
-        <tr><td class="cal-date">29/04 · 08:30</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>PIB EUA — Q1 2025 (Prévia)</td><td class="cal-country">🇺🇸 EUA</td><td class="cal-prev">2,4%</td><td class="cal-val">1,8%</td></tr>
-        <tr><td class="cal-date">30/04 · 10:00</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>CPI Eurozona — Abril</td><td class="cal-country">🇪🇺 EUR</td><td class="cal-prev">2,2%</td><td class="cal-val">2,1%</td></tr>
-        <tr><td class="cal-date">01/05 · 14:00</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>FOMC Minutes — Ata da Reunião</td><td class="cal-country">🇺🇸 EUA</td><td class="cal-prev">—</td><td class="cal-val">—</td></tr>
-        <tr><td class="cal-date">02/05 · 08:30</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>NFP — Payroll Não-Agrícola</td><td class="cal-country">🇺🇸 EUA</td><td class="cal-prev">228k</td><td class="cal-val">185k</td></tr>
-        <tr><td class="cal-date">02/05 · 08:30</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>Taxa de Desemprego EUA</td><td class="cal-country">🇺🇸 EUA</td><td class="cal-prev">4,1%</td><td class="cal-val">4,2%</td></tr>
-        <tr><td class="cal-date">05/05 · 13:15</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>Reunião BCE — Decisão de Juros</td><td class="cal-country">🇪🇺 EUR</td><td class="cal-prev">2,65%</td><td class="cal-val">2,40%</td></tr>
-        <tr><td class="cal-date">07/05 · 12:00</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>Decisão de Juros — Banco da Inglaterra</td><td class="cal-country">🇬🇧 GBR</td><td class="cal-prev">4,50%</td><td class="cal-val">4,25%</td></tr>
-        <tr><td class="cal-date">09/05 · 09:00</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>IPCA Brasil — Abril (IBGE)</td><td class="cal-country">🇧🇷 BRL</td><td class="cal-prev">5,48%</td><td class="cal-val">5,30%</td></tr>
-        <tr><td class="cal-date">12/05 · 14:00</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>Reunião COPOM — SELIC</td><td class="cal-country">🇧🇷 BRL</td><td class="cal-prev">13,25%</td><td class="cal-val">14,00%</td></tr>
-        <tr><td class="cal-date">13/05 · 08:30</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-macro">MACRO</span><br/>CPI EUA — Abril (Inflação ao Consumidor)</td><td class="cal-country">🇺🇸 EUA</td><td class="cal-prev">2,4%</td><td class="cal-val">2,3%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- BALANÇOS -->
-  <div class="cal-panel" id="cal-earn">
-    <table class="cal-table">
-      <thead><tr><th>Data</th><th>Imp.</th><th>Empresa</th><th>Setor</th><th>EPS Est.</th><th>Receita Est.</th></tr></thead>
-      <tbody>
-        <tr><td class="cal-date">29/04 · Após fech.</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-earn">RESULTADO</span><br/>Apple (AAPL)</td><td class="cal-country">Tecnologia</td><td class="cal-prev">$1,62</td><td class="cal-val">$94,2bi</td></tr>
-        <tr><td class="cal-date">29/04 · Após fech.</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-earn">RESULTADO</span><br/>Amazon (AMZN)</td><td class="cal-country">Tech/Varejo</td><td class="cal-prev">$1,83</td><td class="cal-val">$155,1bi</td></tr>
-        <tr><td class="cal-date">30/04 · Antes aber.</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-earn">RESULTADO</span><br/>ExxonMobil (XOM)</td><td class="cal-country">Energia</td><td class="cal-prev">$1,76</td><td class="cal-val">$83,4bi</td></tr>
-        <tr><td class="cal-date">01/05 · Após fech.</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-earn">RESULTADO</span><br/>Microsoft (MSFT)</td><td class="cal-country">Tecnologia</td><td class="cal-prev">$3,22</td><td class="cal-val">$68,4bi</td></tr>
-        <tr><td class="cal-date">06/05 · Após fech.</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-earn">RESULTADO</span><br/>Nvidia (NVDA)</td><td class="cal-country">Semicondutores</td><td class="cal-prev">$0,89</td><td class="cal-val">$43,2bi</td></tr>
-        <tr><td class="cal-date">08/05 · Antes aber.</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-earn">RESULTADO</span><br/>Petrobras (PBR)</td><td class="cal-country">Energia</td><td class="cal-prev">$0,72</td><td class="cal-val">$22,1bi</td></tr>
-        <tr><td class="cal-date">09/05 · Após fech.</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-earn">RESULTADO</span><br/>Vale (VALE)</td><td class="cal-country">Mineração</td><td class="cal-prev">$0,58</td><td class="cal-val">$9,8bi</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- IPOs -->
-  <div class="cal-panel" id="cal-ipo">
-    <table class="cal-table">
-      <thead><tr><th>Data</th><th>Imp.</th><th>Empresa</th><th>Bolsa</th><th>Faixa</th><th>Volume Est.</th></tr></thead>
-      <tbody>
-        <tr><td class="cal-date">30/04</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-ipo">IPO</span><br/>Klarna (KLAR) — Fintech pagamentos</td><td class="cal-country">NYSE</td><td class="cal-prev">$68–72</td><td class="cal-val">$1,2bi</td></tr>
-        <tr><td class="cal-date">05/05</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-ipo">IPO</span><br/>CoreWeave (CRWV) — IA/Cloud</td><td class="cal-country">NASDAQ</td><td class="cal-prev">$40–45</td><td class="cal-val">$2,7bi</td></tr>
-        <tr><td class="cal-date">07/05</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-ipo">IPO</span><br/>StubHub (STUB) — Ingressos online</td><td class="cal-country">NYSE</td><td class="cal-prev">$28–32</td><td class="cal-val">$800mi</td></tr>
-        <tr><td class="cal-date">12/05</td><td><span class="cal-impact imp-low"></span></td><td class="cal-event"><span class="cal-badge cb-ipo">IPO</span><br/>Empresa brasileira — B3 (a confirmar)</td><td class="cal-country">B3</td><td class="cal-prev">R$18–22</td><td class="cal-val">R$1,1bi</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- DIVIDENDOS -->
-  <div class="cal-panel" id="cal-div">
-    <table class="cal-table">
-      <thead><tr><th>Data Ex-Div.</th><th>Imp.</th><th>Empresa</th><th>Tipo</th><th>Valor</th><th>Yield</th></tr></thead>
-      <tbody>
-        <tr><td class="cal-date">29/04</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-div">DIVIDENDO</span><br/>Apple (AAPL)</td><td class="cal-country">Trimestral</td><td class="cal-prev">$0,25/ação</td><td class="cal-val">0,55%</td></tr>
-        <tr><td class="cal-date">30/04</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-div">DIVIDENDO</span><br/>JPMorgan Chase (JPM)</td><td class="cal-country">Trimestral</td><td class="cal-prev">$1,25/ação</td><td class="cal-val">2,10%</td></tr>
-        <tr><td class="cal-date">02/05</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-div">DIVIDENDO</span><br/>Petrobras (PETR4)</td><td class="cal-country">Semestral</td><td class="cal-prev">R$1,48/ação</td><td class="cal-val">8,20%</td></tr>
-        <tr><td class="cal-date">05/05</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-div">DIVIDENDO</span><br/>Vale (VALE3)</td><td class="cal-country">Semestral</td><td class="cal-prev">R$2,10/ação</td><td class="cal-val">6,80%</td></tr>
-        <tr><td class="cal-date">07/05</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-div">DIVIDENDO</span><br/>Microsoft (MSFT)</td><td class="cal-country">Trimestral</td><td class="cal-prev">$0,75/ação</td><td class="cal-val">0,82%</td></tr>
-        <tr><td class="cal-date">09/05</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-div">DIVIDENDO</span><br/>Itaú Unibanco (ITUB4)</td><td class="cal-country">Mensal</td><td class="cal-prev">R$0,28/ação</td><td class="cal-val">5,40%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- FUTUROS -->
-  <div class="cal-panel" id="cal-fut">
-    <table class="cal-table">
-      <thead><tr><th>Vencimento</th><th>Imp.</th><th>Contrato</th><th>Bolsa</th><th>Código</th><th>Último</th></tr></thead>
-      <tbody>
-        <tr><td class="cal-date">02/05 · Maio/25</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>Petróleo WTI — Maio 2025</td><td class="cal-country">CME/NYMEX</td><td class="cal-prev">CL K25</td><td class="cal-val">$82.40</td></tr>
-        <tr><td class="cal-date">02/05 · Maio/25</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>Ouro — Junho 2025</td><td class="cal-country">CME/COMEX</td><td class="cal-prev">GC M25</td><td class="cal-val">$3,312</td></tr>
-        <tr><td class="cal-date">07/05 · Maio/25</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>Nasdaq 100 — Junho 2025</td><td class="cal-country">CME</td><td class="cal-prev">NQ M25</td><td class="cal-val">21,847</td></tr>
-        <tr><td class="cal-date">07/05 · Maio/25</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>S&amp;P 500 E-Mini — Junho 2025</td><td class="cal-country">CME</td><td class="cal-prev">ES M25</td><td class="cal-val">5,912</td></tr>
-        <tr><td class="cal-date">07/05 · Maio/25</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>Dow Jones E-Mini — Junho 2025</td><td class="cal-country">CME</td><td class="cal-prev">YM M25</td><td class="cal-val">42,160</td></tr>
-        <tr><td class="cal-date">14/05 · Maio/25</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>Soja — Julho 2025</td><td class="cal-country">CME/CBOT</td><td class="cal-prev">ZS N25</td><td class="cal-val">1,142</td></tr>
-        <tr><td class="cal-date">14/05 · Maio/25</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>Trigo — Julho 2025</td><td class="cal-country">CME/CBOT</td><td class="cal-prev">ZW N25</td><td class="cal-val">538</td></tr>
-        <tr><td class="cal-date">14/05 · Maio/25</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>Milho — Julho 2025</td><td class="cal-country">CME/CBOT</td><td class="cal-prev">ZC N25</td><td class="cal-val">461</td></tr>
-        <tr><td class="cal-date">21/05 · Maio/25</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-fut">FUTURO</span><br/>DI Futuro — Janeiro 2026</td><td class="cal-country">B3</td><td class="cal-prev">DI1F26</td><td class="cal-val">14,12%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- FERIADOS -->
-  <div class="cal-panel" id="cal-hol">
-    <table class="cal-table">
-      <thead><tr><th>Data</th><th>Imp.</th><th>Feriado</th><th>País/Região</th><th>Mercados Fechados</th><th></th></tr></thead>
-      <tbody>
-        <tr><td class="cal-date">01/05</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-hol">FERIADO</span><br/>Dia do Trabalho</td><td class="cal-country">🇧🇷🇩🇪🇫🇷🇬🇧 Global</td><td class="cal-prev">B3 · DAX · CAC · FTSE</td><td class="cal-val">—</td></tr>
-        <tr><td class="cal-date">09/05</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-hol">FERIADO</span><br/>Dia da Europa</td><td class="cal-country">🇪🇺 EUR</td><td class="cal-prev">Parcial</td><td class="cal-val">—</td></tr>
-        <tr><td class="cal-date">19/05</td><td><span class="cal-impact imp-low"></span></td><td class="cal-event"><span class="cal-badge cb-hol">FERIADO</span><br/>Victoria Day</td><td class="cal-country">🇨🇦 CAN</td><td class="cal-prev">TSX</td><td class="cal-val">—</td></tr>
-        <tr><td class="cal-date">26/05</td><td><span class="cal-impact imp-high"></span></td><td class="cal-event"><span class="cal-badge cb-hol">FERIADO</span><br/>Memorial Day</td><td class="cal-country">🇺🇸 EUA</td><td class="cal-prev">NYSE · NASDAQ · CME</td><td class="cal-val">—</td></tr>
-        <tr><td class="cal-date">29/05</td><td><span class="cal-impact imp-med"></span></td><td class="cal-event"><span class="cal-badge cb-hol">FERIADO</span><br/>Corpus Christi</td><td class="cal-country">🇧🇷 BRL</td><td class="cal-prev">B3</td><td class="cal-val">—</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
 
 <!-- ANÁLISES -->
 <section class="asec">
@@ -388,6 +283,126 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
   <button class="btnnew" id="btnnew">+ Nova Análise SMC — Black Swan Intelligence ↗</button>
 </section>
 
+<!-- CALENDÁRIO ECONÔMICO -->
+<section class="calsec">
+  <div class="slabel">Calendário Econômico Mundial</div>
+  <div class="cal-tabs">
+    <button class="cal-tab active" onclick="showCal('macro')">📊 Macro & Bancos Centrais</button>
+    <button class="cal-tab" onclick="showCal('earn')">💹 Balanços & Resultados</button>
+    <button class="cal-tab" onclick="showCal('div')">💰 Dividendos</button>
+    <button class="cal-tab" onclick="showCal('ipo')">🚀 IPOs</button>
+    <button class="cal-tab" onclick="showCal('fut')">📅 Vencimento de Futuros</button>
+    <button class="cal-tab" onclick="showCal('hol')">🌍 Feriados de Mercado</button>
+  </div>
+
+  <!-- MACRO -->
+  <div class="cal-panel active" id="cal-macro">
+    <table class="cal-table">
+      <thead><tr><th>Data</th><th>Impacto</th><th>País</th><th>Evento</th><th>Anterior</th><th>Estimativa</th></tr></thead>
+      <tbody>
+        <tr><td class="cal-date">29/04 Ter</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 EUA</td><td class="cal-event">PIB Q1 2025 (1ª Leitura)</td><td class="cal-prev">3.4%</td><td class="cal-val">2.1%</td></tr>
+        <tr><td class="cal-date">29/04 Ter</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 EUA</td><td class="cal-event">Confiança do Consumidor (Conference Board)</td><td class="cal-prev">104.7</td><td class="cal-val">103.5</td></tr>
+        <tr><td class="cal-date">30/04 Qua</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇪🇺 Eurozona</td><td class="cal-event">CPI Flash Abril</td><td class="cal-prev">2.2%</td><td class="cal-val">2.1%</td></tr>
+        <tr><td class="cal-date">30/04 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇩🇪 Alemanha</td><td class="cal-event">PIB Q1 2025</td><td class="cal-prev">0.1%</td><td class="cal-val">0.2%</td></tr>
+        <tr><td class="cal-date">01/05 Qui</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 EUA</td><td class="cal-event">FOMC Minutes — Ata da Reunião</td><td class="cal-prev">—</td><td class="cal-val">—</td></tr>
+        <tr><td class="cal-date">01/05 Qui</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 EUA</td><td class="cal-event">ISM Manufacturing PMI</td><td class="cal-prev">49.0</td><td class="cal-val">48.5</td></tr>
+        <tr><td class="cal-date">02/05 Sex</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 EUA</td><td class="cal-event">NFP — Payroll Não-Agrícola</td><td class="cal-prev">228K</td><td class="cal-val">185K</td></tr>
+        <tr><td class="cal-date">02/05 Sex</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 EUA</td><td class="cal-event">Taxa de Desemprego</td><td class="cal-prev">4.1%</td><td class="cal-val">4.2%</td></tr>
+        <tr><td class="cal-date">05/05 Seg</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇪🇺 Eurozona</td><td class="cal-event">Reunião BCE — Decisão de Juros</td><td class="cal-prev">3.65%</td><td class="cal-val">3.40%</td></tr>
+        <tr><td class="cal-date">09/05 Sex</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇧🇷 Brasil</td><td class="cal-event">IPC-A (IBGE) — Inflação Abril</td><td class="cal-prev">5.48%</td><td class="cal-val">5.60%</td></tr>
+        <tr><td class="cal-date">12/05 Ter</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 EUA</td><td class="cal-event">CPI — Índice de Preços ao Consumidor</td><td class="cal-prev">2.4%</td><td class="cal-val">2.3%</td></tr>
+        <tr><td class="cal-date">12/05 Ter</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇧🇷 Brasil</td><td class="cal-event">COPOM — Decisão da Taxa Selic</td><td class="cal-prev">13.25%</td><td class="cal-val">14.75%</td></tr>
+        <tr><td class="cal-date">15/05 Qui</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 EUA</td><td class="cal-event">PPI — Índice de Preços ao Produtor</td><td class="cal-prev">2.7%</td><td class="cal-val">2.5%</td></tr>
+        <tr><td class="cal-date">15/05 Qui</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇨🇳 China</td><td class="cal-event">Produção Industrial Abril</td><td class="cal-prev">5.6%</td><td class="cal-val">5.5%</td></tr>
+        <tr><td class="cal-date">20/05 Ter</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇯🇵 Japão</td><td class="cal-event">Reunião BoJ — Decisão de Juros</td><td class="cal-prev">0.50%</td><td class="cal-val">0.50%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BALANÇOS -->
+  <div class="cal-panel" id="cal-earn">
+    <table class="cal-table">
+      <thead><tr><th>Data</th><th>Impacto</th><th>Empresa</th><th>Evento</th><th>EPS Ant.</th><th>EPS Est.</th></tr></thead>
+      <tbody>
+        <tr><td class="cal-date">29/04 Ter</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 AAPL</td><td class="cal-event">Apple Inc. — Resultados Q2 2025</td><td class="cal-prev">$2.18</td><td class="cal-val">$1.95</td></tr>
+        <tr><td class="cal-date">29/04 Ter</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 AMZN</td><td class="cal-event">Amazon — Resultados Q1 2025</td><td class="cal-prev">$1.59</td><td class="cal-val">$1.37</td></tr>
+        <tr><td class="cal-date">30/04 Qua</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 META</td><td class="cal-event">Meta Platforms — Resultados Q1 2025</td><td class="cal-prev">$8.02</td><td class="cal-val">$5.25</td></tr>
+        <tr><td class="cal-date">30/04 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 MSFT</td><td class="cal-event">Microsoft — Resultados Q3 2025</td><td class="cal-prev">$3.23</td><td class="cal-val">$3.40</td></tr>
+        <tr><td class="cal-date">01/05 Qui</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 GOOGL</td><td class="cal-event">Alphabet — Resultados Q1 2025</td><td class="cal-prev">$2.15</td><td class="cal-val">$2.01</td></tr>
+        <tr><td class="cal-date">06/05 Ter</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 TSLA</td><td class="cal-event">Tesla — Resultados Q1 2025</td><td class="cal-prev">$0.71</td><td class="cal-val">$0.46</td></tr>
+        <tr><td class="cal-date">08/05 Qui</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 NVDA</td><td class="cal-event">NVIDIA — Resultados Q1 2026</td><td class="cal-prev">$0.89</td><td class="cal-val">$0.93</td></tr>
+        <tr><td class="cal-date">08/05 Qui</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 PETR4</td><td class="cal-event">Petrobras — Resultados Q1 2025</td><td class="cal-prev">R$1.12</td><td class="cal-val">R$0.98</td></tr>
+        <tr><td class="cal-date">09/05 Sex</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 VALE3</td><td class="cal-event">Vale — Resultados Q1 2025</td><td class="cal-prev">R$2.34</td><td class="cal-val">R$2.10</td></tr>
+        <tr><td class="cal-date">14/05 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 ITUB4</td><td class="cal-event">Itaú Unibanco — Resultados Q1 2025</td><td class="cal-prev">R$3.21</td><td class="cal-val">R$3.35</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DIVIDENDOS -->
+  <div class="cal-panel" id="cal-div">
+    <table class="cal-table">
+      <thead><tr><th>Data Ex-Div</th><th></th><th>Ativo</th><th>Evento</th><th>Pagamento</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td class="cal-date">29/04 Ter</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 JNJ</td><td class="cal-event">Johnson & Johnson — Dividendo Trimestral</td><td class="cal-prev">16/05/25</td><td class="cal-val">$1.24/ação</td></tr>
+        <tr><td class="cal-date">30/04 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 XOM</td><td class="cal-event">ExxonMobil — Dividendo Trimestral</td><td class="cal-prev">09/06/25</td><td class="cal-val">$0.99/ação</td></tr>
+        <tr><td class="cal-date">02/05 Sex</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 TAEE11</td><td class="cal-event">Taesa — JCP Trimestral</td><td class="cal-prev">20/05/25</td><td class="cal-val">R$0.82/ação</td></tr>
+        <tr><td class="cal-date">05/05 Seg</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 BBAS3</td><td class="cal-event">Banco do Brasil — Dividendos Q1</td><td class="cal-prev">22/05/25</td><td class="cal-val">R$0.61/ação</td></tr>
+        <tr><td class="cal-date">07/05 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 MSFT</td><td class="cal-event">Microsoft — Dividendo Trimestral</td><td class="cal-prev">12/06/25</td><td class="cal-val">$0.83/ação</td></tr>
+        <tr><td class="cal-date">08/05 Qui</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 PETR4</td><td class="cal-event">Petrobras — Dividendos Extraordinários</td><td class="cal-prev">30/05/25</td><td class="cal-val">R$1.40/ação</td></tr>
+        <tr><td class="cal-date">12/05 Ter</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 AAPL</td><td class="cal-event">Apple — Dividendo Trimestral</td><td class="cal-prev">15/05/25</td><td class="cal-val">$0.25/ação</td></tr>
+        <tr><td class="cal-date">15/05 Qui</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 VALE3</td><td class="cal-event">Vale — Dividendo Semestral</td><td class="cal-prev">02/06/25</td><td class="cal-val">R$2.85/ação</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- IPOs -->
+  <div class="cal-panel" id="cal-ipo">
+    <table class="cal-table">
+      <thead><tr><th>Data</th><th>Impacto</th><th>Empresa</th><th>Mercado</th><th>Faixa</th><th>Volume Est.</th></tr></thead>
+      <tbody>
+        <tr><td class="cal-date">30/04 Qua</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 NASDAQ</td><td class="cal-event">CoreWeave (CRWV) — IPO</td><td class="cal-prev">$47–55</td><td class="cal-val">US$ 2.7bi</td></tr>
+        <tr><td class="cal-date">06/05 Ter</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 NYSE</td><td class="cal-event">Cerebras Systems — IPO</td><td class="cal-prev">$31–37</td><td class="cal-val">US$ 1.2bi</td></tr>
+        <tr><td class="cal-date">08/05 Qui</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 NYSE</td><td class="cal-event">Physical AI Corp — IPO</td><td class="cal-prev">$18–22</td><td class="cal-val">US$ 800mi</td></tr>
+        <tr><td class="cal-date">13/05 Ter</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 B3</td><td class="cal-event">Eletrobras Follow-on</td><td class="cal-prev">R$38–42</td><td class="cal-val">R$ 4.5bi</td></tr>
+        <tr><td class="cal-date">15/05 Qui</td><td><span class="cal-impact imp-low"></span></td><td class="cal-country">🇺🇸 NASDAQ</td><td class="cal-event">Klarna — IPO</td><td class="cal-prev">$55–65</td><td class="cal-val">US$ 1.5bi</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FUTUROS -->
+  <div class="cal-panel" id="cal-fut">
+    <table class="cal-table">
+      <thead><tr><th>Data</th><th>Impacto</th><th>Contrato</th><th>Evento</th><th>Símbolo</th><th>Bolsa</th></tr></thead>
+      <tbody>
+        <tr><td class="cal-date">16/05 Sex</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 Índices</td><td class="cal-event">Vencimento E-mini S&P 500 — Junho 2025</td><td class="cal-prev">ESM25</td><td class="cal-val">CME</td></tr>
+        <tr><td class="cal-date">16/05 Sex</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 Índices</td><td class="cal-event">Vencimento E-mini Nasdaq 100 — Junho 2025</td><td class="cal-prev">NQM25</td><td class="cal-val">CME</td></tr>
+        <tr><td class="cal-date">16/05 Sex</td><td><span class="cal-impact imp-high"></span></td><td class="cal-country">🇺🇸 Índices</td><td class="cal-event">Triple Witching — Vencimento Triplo</td><td class="cal-prev">SPX/NDX/RUT</td><td class="cal-val">CBOE</td></tr>
+        <tr><td class="cal-date">20/05 Ter</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 Energia</td><td class="cal-event">Vencimento Petróleo WTI — Junho 2025</td><td class="cal-prev">CLM25</td><td class="cal-val">NYMEX</td></tr>
+        <tr><td class="cal-date">21/05 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 Metais</td><td class="cal-event">Vencimento Ouro — Junho 2025</td><td class="cal-prev">GCM25</td><td class="cal-val">COMEX</td></tr>
+        <tr><td class="cal-date">21/05 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇺🇸 Grãos</td><td class="cal-event">Vencimento Soja — Julho 2025</td><td class="cal-prev">ZSN25</td><td class="cal-val">CBOT</td></tr>
+        <tr><td class="cal-date">21/05 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 Índices</td><td class="cal-event">Vencimento Ibovespa Futuro — Junho 2025</td><td class="cal-prev">WINM25</td><td class="cal-val">B3</td></tr>
+        <tr><td class="cal-date">21/05 Qua</td><td><span class="cal-impact imp-med"></span></td><td class="cal-country">🇧🇷 Câmbio</td><td class="cal-event">Vencimento Dólar Futuro — Junho 2025</td><td class="cal-prev">DOLM25</td><td class="cal-val">B3</td></tr>
+        <tr><td class="cal-date">28/05 Qua</td><td><span class="cal-impact imp-low"></span></td><td class="cal-country">🇺🇸 Cripto</td><td class="cal-event">Vencimento Bitcoin Futures CME — Maio 2025</td><td class="cal-prev">BTCk25</td><td class="cal-val">CME</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FERIADOS -->
+  <div class="cal-panel" id="cal-hol">
+    <table class="cal-table">
+      <thead><tr><th>Data</th><th></th><th>País / Mercado</th><th>Feriado</th><th>Impacto</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="cal-date">01/05 Qui</td><td>🌍</td><td class="cal-country">Europa / Brasil</td><td class="cal-event">Dia do Trabalho — Mercados Fechados</td><td class="cal-prev">DAX · CAC · B3</td><td class="cal-val"><span class="cal-badge cb-hol">FECHADO</span></td></tr>
+        <tr><td class="cal-date">05/05 Seg</td><td>🇬🇧</td><td class="cal-country">Reino Unido</td><td class="cal-event">Early May Bank Holiday</td><td class="cal-prev">FTSE 100</td><td class="cal-val"><span class="cal-badge cb-hol">FECHADO</span></td></tr>
+        <tr><td class="cal-date">09/05 Sex</td><td>🇩🇪</td><td class="cal-country">Alemanha / Europa</td><td class="cal-event">Dia da Europa — Ascensão</td><td class="cal-prev">DAX · Xetra</td><td class="cal-val"><span class="cal-badge cb-hol">FECHADO</span></td></tr>
+        <tr><td class="cal-date">19/05 Seg</td><td>🇨🇦</td><td class="cal-country">Canadá</td><td class="cal-event">Victoria Day</td><td class="cal-prev">TSX</td><td class="cal-val"><span class="cal-badge cb-hol">FECHADO</span></td></tr>
+        <tr><td class="cal-date">26/05 Seg</td><td>🇺🇸</td><td class="cal-country">EUA</td><td class="cal-event">Memorial Day</td><td class="cal-prev">NYSE · NASDAQ · CME</td><td class="cal-val"><span class="cal-badge cb-hol">FECHADO</span></td></tr>
+        <tr><td class="cal-date">29/05 Qui</td><td>🇧🇷</td><td class="cal-country">Brasil</td><td class="cal-event">Corpus Christi</td><td class="cal-prev">B3 · BM&FBovespa</td><td class="cal-val"><span class="cal-badge cb-hol">FECHADO</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <footer>
   <span class="fdot">●</span><span>BLACK SWAN NEWS</span><span>·</span>
   <span>Inteligência de Mercado Global</span><span>·</span>
@@ -395,42 +410,52 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
 </footer>
 
 <script>
-// VÍDEOS — Links fixos reais
+const QUERIES={'Destaques':'finance OR economy OR federal reserve OR gold OR oil OR war','Geopolítica':'geopolitics OR war OR conflict OR sanctions OR NATO','Commodities':'gold OR oil OR wheat OR soybean OR commodity OR OPEC','CME · Futuros':'futures OR nasdaq OR S&P500 OR CME OR treasury','Cripto':'bitcoin OR ethereum OR cryptocurrency OR BTC','Bancos Centrais':'federal reserve OR ECB OR central bank OR interest rate OR inflation','Guerras & Conflitos':'war OR conflict OR Ukraine OR Russia OR Gaza OR NATO','Saúde Global':'pandemic OR WHO OR disease OR outbreak OR virus','Metais Preciosos':'gold OR silver OR platinum OR precious metals','Análises SMC':'market structure OR liquidity OR institutional trading'};
+let cat='Destaques';
+
+// VÍDEOS com links reais do YouTube
 const VIDEOS=[
-  {id:'dp8PhLsUcFE',title:'Bloomberg Markets — Sessão ao vivo',canal:'Bloomberg TV',live:true,trans:true},
-  {id:'dp8PhLsUcFE',title:'Kitco Gold — Peter Schiff: Ouro a US$ 5.000',canal:'Kitco News',live:false,trans:true},
-  {id:'dp8PhLsUcFE',title:'CNBC — Fed decision: what Wall Street is missing',canal:'CNBC',live:false,trans:true},
-  {id:'dp8PhLsUcFE',title:'Ray Dalio — The Changing World Order 2025',canal:'Bloomberg',live:false,trans:true},
-  {id:'dp8PhLsUcFE',title:'TradingView — Análise NQ e ES estrutura semanal SMC',canal:'TradingView',live:false,trans:true},
-  {id:'dp8PhLsUcFE',title:'Reuters — Geopolítica e resposta dos mercados de energia',canal:'Reuters',live:false,trans:true},
+  {id:'v1',cat:'live',titulo:'Bloomberg Markets — Ao Vivo',canal:'Bloomberg TV',thumb:'https://img.youtube.com/vi/dp8PhLsUcFE/hqdefault.jpg',url:'https://www.youtube.com/embed/dp8PhLsUcFE?autoplay=1',live:true},
+  {id:'v2',cat:'cnbc',titulo:'CNBC — Markets & Investing Live',canal:'CNBC',thumb:'https://img.youtube.com/vi/muHg86Mys7I/hqdefault.jpg',url:'https://www.youtube.com/embed/muHg86Mys7I?autoplay=1',live:true},
+  {id:'v3',cat:'kitco',titulo:'Kitco News — Gold & Precious Metals',canal:'Kitco Gold',thumb:'https://img.youtube.com/vi/XNu5ppFZbHo/hqdefault.jpg',url:'https://www.youtube.com/embed/XNu5ppFZbHo?autoplay=1',live:false},
+  {id:'v4',cat:'bloomberg',titulo:'Ray Dalio — The Changing World Order 2025',canal:'Bloomberg',thumb:'https://img.youtube.com/vi/xguam0TKMw8/hqdefault.jpg',url:'https://www.youtube.com/embed/xguam0TKMw8?autoplay=1',live:false},
+  {id:'v5',cat:'tradingview',titulo:'TradingView — Análise NQ e ES: Estrutura SMC',canal:'TradingView',thumb:'https://img.youtube.com/vi/4p0cVKDEKnc/hqdefault.jpg',url:'https://www.youtube.com/embed/4p0cVKDEKnc?autoplay=1',live:false},
+  {id:'v6',cat:'reuters',titulo:'Reuters — Global Markets & Geopolitics',canal:'Reuters',thumb:'https://img.youtube.com/vi/l_6Zy7Qbw4k/hqdefault.jpg',url:'https://www.youtube.com/embed/l_6Zy7Qbw4k?autoplay=1',live:false},
 ];
 
-function buildVideos(){
+function renderVideos(list){
   const g=document.getElementById('vgrid');
-  if(!g)return;
-  g.innerHTML=VIDEOS.map(v=>`
-    <div class="vcard" onclick="openVideo('${v.id}')">
+  g.innerHTML=list.map(v=>`
+    <div class="vcard" onclick="openVideo('${v.url}','${v.titulo}')">
       <div class="vthumb">
-        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy"/>
+        <img src="${v.thumb}" alt="${v.titulo}" onerror="this.style.background='#111';this.style.display='none'"/>
         <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>
       </div>
       <div class="vinfo">
         ${v.live?'<div class="vlive">● AO VIVO</div>':''}
-        <div class="vtit">${v.title}</div>
+        <div class="vtit">${v.titulo}</div>
         <div class="vmeta">${v.canal}</div>
-        ${v.trans?'<div class="vtrans">✓ Legendas PT-BR disponíveis</div>':''}
+        <div class="vtrans">✓ Legendas PT-BR disponíveis</div>
       </div>
     </div>`).join('');
 }
 
-function openVideo(id){
-  document.getElementById('vframe').src=`https://www.youtube.com/embed/${id}?autoplay=1&cc_load_policy=1&cc_lang_pref=pt`;
+function filterVideos(c){
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+  event.target.classList.add('active');
+  const list=c==='todos'?VIDEOS:c==='live'?VIDEOS.filter(v=>v.live):VIDEOS.filter(v=>v.cat===c);
+  renderVideos(list);
+}
+
+function openVideo(url,title){
+  document.getElementById('vmodal-frame').src=url;
+  document.getElementById('vmodal-title').textContent=title;
   document.getElementById('vmodal').classList.add('open');
 }
 
 function closeVideo(){
-  document.getElementById('vframe').src='';
   document.getElementById('vmodal').classList.remove('open');
+  document.getElementById('vmodal-frame').src='';
 }
 
 document.getElementById('vmodal').addEventListener('click',function(e){
@@ -445,10 +470,6 @@ function showCal(tab){
   event.target.classList.add('active');
 }
 
-// QUERIES NOTÍCIAS
-const QUERIES={'Destaques':'finance OR economy OR federal reserve OR gold OR oil OR war','Geopolítica':'geopolitics OR war OR conflict OR sanctions OR NATO','Commodities':'gold OR oil OR wheat OR soybean OR commodity OR OPEC','CME · Futuros':'futures OR nasdaq OR S&P500 OR CME OR treasury','Cripto':'bitcoin OR ethereum OR cryptocurrency OR BTC','Bancos Centrais':'federal reserve OR ECB OR central bank OR interest rate OR inflation','Guerras & Conflitos':'war OR conflict OR Ukraine OR Russia OR Gaza OR NATO','Saúde Global':'pandemic OR WHO OR disease OR outbreak OR virus','Metais Preciosos':'gold OR silver OR platinum OR precious metals','Análises SMC':'market structure OR liquidity OR institutional trading'};
-let cat='Destaques';
-
 // RELÓGIO
 function clock(){const n=new Date();const d=n.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});const t=n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+' BRT';const el=document.getElementById('hdate');if(el)el.textContent=d+' · '+t;}
 clock();setInterval(clock,30000);
@@ -460,9 +481,6 @@ buildTicker();
 
 // NAV
 document.querySelectorAll('.nvi').forEach(n=>{n.addEventListener('click',function(){document.querySelectorAll('.nvi').forEach(x=>x.classList.remove('active'));n.classList.add('active');cat=n.textContent.trim();loadNews(cat);});});
-
-// CHIPS
-document.querySelectorAll('.chip:not(.chip-live)').forEach(c=>{c.addEventListener('click',function(){document.querySelectorAll('.chip:not(.chip-live)').forEach(x=>x.classList.remove('active'));c.classList.add('active');});});
 
 // BUSCA
 function doSearch(){const v=document.getElementById('sinput').value.trim();if(!v)return;window.open('https://claude.ai/new?q='+encodeURIComponent('Analise o impacto nos mercados globais e CME com visão SMC: '+v),'_blank');}
@@ -479,7 +497,7 @@ function loading(){document.getElementById('feed').innerHTML=`<div class="slabel
 async function loadNews(q){loading();const query=QUERIES[q]||QUERIES['Destaques'];try{const r=await fetch(`/api/news?q=${encodeURIComponent(query)}`);const d=await r.json();if(d.articles)render(d.articles.filter(a=>a.title));else render(null);}catch(e){console.error(e);render(null);}}
 
 document.addEventListener('DOMContentLoaded',function(){
-  buildVideos();
+  renderVideos(VIDEOS);
   loadNews('Destaques');
   setInterval(function(){loadNews(cat);},5*60*1000);
 });
