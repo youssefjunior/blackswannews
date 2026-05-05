@@ -331,15 +331,15 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
 <script>
 // ── QUERIES priorizando Reuters ──
 const QUERIES={
-  'Destaques':'site:reuters.com OR reuters economy gold oil war federal reserve market',
-  'Geopolítica':'site:reuters.com OR reuters war conflict geopolitics sanctions NATO',
-  'Commodities':'reuters gold oil wheat soybean OPEC copper commodity prices',
-  'CME · Futuros':'reuters futures nasdaq S&P500 CME treasury bonds markets',
+  'Destaques':'gold OR oil OR federal reserve OR war OR economy OR market OR stocks',
+  'Geopolítica':'war OR conflict OR geopolitics OR sanctions OR NATO OR diplomacy',
+  'Commodities':'gold OR oil OR wheat OR soybean OR OPEC OR copper OR commodity',
+  'CME · Futuros':'futures OR nasdaq OR S&P500 OR CME OR treasury OR bonds',
   'Cripto':'bitcoin ethereum cryptocurrency BTC crypto markets',
-  'Bancos Centrais':'reuters federal reserve ECB central bank interest rate inflation Powell',
-  'Guerras & Conflitos':'reuters war conflict Ukraine Russia Gaza NATO military',
-  'Saúde Global':'reuters WHO pandemic disease outbreak virus health emergency',
-  'Metais Preciosos':'reuters gold silver platinum palladium precious metals bullion',
+  'Bancos Centrais':'federal reserve OR ECB OR central bank OR interest rate OR inflation OR Powell',
+  'Guerras & Conflitos':'war OR conflict OR Ukraine OR Russia OR Gaza OR NATO OR military',
+  'Saúde Global':'pandemic OR WHO OR disease OR outbreak OR virus OR health emergency',
+  'Metais Preciosos':'gold OR silver OR platinum OR palladium OR precious metals OR bullion',
   'Análises SMC':'market structure liquidity institutional trading smart money',
   '📈 Gráficos':''
 };
