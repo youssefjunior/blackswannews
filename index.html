@@ -329,20 +329,25 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
 </footer>
 
 <script>
-// ── QUERIES priorizando Reuters ──
+// ── BLACK SWAN NEWS v6.0 ──
+// Cache local de notícias por categoria para economizar requisições da API
+
 const QUERIES={
-  'Destaques':'gold OR oil OR stocks OR economy OR war OR bitcoin OR market',
-  'Geopolítica':'war OR conflict OR NATO OR sanctions OR diplomacy OR military',
-  'Commodities':'gold OR oil OR wheat OR soybean OR copper OR OPEC OR commodity',
-  'CME · Futuros':'nasdaq OR futures OR S&P500 OR bonds OR CME OR treasury OR stocks',
-  'Cripto':'bitcoin OR ethereum OR crypto OR BTC OR ETH OR blockchain OR altcoin',
-  'Bancos Centrais':'federal reserve OR interest rate OR inflation OR ECB OR central bank',
-  'Guerras & Conflitos':'war OR military OR Ukraine OR Russia OR Gaza OR conflict OR attack',
-  'Saúde Global':'virus OR disease OR WHO OR health OR outbreak OR pandemic OR medicine',
-  'Metais Preciosos':'gold OR silver OR platinum OR palladium OR bullion OR metals',
-  'Análises SMC':'market structure OR liquidity OR trading OR institutional OR smart money',
-  '📈 Gráficos':''
+  'Destaques':       'gold OR oil OR stocks OR economy OR war OR bitcoin OR market OR fed',
+  'Geopolítica':     'war OR conflict OR NATO OR sanctions OR diplomacy OR military OR geopolitics',
+  'Commodities':     'gold OR oil OR wheat OR soybean OR copper OR OPEC OR commodity OR corn',
+  'CME · Futuros':   'nasdaq OR futures OR "wall street" OR bonds OR treasury OR "stock market" OR trading',
+  'Cripto':          'bitcoin OR ethereum OR crypto OR BTC OR ETH OR blockchain OR altcoin OR crypto market',
+  'Bancos Centrais': 'federal reserve OR "interest rate" OR inflation OR ECB OR "central bank" OR Powell OR Fed',
+  'Guerras & Conflitos':'war OR military OR Ukraine OR Russia OR Gaza OR conflict OR attack OR troops',
+  'Saúde Global':    'virus OR disease OR WHO OR health OR outbreak OR pandemic OR medicine OR epidemic',
+  'Metais Preciosos':'gold OR silver OR platinum OR palladium OR bullion OR metals OR "precious metals"',
+  'Análises SMC':    'market OR trading OR liquidity OR institutional OR "smart money" OR stocks OR forex',
+  '📈 Gráficos':     ''
 };
+
+// Cache de notícias por categoria
+const newsCache={};
 let cat='Destaques';
 
 // ── RELÓGIO ──
@@ -367,7 +372,12 @@ document.querySelectorAll('.nvi').forEach(function(n){
     } else {
       document.getElementById('chartsec').style.display='none';
       document.getElementById('main-layout').style.display='grid';
-      loadNews(cat);
+      // Usar cache se disponível
+      if(newsCache[cat]){
+        render(newsCache[cat],cat);
+      } else {
+        loadNews(cat);
+      }
     }
   });
 });
@@ -384,35 +394,75 @@ function itag(a){const t=(a.title+' '+(a.description||'')).toLowerCase();const t
 function ago(d){const s=(Date.now()-new Date(d))/1000;if(s<3600)return Math.floor(s/60)+'min atrás';if(s<86400)return Math.floor(s/3600)+'h atrás';return Math.floor(s/86400)+'d atrás';}
 function isReuters(a){const src=(a.source&&a.source.name?a.source.name:'').toLowerCase();const url=(a.url||'').toLowerCase();return src.includes('reuters')||url.includes('reuters');}
 
-async function translateText(text,btnEl,targetEl){
-  btnEl.textContent='Traduzindo...';
-  btnEl.disabled=true;
-  try{
-    const url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(text.substring(0,500))+'&langpair=en|pt-BR';
-    const r=await fetch(url);
-    const d=await r.json();
-    if(d.responseStatus===200&&d.responseData){
-      targetEl.textContent=d.responseData.translatedText;
-      targetEl.style.display='block';
-      btnEl.textContent='✓ Traduzido';
-    } else {
-      btnEl.textContent='Erro — tentar novamente';
-      btnEl.disabled=false;
-    }
-  } catch(e){
-    btnEl.textContent='Erro — tentar novamente';
-    btnEl.disabled=false;
-  }
-}
-
-function render(arts){
+// Painel especial para CME com link Investing.com
+function renderCMEPanel(){
   const feed=document.getElementById('feed');
   if(!feed)return;
-  if(!arts||!arts.length){feed.innerHTML='<div class="slabel">Notícias · '+cat+'</div><p style="color:var(--t4);font-size:12px;padding:20px 0;">Nenhuma notícia encontrada.</p>';return;}
-  // Priorizar Reuters no topo
+  let h='<div class="slabel">CME · Futuros · Mercados</div>';
+  // Card Investing.com
+  h+='<div style="background:#1a0a00;border:.5px solid #3a1a00;border-radius:4px;padding:14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;">'
+    +'<div>'
+    +'<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-family:\'Space Mono\',monospace;margin-bottom:4px;">● FONTE OFICIAL CME GROUP</div>'
+    +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:18px;font-weight:700;color:var(--t1);margin-bottom:4px;">CME Group — Notícias e Análises</div>'
+    +'<div style="font-size:11px;color:var(--t3);">Acesse diretamente as últimas notícias sobre contratos futuros, índices e commodities negociadas na CME via Investing.com</div>'
+    +'</div>'
+    +'<a href="https://br.investing.com/equities/cme-group-inc.-news" target="_blank" style="background:var(--red);color:#fff;padding:10px 18px;border-radius:3px;font-size:10px;font-weight:700;text-decoration:none;white-space:nowrap;font-family:\'Space Mono\',monospace;letter-spacing:0.5px;">Acessar ↗</a>'
+    +'</div>';
+  // Card CME oficial
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">'
+    +'<a href="https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.html" target="_blank" style="background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;padding:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor=\'var(--red)\'" onmouseout="this.style.borderColor=\'var(--b1)\'">'
+    +'<div style="font-family:\'Space Mono\',monospace;font-size:9px;color:var(--t4);margin-bottom:4px;">CME OFFICIAL</div>'
+    +'<div style="font-size:12px;font-weight:600;color:var(--t1);">E-mini S&P 500</div>'
+    +'<div style="font-size:10px;color:var(--green);">ES1! · Futuros</div>'
+    +'</a>'
+    +'<a href="https://www.cmegroup.com/markets/equities/nasdaq/e-mini-nasdaq-100.html" target="_blank" style="background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;padding:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor=\'var(--red)\'" onmouseout="this.style.borderColor=\'var(--b1)\'">'
+    +'<div style="font-family:\'Space Mono\',monospace;font-size:9px;color:var(--t4);margin-bottom:4px;">CME OFFICIAL</div>'
+    +'<div style="font-size:12px;font-weight:600;color:var(--t1);">E-mini Nasdaq 100</div>'
+    +'<div style="font-size:10px;color:var(--green);">NQ1! · Futuros</div>'
+    +'</a>'
+    +'<a href="https://www.cmegroup.com/markets/metals/precious/gold.html" target="_blank" style="background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;padding:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor=\'var(--red)\'" onmouseout="this.style.borderColor=\'var(--b1)\'">'
+    +'<div style="font-family:\'Space Mono\',monospace;font-size:9px;color:var(--t4);margin-bottom:4px;">CME OFFICIAL</div>'
+    +'<div style="font-size:12px;font-weight:600;color:var(--t1);">Ouro · Gold Futures</div>'
+    +'<div style="font-size:10px;color:var(--amber);">GC1! · COMEX</div>'
+    +'</a>'
+    +'</div>';
+  // Notícias CME do cache ou carregando
+  h+='<div class="slabel">Notícias · CME · Futuros · Tempo Real</div>';
+  if(newsCache['CME · Futuros']&&newsCache['CME · Futuros'].length){
+    const arts=newsCache['CME · Futuros'];
+    arts.slice(0,3).forEach(function(a,idx){
+      const b=badge(a),i=itag(a),src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
+      const tid='cme-tr-'+idx;
+      h+='<article class="lead" onclick="window.open(\''+a.url+'\',\'_blank\')">'
+        +'<span class="badge '+b.c+'">'+b.l+'</span>'
+        +'<h2>'+a.title+'</h2>'
+        +(a.description?'<p>'+a.description+'</p>':'')
+        +'<div class="meta"><span>'+src+' · '+tm+'</span><span class="itag">'+i+'</span>'
+        +'<button class="translate-btn" onclick="event.stopPropagation();translateText(\''+encodeURIComponent((a.title+'. '+(a.description||'')).replace(/'/g,"\\'"))+'\',this,document.getElementById(\''+tid+'\'))">🌐 Traduzir</button>'
+        +'</div><div class="translated" id="'+tid+'" style="display:none;"></div></article>';
+    });
+    if(arts.length>3){
+      h+='<div class="slabel">Mais Notícias</div>';
+      arts.slice(3).forEach(function(a,i){
+        const src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
+        h+='<article class="mini" onclick="window.open(\''+a.url+'\',\'_blank\')"><div class="mnum">0'+(i+1)+'</div><div><div class="mtit">'+a.title+'</div><div class="mmeta">'+src+' · '+tm+'</div></div></article>';
+      });
+    }
+  } else {
+    h+='<div style="color:var(--t4);font-size:12px;padding:12px 0;">Carregando notícias...</div>';
+  }
+  feed.innerHTML=h;
+}
+
+function render(arts,catName){
+  const feed=document.getElementById('feed');
+  if(!feed)return;
+  const c=catName||cat;
+  if(c==='CME · Futuros'){renderCMEPanel();return;}
+  if(!arts||!arts.length){feed.innerHTML='<div class="slabel">Notícias · '+c+'</div><p style="color:var(--t4);font-size:12px;padding:20px 0;">Nenhuma notícia encontrada.</p>';return;}
   const sorted=arts.slice().sort(function(a,b){return isReuters(b)?1:isReuters(a)?-1:0;});
   const leads=sorted.slice(0,3),minis=sorted.slice(3);
-  let h='<div class="slabel">Notícias · '+cat+' · Tempo Real <span style="color:var(--amber);font-size:8px;margin-left:8px;">● Reuters prioritário</span></div>';
+  let h='<div class="slabel">Notícias · '+c+' · Tempo Real <span style="color:var(--amber);font-size:8px;margin-left:8px;">● Reuters prioritário</span></div>';
   leads.forEach(function(a,idx){
     const b=badge(a),i=itag(a),src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
     const rLabel=isReuters(a)?'<span class="src-badge">REUTERS</span>':'';
@@ -421,145 +471,97 @@ function render(arts){
       +'<span class="badge '+b.c+'">'+b.l+'</span>'+rLabel
       +'<h2>'+a.title+'</h2>'
       +(a.description?'<p>'+a.description+'</p>':'')
-      +'<div class="meta">'
-      +'<span>'+src+' · '+tm+'</span>'
-      +'<span class="itag">'+i+'</span>'
-      +'<button class="translate-btn" onclick="event.stopPropagation();translateText(\''+encodeURIComponent((a.title+'. '+(a.description||'')).replace(/'/g,"\\'"))+'\',this,document.getElementById(\''+tid+'\'))" title="Traduzir para PT-BR">🌐 Traduzir</button>'
-      +'</div>'
-      +'<div class="translated" id="'+tid+'" style="display:none;"></div>'
-      +'</article>';
+      +'<div class="meta"><span>'+src+' · '+tm+'</span><span class="itag">'+i+'</span>'
+      +'<button class="translate-btn" onclick="event.stopPropagation();translateText(\''+encodeURIComponent((a.title+'. '+(a.description||'')).replace(/'/g,"\\'"))+'\',this,document.getElementById(\''+tid+'\'))">🌐 Traduzir</button>'
+      +'</div><div class="translated" id="'+tid+'" style="display:none;"></div></article>';
   });
   if(minis.length){
     h+='<div class="slabel">Mais Notícias</div>';
     minis.forEach(function(a,i){
       const src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
       const rLabel=isReuters(a)?' · <span style="color:var(--amber);font-size:8px;">REUTERS</span>':'';
-      h+='<article class="mini" onclick="window.open(\''+a.url+'\',\'_blank\')">'
-        +'<div class="mnum">0'+(i+1)+'</div>'
-        +'<div><div class="mtit">'+a.title+'</div>'
-        +'<div class="mmeta">'+src+rLabel+' · '+tm+'</div></div>'
-        +'</article>';
+      h+='<article class="mini" onclick="window.open(\''+a.url+'\',\'_blank\')"><div class="mnum">0'+(i+1)+'</div><div><div class="mtit">'+a.title+'</div><div class="mmeta">'+src+rLabel+' · '+tm+'</div></div></article>';
     });
   }
   feed.innerHTML=h;
 }
 
 function translateText(encodedText,btnEl,targetEl){
-  btnEl.textContent='Traduzindo...';
-  btnEl.disabled=true;
+  btnEl.textContent='Traduzindo...';btnEl.disabled=true;
   const text=decodeURIComponent(encodedText);
-  const url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(text.substring(0,500))+'&langpair=en|pt-BR';
-  fetch(url).then(function(r){return r.json();}).then(function(d){
-    if(d.responseStatus===200&&d.responseData&&d.responseData.translatedText){
-      targetEl.textContent=d.responseData.translatedText;
-      targetEl.style.display='block';
-      btnEl.textContent='✓ PT-BR';
-    } else {
-      btnEl.textContent='Erro';
-      btnEl.disabled=false;
-    }
-  }).catch(function(){
-    btnEl.textContent='Erro';
-    btnEl.disabled=false;
-  });
+  fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text.substring(0,500))+'&langpair=en|pt-BR')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.responseStatus===200&&d.responseData&&d.responseData.translatedText){
+        targetEl.textContent=d.responseData.translatedText;targetEl.style.display='block';btnEl.textContent='✓ PT-BR';
+      } else {btnEl.textContent='Erro';btnEl.disabled=false;}
+    }).catch(function(){btnEl.textContent='Erro';btnEl.disabled=false;});
 }
 
 function loading(){document.getElementById('feed').innerHTML='<div class="slabel">Carregando · '+cat+'...</div><div style="padding-top:8px;">'+'<div style="margin-bottom:20px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>'.repeat(3)+'</div>';}
 
 async function loadNews(q){
   if(q==='📈 Gráficos')return;
-  loading();
+  // Para CME, mostrar painel especial enquanto carrega
+  if(q==='CME · Futuros'){renderCMEPanel();}
+  else{loading();}
   const query=QUERIES[q]||QUERIES['Destaques'];
   try{
     const r=await fetch('/api/news?q='+encodeURIComponent(query));
     const d=await r.json();
-    if(d.articles)render(d.articles.filter(function(a){return a.title;}));
-    else render(null);
-  }catch(e){console.error(e);render(null);}
+    if(d.articles){
+      const arts=d.articles.filter(function(a){return a.title;});
+      newsCache[q]=arts; // salvar no cache
+      render(arts,q);
+    } else {
+      render(null,q);
+    }
+  }catch(e){console.error(e);render(null,q);}
 }
 
 // ── GRÁFICOS TRADINGVIEW ──
 const CHARTS={
-  indices:`
-    <div class="chart-grid">
-      <div class="chart-frame"><div class="chart-label">Nasdaq 100 (NQ1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=D&theme=dark&style=1&locale=pt&hide_top_toolbar=0&save_image=0&toolbarbg=0a0a0a" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">S&P 500 (ES1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3AES1%21&interval=D&theme=dark&style=1&locale=pt&hide_top_toolbar=0&save_image=0&toolbarbg=0a0a0a" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Dow Jones (YM1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3AYM1%21&interval=D&theme=dark&style=1&locale=pt&hide_top_toolbar=0&save_image=0&toolbarbg=0a0a0a" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Russell 2000 (RTY1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ARTY1%21&interval=D&theme=dark&style=1&locale=pt&hide_top_toolbar=0&save_image=0&toolbarbg=0a0a0a" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Nikkei 225 (NKY)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=INDEX%3ANKY&interval=D&theme=dark&style=1&locale=pt&hide_top_toolbar=0&save_image=0&toolbarbg=0a0a0a" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">DAX (DE40)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=INDEX%3ADAX&interval=D&theme=dark&style=1&locale=pt&hide_top_toolbar=0&save_image=0&toolbarbg=0a0a0a" allowfullscreen></iframe></div>
-    </div>`,
-  moedas:`
-    <div class="chart-grid">
-      <div class="chart-frame"><div class="chart-label">EUR/USD</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AEURUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">USD/BRL</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDBRL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">GBP/USD</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AGBPUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">USD/JPY</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDJPY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">DXY — Índice do Dólar</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=TVC%3ADXY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">USD/CHF</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDCHF&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-    </div>`,
-  commodities:`
-    <div class="chart-grid">
-      <div class="chart-frame"><div class="chart-label">Ouro (GC1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3AGC1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Prata (SI1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3ASI1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Petróleo WTI (CL1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ACL1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Gás Natural (NG1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ANG1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Soja (ZS1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Trigo (ZW1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZW1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-    </div>`,
-  cripto:`
-    <div class="chart-grid">
-      <div class="chart-frame"><div class="chart-label">Bitcoin (BTC/USD)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3ABTCUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Ethereum (ETH/USD)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3AETHUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Solana (SOL/USD)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=COINBASE%3ASOLUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">BNB (BNB/USD)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE%3ABNBUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">XRP (XRP/USD)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3AXRPUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Total Cripto Cap</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=CRYPTOCAP%3ATOTAL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-    </div>`,
-  brasil:`
-    <div class="chart-grid">
-      <div class="chart-frame"><div class="chart-label">IBOVESPA</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AIBOV&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">USD/BRL</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDBRL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Petrobras (PETR4)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3APETR4&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Vale (VALE3)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AVALE3&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Itaú (ITUB4)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AITUB4&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-      <div class="chart-frame"><div class="chart-label">Boi Gordo (BGI1!)</div>
-        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3ABGI1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-    </div>`,
-  avancado:`
-    <div class="chart-full">
-      <div class="chart-label">Gráfico Avançado TradingView — Completo com todas as ferramentas</div>
-      <iframe src="https://www.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=60&theme=dark&style=1&locale=pt&toolbarbg=0a0a0a&withdateranges=1&hide_side_toolbar=0&allow_symbol_change=1&studies=RSI%40tv-basicstudies%2CMACD%40tv-basicstudies" allowfullscreen style="height:600px;"></iframe>
-    </div>`
+  indices:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">Nasdaq 100 (NQ1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">S&P 500 (ES1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3AES1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Dow Jones (YM1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3AYM1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Russell 2000 (RTY1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ARTY1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Nikkei 225</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=INDEX%3ANKY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">DAX</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=INDEX%3ADAX&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  moedas:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">EUR/USD</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AEURUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">USD/BRL</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDBRL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">GBP/USD</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AGBPUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">USD/JPY</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDJPY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">DXY — Índice do Dólar</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=TVC%3ADXY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">USD/CHF</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDCHF&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  commodities:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">Ouro (GC1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3AGC1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Prata (SI1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3ASI1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Petróleo WTI (CL1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ACL1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Gás Natural (NG1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ANG1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Soja (ZS1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Trigo (ZW1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZW1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  cripto:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">Bitcoin (BTC/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3ABTCUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Ethereum (ETH/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3AETHUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Solana (SOL/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COINBASE%3ASOLUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">BNB (BNB/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE%3ABNBUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">XRP (XRP/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3AXRPUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Total Cripto Cap</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CRYPTOCAP%3ATOTAL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  brasil:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">IBOVESPA</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AIBOV&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">USD/BRL</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDBRL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Petrobras (PETR4)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3APETR4&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Vale (VALE3)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AVALE3&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Itaú (ITUB4)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AITUB4&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Boi Gordo (BGI1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3ABGI1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  avancado:`<div class="chart-full"><div class="chart-label">Gráfico Avançado TradingView — Completo com todas as ferramentas</div><iframe src="https://www.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=60&theme=dark&style=1&locale=pt&withdateranges=1&hide_side_toolbar=0&allow_symbol_change=1&studies=RSI%40tv-basicstudies%2CMACD%40tv-basicstudies" allowfullscreen style="height:600px;"></iframe></div>`
 };
 
 function showCharts(evt,tipo){
@@ -581,19 +583,15 @@ const VIDEOS=[
 ];
 
 function buildVideos(filter){
-  const grid=document.getElementById('vgrid');
-  if(!grid)return;
+  const grid=document.getElementById('vgrid');if(!grid)return;
   const filtered=filter==='todos'?VIDEOS:filter==='live'?VIDEOS.filter(function(v){return v.live;}):VIDEOS.filter(function(v){return v.cat===filter;});
   if(!filtered.length){grid.innerHTML='<p style="color:var(--t4);font-size:12px;padding:16px 0;">Nenhum vídeo nesta categoria.</p>';return;}
-  grid.innerHTML=filtered.map(function(v){
-    return'<div class="vcard" onclick="openVideo(\''+v.id+'\',\''+v.title.replace(/'/g,"\\'")+'\')"><div class="vthumb"><img src="https://img.youtube.com/vi/'+v.id+'/mqdefault.jpg" alt="'+v.title+'" loading="lazy" onerror="this.parentElement.style.background=\'#1a1a1a\'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo">'+(v.live?'<div class="vlive">● AO VIVO</div>':'')+'<div class="vtit">'+v.title+'</div><div class="vmeta">'+v.canal+' · '+v.meta+'</div><div class="vtrans">✓ Legendas PT-BR</div></div></div>';
-  }).join('');
+  grid.innerHTML=filtered.map(function(v){return'<div class="vcard" onclick="openVideo(\''+v.id+'\',\''+v.title.replace(/'/g,"\\'")+'\')"><div class="vthumb"><img src="https://img.youtube.com/vi/'+v.id+'/mqdefault.jpg" alt="'+v.title+'" loading="lazy" onerror="this.parentElement.style.background=\'#1a1a1a\'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo">'+(v.live?'<div class="vlive">● AO VIVO</div>':'')+'<div class="vtit">'+v.title+'</div><div class="vmeta">'+v.canal+' · '+v.meta+'</div><div class="vtrans">✓ Legendas PT-BR</div></div></div>';}).join('');
 }
 
 function filterVideos(evt,filter){
   document.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');});
-  evt.target.classList.add('active');
-  buildVideos(filter);
+  evt.target.classList.add('active');buildVideos(filter);
 }
 
 function openVideo(id,title){
@@ -662,7 +660,6 @@ const CAL={
     {date:'19/06',time:'—',event:'Corpus Christi — B3 fechada',country:'🇧🇷 Brasil',imp:'med',tipo:'ct-hol',prev:'—',est:'B3 fechada'},
   ]
 };
-
 const IMP_CLS={'high':'imp-high','med':'imp-med','low':'imp-low'};
 const IMP_TXT={'high':'Alto','med':'Médio','low':'Baixo'};
 
@@ -679,23 +676,14 @@ function showCal(evt,tipo){
 
 // ── INICIALIZAR ──
 document.addEventListener('DOMContentLoaded',function(){
-  loadNews('Destaques');
-  setInterval(function(){if(cat!=='📈 Gráficos')loadNews(cat);},5*60*1000);
+  // Pré-carregar categorias principais em sequência com delay para não estourar limite da API
+  var cats=['Destaques','Cripto','Bancos Centrais','CME · Futuros','Saúde Global'];
+  cats.forEach(function(c,i){
+    setTimeout(function(){loadNews(c);},i*8000); // 8 segundos entre cada
+  });
   buildVideos('todos');
   showCal({target:document.querySelector('.cal-tab.active')},'macro');
 });
-
-async function loadNews(q){
-  if(q==='📈 Gráficos')return;
-  loading();
-  const query=QUERIES[q]||QUERIES['Destaques'];
-  try{
-    const r=await fetch('/api/news?q='+encodeURIComponent(query));
-    const d=await r.json();
-    if(d.articles)render(d.articles.filter(function(a){return a.title;}));
-    else render(null);
-  }catch(e){console.error(e);render(null);}
-}
 </script>
 </body>
 </html>
