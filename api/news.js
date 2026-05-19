@@ -5,25 +5,16 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
 
-  if (!q) {
-    return res.status(400).json({ error: 'Query obrigatória' });
-  }
+  if (!q) return res.status(400).json({ error: 'Query obrigatória' });
 
   try {
-    // Busca em português primeiro
-    const urlPT = `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=pt&sortby=publishedAt&max=5&apikey=${API_KEY}`;
-    // Busca em inglês para complementar
-    const urlEN = `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=en&sortby=publishedAt&max=5&apikey=${API_KEY}`;
+    // Busca em inglês — mais cobertura
+    const urlEN = `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=en&sortby=publishedAt&max=9&apikey=${API_KEY}`;
+    // Busca em português — notícias brasileiras
+    const urlPT = `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=pt&sortby=publishedAt&max=3&apikey=${API_KEY}`;
 
-    const [resPT, resEN] = await Promise.all([
-      fetch(urlPT),
-      fetch(urlEN)
-    ]);
-
-    const [dataPT, dataEN] = await Promise.all([
-      resPT.json(),
-      resEN.json()
-    ]);
+    const [resEN, resPT] = await Promise.all([fetch(urlEN), fetch(urlPT)]);
+    const [dataEN, dataPT] = await Promise.all([resEN.json(), resPT.json()]);
 
     const normalize = (articles) => (articles || []).map(a => ({
       title: a.title,
@@ -33,10 +24,13 @@ export default async function handler(req, res) {
       source: { name: a.source?.name || a.source?.url || 'Internacional' }
     }));
 
+    // Combinar e ordenar por data
     const combined = [
-      ...normalize(dataPT.articles),
-      ...normalize(dataEN.articles)
-    ].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+      ...normalize(dataEN.articles),
+      ...normalize(dataPT.articles)
+    ]
+    .filter(a => a.title && a.title !== '[Removed]')
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
     res.status(200).json({ articles: combined });
 
