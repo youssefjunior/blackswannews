@@ -223,7 +223,110 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
       <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
     </div>
   </main>
-  <aside class="sidebar">
+<aside class="sidebar" style="padding:0;width:380px;border-left:1px solid var(--b1);">
+  <div class="tradingview-widget-container" style="height:100%;min-height:600px;">
+    <div class="tradingview-widget-container__widget" style="height:100%;"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+    {
+      "colorTheme": "dark",
+      "dateRange": "1D",
+      "showChart": true,
+      "locale": "br",
+      "isTransparent": false,
+      "showSymbolLogo": true,
+      "showFloatingTooltip": true,
+      "width": "100%",
+      "height": "600",
+      "plotLineColorGrowing": "rgba(41,98,255,1)",
+      "plotLineColorFalling": "rgba(41,98,255,1)",
+      "gridLineColor": "rgba(240,243,250,0)",
+      "scaleFontColor": "rgba(120,123,134,1)",
+      "belowLineFillColorGrowing": "rgba(41,98,255,0.12)",
+      "belowLineFillColorFalling": "rgba(41,98,255,0.12)",
+      "belowLineFillColorGrowingBottom": "rgba(41,98,255,0)",
+      "belowLineFillColorFallingBottom": "rgba(41,98,255,0)",
+      "symbolActiveColor": "rgba(41,98,255,0.12)",
+      "tabs": [
+        {
+          "title": "Índices",
+          "symbols": [
+            {"s":"CME_MINI:NQ1!","d":"Nasdaq 100"},
+            {"s":"CME_MINI:ES1!","d":"S&P 500"},
+            {"s":"CME_MINI:YM1!","d":"Dow Jones"},
+            {"s":"CME_MINI:RTY1!","d":"Russell 2000"},
+            {"s":"INDEX:NKY","d":"Nikkei 225"},
+            {"s":"INDEX:DAX","d":"DAX"},
+            {"s":"INDEX:FTSE","d":"FTSE 100"},
+            {"s":"BMFBOVESPA:IBOV","d":"IBOVESPA"}
+          ],
+          "originalTitle": "Indices"
+        },
+        {
+          "title": "Commodities",
+          "symbols": [
+            {"s":"COMEX:GC1!","d":"Ouro"},
+            {"s":"COMEX:SI1!","d":"Prata"},
+            {"s":"NYMEX:CL1!","d":"Petróleo WTI"},
+            {"s":"NYMEX:NG1!","d":"Gás Natural"},
+            {"s":"CBOT:ZS1!","d":"Soja"},
+            {"s":"CBOT:ZW1!","d":"Trigo"},
+            {"s":"CBOT:ZC1!","d":"Milho"},
+            {"s":"COMEX:HG1!","d":"Cobre"}
+          ],
+          "originalTitle": "Commodities"
+        },
+        {
+          "title": "Bonds",
+          "symbols": [
+            {"s":"TVC:US10Y","d":"US 10Y Treasury"},
+            {"s":"TVC:US30Y","d":"US 30Y Treasury"},
+            {"s":"TVC:US02Y","d":"US 2Y Treasury"},
+            {"s":"TVC:DE10Y","d":"Bund Alemão 10Y"},
+            {"s":"TVC:GB10Y","d":"Gilt UK 10Y"},
+            {"s":"TVC:BR10Y","d":"Brasil 10Y"}
+          ],
+          "originalTitle": "Bonds"
+        },
+        {
+          "title": "Forex",
+          "symbols": [
+            {"s":"FX:EURUSD","d":"EUR/USD"},
+            {"s":"FX:USDBRL","d":"USD/BRL"},
+            {"s":"FX:GBPUSD","d":"GBP/USD"},
+            {"s":"FX:USDJPY","d":"USD/JPY"},
+            {"s":"TVC:DXY","d":"Índice Dólar"},
+            {"s":"FX:USDCHF","d":"USD/CHF"}
+          ],
+          "originalTitle": "Forex"
+        },
+        {
+          "title": "Cripto",
+          "symbols": [
+            {"s":"BITSTAMP:BTCUSD","d":"Bitcoin"},
+            {"s":"BITSTAMP:ETHUSD","d":"Ethereum"},
+            {"s":"COINBASE:SOLUSD","d":"Solana"},
+            {"s":"BINANCE:BNBUSD","d":"BNB"},
+            {"s":"BITSTAMP:XRPUSD","d":"XRP"}
+          ],
+          "originalTitle": "Crypto"
+        },
+        {
+          "title": "Stocks",
+          "symbols": [
+            {"s":"NASDAQ:AAPL","d":"Apple"},
+            {"s":"NASDAQ:NVDA","d":"Nvidia"},
+            {"s":"NASDAQ:MSFT","d":"Microsoft"},
+            {"s":"NYSE:XOM","d":"Exxon Mobil"},
+            {"s":"BMFBOVESPA:PETR4","d":"Petrobras"},
+            {"s":"BMFBOVESPA:VALE3","d":"Vale"},
+            {"s":"BMFBOVESPA:ITUB4","d":"Itaú"}
+          ],
+          "originalTitle": "Stocks"
+        }
+      ]
+    }
+    </script>
+  </div>
     <div class="slabel">Mapa de Calor CME</div>
     <div class="hgrid">
       <div class="hc hu2"><span class="hsym">NQ1!</span>+0.34%</div>
