@@ -223,40 +223,91 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px 20px;displ
       <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
     </div>
   </main>
- <aside style="padding:14px;border-left:1px solid var(--b1);min-height:600px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-height:800px;">
-
-  <div class="slabel" style="margin-bottom:4px;">Mercados · Tempo Real</div>
-
-  <!-- Nasdaq -->
-  <div style="background:var(--bg2);border-radius:3px;overflow:hidden;">
-    <iframe src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=br#%7B%22symbol%22%3A%22NASDAQ%3AQQQM%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22140%22%2C%22dateRange%22%3A%221D%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22autosize%22%3Atrue%7D" width="100%" height="140" frameborder="0" scrolling="no" style="display:block;"></iframe>
+ <aside style="padding:0;border-left:1px solid var(--b1);min-height:600px;width:420px;">
+  <div class="tradingview-widget-container" style="height:100%;">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+    {
+      "width": "100%",
+      "height": 800,
+      "symbolsGroups": [
+        {
+          "name": "Indices",
+          "originalName": "Indices",
+          "symbols": [
+            {"name": "FOREXCOM:SPXUSD", "displayName": "S&P 500"},
+            {"name": "FOREXCOM:NSXUSD", "displayName": "Nasdaq 100"},
+            {"name": "FOREXCOM:DJI", "displayName": "Dow Jones"},
+            {"name": "INDEX:NKY", "displayName": "Nikkei 225"},
+            {"name": "INDEX:DAX", "displayName": "DAX"},
+            {"name": "BMFBOVESPA:IBOV", "displayName": "IBOVESPA"}
+          ]
+        },
+        {
+          "name": "Commodities",
+          "originalName": "Commodities",
+          "symbols": [
+            {"name": "CME_MINI:GC1!", "displayName": "Ouro"},
+            {"name": "CME_MINI:SI1!", "displayName": "Prata"},
+            {"name": "CME_MINI:CL1!", "displayName": "Petróleo WTI"},
+            {"name": "CME_MINI:NG1!", "displayName": "Gás Natural"},
+            {"name": "CME_MINI:ZS1!", "displayName": "Soja"},
+            {"name": "CME_MINI:ZW1!", "displayName": "Trigo"}
+          ]
+        },
+        {
+          "name": "Bonds",
+          "originalName": "Bonds",
+          "symbols": [
+            {"name": "TVC:US10Y", "displayName": "US 10Y"},
+            {"name": "TVC:US30Y", "displayName": "US 30Y"},
+            {"name": "TVC:US02Y", "displayName": "US 2Y"},
+            {"name": "TVC:DE10Y", "displayName": "Bund 10Y"},
+            {"name": "TVC:BR10Y", "displayName": "Brasil 10Y"}
+          ]
+        },
+        {
+          "name": "Forex",
+          "originalName": "Forex",
+          "symbols": [
+            {"name": "FX:EURUSD", "displayName": "EUR/USD"},
+            {"name": "FX:USDBRL", "displayName": "USD/BRL"},
+            {"name": "FX:GBPUSD", "displayName": "GBP/USD"},
+            {"name": "FX:USDJPY", "displayName": "USD/JPY"},
+            {"name": "TVC:DXY", "displayName": "DXY"}
+          ]
+        },
+        {
+          "name": "Cripto",
+          "originalName": "Crypto",
+          "symbols": [
+            {"name": "BITSTAMP:BTCUSD", "displayName": "Bitcoin"},
+            {"name": "BITSTAMP:ETHUSD", "displayName": "Ethereum"},
+            {"name": "COINBASE:SOLUSD", "displayName": "Solana"},
+            {"name": "BITSTAMP:XRPUSD", "displayName": "XRP"}
+          ]
+        },
+        {
+          "name": "Stocks",
+          "originalName": "Stocks",
+          "symbols": [
+            {"name": "NASDAQ:AAPL", "displayName": "Apple"},
+            {"name": "NASDAQ:NVDA", "displayName": "Nvidia"},
+            {"name": "NASDAQ:MSFT", "displayName": "Microsoft"},
+            {"name": "NYSE:XOM", "displayName": "Exxon"},
+            {"name": "BMFBOVESPA:PETR4", "displayName": "Petrobras"},
+            {"name": "BMFBOVESPA:VALE3", "displayName": "Vale"},
+            {"name": "BMFBOVESPA:ITUB4", "displayName": "Itaú"}
+          ]
+        }
+      ],
+      "showSymbolLogo": true,
+      "isTransparent": false,
+      "colorTheme": "dark",
+      "locale": "br"
+    }
+    </script>
   </div>
-
-  <!-- S&P 500 -->
-  <div style="background:var(--bg2);border-radius:3px;overflow:hidden;">
-    <iframe src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=br#%7B%22symbol%22%3A%22AMEX%3ASPY%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22140%22%2C%22dateRange%22%3A%221D%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22autosize%22%3Atrue%7D" width="100%" height="140" frameborder="0" scrolling="no" style="display:block;"></iframe>
-  </div>
-
-  <!-- Ouro -->
-  <div style="background:var(--bg2);border-radius:3px;overflow:hidden;">
-    <iframe src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=br#%7B%22symbol%22%3A%22AMEX%3AGLD%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22140%22%2C%22dateRange%22%3A%221D%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22autosize%22%3Atrue%7D" width="100%" height="140" frameborder="0" scrolling="no" style="display:block;"></iframe>
-  </div>
-
-  <!-- Petróleo -->
-  <div style="background:var(--bg2);border-radius:3px;overflow:hidden;">
-    <iframe src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=br#%7B%22symbol%22%3A%22AMEX%3AUSO%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22140%22%2C%22dateRange%22%3A%221D%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22autosize%22%3Atrue%7D" width="100%" height="140" frameborder="0" scrolling="no" style="display:block;"></iframe>
-  </div>
-
-  <!-- Bitcoin -->
-  <div style="background:var(--bg2);border-radius:3px;overflow:hidden;">
-    <iframe src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=br#%7B%22symbol%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22140%22%2C%22dateRange%22%3A%221D%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22autosize%22%3Atrue%7D" width="100%" height="140" frameborder="0" scrolling="no" style="display:block;"></iframe>
-  </div>
-
-  <!-- USD/BRL -->
-  <div style="background:var(--bg2);border-radius:3px;overflow:hidden;">
-    <iframe src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=br#%7B%22symbol%22%3A%22FX%3AUSDBRL%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22140%22%2C%22dateRange%22%3A%221D%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22autosize%22%3Atrue%7D" width="100%" height="140" frameborder="0" scrolling="no" style="display:block;"></iframe>
-  </div>
-
 </aside>
   <div class="tradingview-widget-container" style="height:100%;min-height:600px;">
     <div class="tradingview-widget-container__widget" style="height:100%;"></div>
