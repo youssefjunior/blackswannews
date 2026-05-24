@@ -511,16 +511,16 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
   <nav class="nav" id="desktop-nav">
     <div class="nvi active" data-cat="Destaques">Destaques</div>
     <div class="nvi" data-cat="Geopolítica">Geopolítica</div>
-    <div class="nvi" data-cat="Commodities">Commodities</div>
-    <div class="nvi" data-cat="CME · Futuros">CME · Futuros</div>
-    <div class="nvi" data-cat="Cripto">Cripto</div>
     <div class="nvi" data-cat="Bancos Centrais">Bancos Centrais</div>
-    <div class="nvi" data-cat="Guerras & Conflitos">Guerras & Conflitos</div>
-    <div class="nvi" data-cat="Saúde Global">Saúde Global</div>
-    <div class="nvi" data-cat="Metais Preciosos">Metais Preciosos</div>
-    <div class="nvi" data-cat="Análises SMC">Análises SMC</div>
-    <div class="nvi" data-cat="📈 Gráficos">📈 Gráficos</div>
+    <div class="nvi" data-cat="CME · Futuros">CME · Futuros</div>
     <div class="nvi" data-cat="🌾 Agronegócio" style="color:#4a9a30;">🌾 Agronegócio</div>
+    <div class="nvi" data-cat="Commodities">Commodities</div>
+    <div class="nvi" data-cat="Metais Preciosos">Metais Preciosos</div>
+    <div class="nvi" data-cat="Cripto">Cripto</div>
+    <div class="nvi" data-cat="Guerras & Conflitos">Guerras &amp; Conflitos</div>
+    <div class="nvi" data-cat="Saúde Global">Saúde Global</div>
+    <div class="nvi" data-cat="📈 Gráficos">📈 Gráficos</div>
+    <div class="nvi" data-cat="Análises SMC">Análises SMC</div>
   </nav>
 </div>
 
@@ -876,16 +876,16 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 const QUERIES={
   'Destaques':       'gold OR oil OR stocks OR economy OR war OR bitcoin OR market OR fed',
   'Geopolítica':     'war OR conflict OR NATO OR sanctions OR diplomacy OR military OR geopolitics',
-  'Commodities':     'gold OR oil OR wheat OR soybean OR copper OR OPEC OR commodity OR corn',
-  'CME · Futuros':   'nasdaq OR futures OR "wall street" OR bonds OR treasury OR "stock market" OR trading',
-  'Cripto':          'bitcoin OR ethereum OR crypto OR BTC OR ETH OR blockchain OR altcoin',
   'Bancos Centrais': 'federal reserve OR "interest rate" OR inflation OR ECB OR "central bank" OR Powell',
+  'CME · Futuros':   'nasdaq OR futures OR "wall street" OR bonds OR treasury OR "stock market" OR trading',
+  '🌾 Agronegócio':  'soybean OR corn OR wheat OR agriculture OR agribusiness OR livestock OR "food prices" OR USDA OR CONAB OR "crop" OR fertilizer OR biofuel OR ethanol OR "food security"',
+  'Commodities':     'gold OR oil OR wheat OR soybean OR copper OR OPEC OR commodity OR corn',
+  'Metais Preciosos':'gold OR silver OR platinum OR palladium OR bullion OR metals',
+  'Cripto':          'bitcoin OR ethereum OR crypto OR BTC OR ETH OR blockchain OR altcoin',
   'Guerras & Conflitos':'war OR military OR Ukraine OR Russia OR Gaza OR conflict OR attack OR troops',
   'Saúde Global':    'virus OR disease OR WHO OR health OR outbreak OR pandemic OR medicine',
-  'Metais Preciosos':'gold OR silver OR platinum OR palladium OR bullion OR metals',
-  'Análises SMC':    'market OR trading OR liquidity OR institutional OR "smart money" OR stocks OR forex',
   '📈 Gráficos':     '',
-  '🌾 Agronegócio':  'soybean OR corn OR wheat OR agriculture OR agribusiness OR livestock OR "food prices" OR USDA OR CONAB OR "crop" OR fertilizer OR biofuel OR ethanol OR "food security"'
+  'Análises SMC':    'market OR trading OR liquidity OR institutional OR "smart money" OR stocks OR forex',
 };
 const newsCache={};
 let cat='Destaques';
@@ -1117,17 +1117,93 @@ function render(arts,catName){
 
 async function loadNews(q){
   if(q==='📈 Gráficos')return;
-  if(q==='CME · Futuros'){renderCMEPanel();}
-  else{loading();}
-  const query=QUERIES[q]||QUERIES['Destaques'];
-  try{
-    const r=await fetch('/api/news?q='+encodeURIComponent(query));
-    const d=await r.json();
-    if(d.articles){
-      const arts=d.articles.filter(a=>a.title);
-      newsCache[q]=arts;render(arts,q);
-    } else {render(null,q);}
-  }catch(e){console.error(e);render(null,q);}
+  if(q==='CME · Futuros'){renderCMEPanel();fetchNewsForCME();return;}
+  if(q==='🌾 Agronegócio'){loadAgroNews();return;}
+  if(q==='Análises SMC'){return;} // static panel
+  loading();
+
+  // RSS feeds mapeados por categoria
+  const RSS_FEEDS={
+    'Destaques':[
+      'https://feeds.reuters.com/reuters/businessNews',
+      'https://feeds.bbci.co.uk/news/business/rss.xml',
+      'https://rss.dw.com/rdf/rss-en-bus'
+    ],
+    'Geopolítica':[
+      'https://feeds.reuters.com/Reuters/worldNews',
+      'https://feeds.bbci.co.uk/news/world/rss.xml',
+      'https://rss.dw.com/rdf/rss-en-world'
+    ],
+    'Bancos Centrais':[
+      'https://feeds.reuters.com/reuters/businessNews',
+      'https://feeds.bbci.co.uk/news/business/rss.xml',
+      'https://www.ft.com/rss/home/us'
+    ],
+    'Commodities':[
+      'https://feeds.reuters.com/reuters/commoditiesNews',
+      'https://feeds.bbci.co.uk/news/business/rss.xml'
+    ],
+    'Cripto':[
+      'https://cointelegraph.com/rss',
+      'https://coindesk.com/arc/outboundfeeds/rss/',
+      'https://decrypt.co/feed'
+    ],
+    'Guerras & Conflitos':[
+      'https://feeds.reuters.com/Reuters/worldNews',
+      'https://feeds.bbci.co.uk/news/world/rss.xml'
+    ],
+    'Saúde Global':[
+      'https://feeds.reuters.com/reuters/healthNews',
+      'https://feeds.bbci.co.uk/news/health/rss.xml'
+    ],
+    'Metais Preciosos':[
+      'https://feeds.reuters.com/reuters/commoditiesNews',
+      'https://www.kitco.com/rss/Kitco-News-1.xml'
+    ],
+  };
+
+  const RSS2JSON='https://api.rss2json.com/v1/api.json?rss_url=';
+  const GNEWS_KEY=''; // opcional: adicione sua chave GNews aqui
+  const feeds=RSS_FEEDS[q]||RSS_FEEDS['Destaques'];
+
+  let articles=[];
+
+  // Tenta cada feed até obter artigos
+  for(const feed of feeds){
+    try{
+      const resp=await fetch(RSS2JSON+encodeURIComponent(feed)+'&count=20&api_key='+GNEWS_KEY,{signal:AbortSignal.timeout(7000)});
+      const data=await resp.json();
+      if(data.status==='ok'&&data.items&&data.items.length){
+        articles=data.items.map(it=>({
+          title:it.title,
+          description:it.description?it.description.replace(/<[^>]*>/g,'').substring(0,200):'',
+          url:it.link,
+          publishedAt:it.pubDate,
+          source:{name:data.feed&&data.feed.title?data.feed.title:'Internacional'}
+        }));
+        break;
+      }
+    }catch(e){/* tenta próximo feed */}
+  }
+
+  // Filtro por palavras-chave relevantes da categoria
+  const KW={
+    'Geopolítica':/(war|conflict|nato|sanction|diplomat|military|geopolit|russia|ukraine|china|taiwan|iran|israel|hamas|gaza|troops)/i,
+    'Bancos Centrais':/(fed|central bank|interest rate|inflation|ecb|powell|lagarde|boe|boj|monetary|rate cut|rate hike)/i,
+    'Commodities':/(gold|oil|wheat|soybean|copper|opec|commodity|corn|crude|brent|natural gas|commodity)/i,
+    'Cripto':/(bitcoin|ethereum|crypto|btc|eth|blockchain|altcoin|defi|nft|binance|coinbase)/i,
+    'Guerras & Conflitos':/(war|military|attack|troops|conflict|bomb|missile|ceasefire|invasion|ukraine|russia|gaza|hamas)/i,
+    'Saúde Global':/(virus|disease|who|health|outbreak|pandemic|vaccine|epidemic|covid|mpox|flu|dengue)/i,
+    'Metais Preciosos':/(gold|silver|platinum|palladium|bullion|metal|precious|comex|oz)/i,
+  };
+
+  if(KW[q]&&articles.length>5){
+    const filtered=articles.filter(a=>KW[q].test(a.title+' '+(a.description||'')));
+    if(filtered.length>=3)articles=filtered;
+  }
+
+  newsCache[q]=articles;
+  render(articles,q);
 }
 
 // ── CHARTS ──
@@ -1150,33 +1226,78 @@ async function loadAgroNews(){
   const grid=document.getElementById('agro-news-grid');
   const status=document.getElementById('agro-news-status');
   if(!grid)return;
-  const q=QUERIES['🌾 Agronegócio'];
+  if(status)status.textContent='Buscando...';
+
+  const AGRO_FEEDS=[
+    'https://feeds.reuters.com/reuters/commoditiesNews',
+    'https://www.agriculture.com/content/news/rss',
+    'https://feeds.bbci.co.uk/news/business/rss.xml',
+    'https://agfundernews.com/feed'
+  ];
+  const RSS2JSON='https://api.rss2json.com/v1/api.json?rss_url=';
+  const KW_AGRO=/(soy|corn|wheat|agri|farm|crop|grain|cattle|livestock|ethanol|biofuel|fertilizer|usda|harvest|food price|sugar|coffee|cotton|soybean|cocoa|food security|drought|el ni|la ni|commodity|rice|palm oil)/i;
+
+  let arts=[];
+  for(const feed of AGRO_FEEDS){
+    try{
+      const resp=await fetch(RSS2JSON+encodeURIComponent(feed)+'&count=20',{signal:AbortSignal.timeout(7000)});
+      const data=await resp.json();
+      if(data.status==='ok'&&data.items&&data.items.length){
+        const mapped=data.items.map(it=>({
+          title:it.title,
+          description:it.description?it.description.replace(/<[^>]*>/g,'').substring(0,160):'',
+          url:it.link,
+          publishedAt:it.pubDate,
+          source:{name:data.feed&&data.feed.title?data.feed.title:'Agro News'}
+        }));
+        const filtered=mapped.filter(a=>KW_AGRO.test(a.title+' '+(a.description||'')));
+        arts=[...arts,...(filtered.length>0?filtered:mapped.slice(0,4))];
+        if(arts.length>=6)break;
+      }
+    }catch(e){}
+  }
+
+  arts=arts.slice(0,6);
+  if(!arts.length){
+    if(status)status.textContent='Offline';
+    grid.innerHTML='<div style="color:var(--t4);font-size:11px;padding:14px 0;grid-column:1/-1;">Não foi possível carregar notícias. Verifique sua conexão.</div>';
+    return;
+  }
+
+  const tagMap=a=>{
+    const t=(a.title+' '+(a.description||'')).toLowerCase();
+    if(t.match(/soy|soja|corn|milho|wheat|trigo|grain|rice|arroz/))return{c:'ant-soja',l:'GRÃOS'};
+    if(t.match(/cattle|beef|chicken|pork|protein|carne|frango|livestock/))return{c:'ant-carne',l:'PROTEÍNAS'};
+    if(t.match(/ethanol|biofuel|etanol|biodiesel|energy|energia/))return{c:'ant-energia',l:'ENERGIA'};
+    if(t.match(/weather|clima|drought|flood|el ni|la ni|rain|dry/))return{c:'ant-clima',l:'CLIMA'};
+    if(t.match(/fertilizer|insumo|urea|potash|phosphate|npk/))return{c:'ant-insumo',l:'INSUMOS'};
+    if(t.match(/land|terra|farm|deforest|forest|biome/))return{c:'ant-terra',l:'TERRAS'};
+    return{c:'ant-soja',l:'AGRO'};
+  };
+
+  grid.innerHTML=arts.map(a=>{
+    const tg=tagMap(a),src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
+    return `<div class="agro-news-card" onclick="window.open('${a.url}','_blank')"><span class="agro-news-tag ${tg.c}">${tg.l}</span><div class="agro-news-title">${a.title}</div>${a.description?`<div class="agro-news-desc">${a.description}</div>`:''}<div class="agro-news-meta"><span>${src}</span><span>${tm}</span></div></div>`;
+  }).join('');
+  if(status)status.textContent='● '+arts.length+' notícias';
+}
+
+// ── CME NEWS FETCH (background) ──
+async function fetchNewsForCME(){
+  const RSS2JSON='https://api.rss2json.com/v1/api.json?rss_url=';
+  const feed='https://feeds.reuters.com/reuters/businessNews';
   try{
-    const r=await fetch('/api/news?q='+encodeURIComponent(q));
-    const d=await r.json();
-    if(d.articles&&d.articles.length){
-      const arts=d.articles.filter(a=>a.title).slice(0,6);
-      const tagMap=a=>{
-        const t=(a.title+' '+(a.description||'')).toLowerCase();
-        if(t.match(/soy|soja|corn|milho|wheat|trigo|grain/))return{c:'ant-soja',l:'GRÃOS'};
-        if(t.match(/cattle|beef|chicken|pork|protein|carne|frango/))return{c:'ant-carne',l:'PROTEÍNAS'};
-        if(t.match(/ethanol|biofuel|etanol|biodiesel|energy|energia/))return{c:'ant-energia',l:'ENERGIA'};
-        if(t.match(/weather|clima|drought|flood|el ni|la ni|rain/))return{c:'ant-clima',l:'CLIMA'};
-        if(t.match(/fertilizer|insumo|urea|potash|phosphate|npk/))return{c:'ant-insumo',l:'INSUMOS'};
-        if(t.match(/land|terra|farm|deforest|forest|biome/))return{c:'ant-terra',l:'TERRAS'};
-        return{c:'ant-soja',l:'AGRO'};
-      };
-      grid.innerHTML=arts.map(a=>{
-        const tg=tagMap(a);
-        const src=a.source&&a.source.name?a.source.name:'Internacional';
-        const tm=ago(a.publishedAt);
-        return `<div class="agro-news-card" onclick="window.open('${a.url}','_blank')"><span class="agro-news-tag ${tg.c}">${tg.l}</span><div class="agro-news-title">${a.title}</div>${a.description?`<div class="agro-news-desc">${a.description.substring(0,100)}...</div>`:''}<div class="agro-news-meta"><span>${src}</span><span>${tm}</span></div></div>`;
-      }).join('');
-      if(status)status.textContent='● '+arts.length+' notícias';
-    } else {
-      if(status)status.textContent='Sem dados';
+    const resp=await fetch(RSS2JSON+encodeURIComponent(feed)+'&count=15',{signal:AbortSignal.timeout(7000)});
+    const data=await resp.json();
+    if(data.status==='ok'&&data.items){
+      const arts=data.items.map(it=>({
+        title:it.title,description:it.description?it.description.replace(/<[^>]*>/g,'').substring(0,200):'',
+        url:it.link,publishedAt:it.pubDate,source:{name:'Reuters'}
+      }));
+      newsCache['CME · Futuros']=arts;
+      renderCMEPanel();
     }
-  }catch(e){if(status)status.textContent='Offline';}
+  }catch(e){}
 }
 
 // ── CHARTS ──
@@ -1268,11 +1389,21 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
 
 // ── INIT ──
 document.addEventListener('DOMContentLoaded',()=>{
-  const cats=['Destaques','Cripto','Bancos Centrais','CME · Futuros','Saúde Global'];
-  cats.forEach((c,i)=>setTimeout(()=>loadNews(c),i*8000));
+  // Carrega categoria inicial
+  loadNews('Destaques');
+  // Pré-carrega em background com delay escalonado
+  const preload=['Geopolítica','Bancos Centrais','Cripto','Commodities'];
+  preload.forEach((c,i)=>setTimeout(()=>{
+    if(!newsCache[c])loadNews(c);
+  },(i+1)*10000));
   buildVideos('todos');
-  // Pre-load agro news in background
-  setTimeout(()=>loadAgroNews(),12000);
+  // Auto-refresh a cada 5 minutos
+  setInterval(()=>{
+    if(cat!=='📈 Gráficos'&&cat!=='Análises SMC'){
+      delete newsCache[cat];
+      loadNews(cat);
+    }
+  },5*60*1000);
 });
 </script>
 </body>
