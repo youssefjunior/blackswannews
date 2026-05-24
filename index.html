@@ -192,6 +192,109 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .vmodal-frame{position:relative;aspect-ratio:16/9;}
 .vmodal-frame iframe{width:100%;height:100%;border:none;display:block;}
 
+/* ─── AGRO SECTION ─── */
+.agrosec{padding:18px var(--gutter);border-top:2px solid #1a3a0a;background:linear-gradient(180deg,#080d05 0%,var(--bg) 100%);}
+.agro-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.agro-title-block{display:flex;align-items:center;gap:10px;}
+.agro-icon{width:36px;height:36px;background:linear-gradient(135deg,#1a4a08,#2d7a14);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.agro-label{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#c8e8b0;letter-spacing:-.5px;line-height:1;}
+.agro-sub{font-family:'Space Mono',monospace;font-size:7px;color:#6a9a58;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.agro-live-pill{background:#1a4a08;border:.5px solid #2d7a14;color:#86efac;font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:1.5px;padding:3px 8px;border-radius:2px;text-transform:uppercase;animation:agropulse 2.5s ease-in-out infinite;}
+@keyframes agropulse{0%,100%{box-shadow:0 0 0 0 rgba(45,122,20,0.5);}50%{box-shadow:0 0 0 5px rgba(45,122,20,0);}}
+
+/* Agro commodity ticker strip */
+.agro-ticker-strip{background:#0a1507;border:.5px solid #1a3a0a;border-radius:3px;padding:8px 12px;margin-bottom:14px;display:flex;gap:0;overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,#000 4%,#000 96%,transparent 100%);}
+.agro-ticker-inner{display:flex;gap:20px;animation:scrt 40s linear infinite;white-space:nowrap;}
+.agro-ticker-inner:hover{animation-play-state:paused;}
+.atick{display:inline-flex;gap:5px;align-items:center;font-family:'Space Mono',monospace;font-size:9px;padding:0 3px;}
+.atick+.atick{border-left:.5px solid #1a3a0a;}
+.atn{color:#4a7a38;font-size:8px;letter-spacing:.5px;}
+.atv{color:#c8e8b0;font-weight:700;font-size:9px;}
+
+/* Agro grid panels */
+.agro-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+.agro-panel{background:#0a1507;border:.5px solid #1a3a0a;border-radius:4px;overflow:hidden;transition:border-color .2s;}
+.agro-panel:hover{border-color:#2d7a14;}
+.agro-panel-head{padding:8px 11px;border-bottom:.5px solid #1a3a0a;display:flex;align-items:center;justify-content:space-between;}
+.agro-panel-title{font-family:'Space Mono',monospace;font-size:8px;color:#6a9a58;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
+.agro-panel-badge{font-size:7px;padding:2px 5px;border-radius:2px;font-family:'Space Mono',monospace;font-weight:700;letter-spacing:1px;}
+.apb-grain{background:#1a2a08;color:#86efac;}
+.apb-protein{background:#1a1a0a;color:#fbbf24;}
+.apb-energy{background:#0a0a1a;color:#7dd3fc;}
+.apb-insumo{background:#1a0a1a;color:#e879f9;}
+.apb-clima{background:#0a1520;color:#93c5fd;}
+.agro-panel-body{padding:10px 11px;}
+.agro-stat{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:.5px solid #111a08;}
+.agro-stat:last-child{border-bottom:none;}
+.agro-stat-name{font-size:10px;color:#8aaa78;font-weight:500;}
+.agro-stat-val{font-family:'Space Mono',monospace;font-size:10px;color:#c8e8b0;font-weight:700;}
+.agro-stat-chg{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;}
+.agro-stat-chg.up{color:#4ade80;}
+.agro-stat-chg.dn{color:#f87171;}
+
+/* Agro chart tabs */
+.agro-charts{margin-bottom:14px;}
+.agro-chart-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.agro-chart-tab{font-size:8px;padding:5px 11px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;transition:all .15s;border:.5px solid #1a3a0a;color:#4a7a38;background:transparent;white-space:nowrap;}
+.agro-chart-tab:hover{border-color:#2d7a14;color:#86efac;}
+.agro-chart-tab.active{border-color:#2d7a14;color:#0a1507;background:#2d7a14;}
+.agro-chart-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.agro-chart-frame{background:#0a1507;border:.5px solid #1a3a0a;border-radius:3px;overflow:hidden;}
+.agro-chart-frame iframe{width:100%;height:320px;border:none;display:block;}
+.agro-chart-label{font-family:'Space Mono',monospace;font-size:7px;color:#4a7a38;padding:5px 8px;border-bottom:.5px solid #1a3a0a;letter-spacing:1px;text-transform:uppercase;}
+
+/* Agro news feed inside section */
+.agro-news-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.agro-news-card{background:#0a1507;border:.5px solid #1a3a0a;border-radius:4px;padding:10px 12px;cursor:pointer;transition:border-color .2s,transform .15s;}
+.agro-news-card:hover{border-color:#2d7a14;transform:translateY(-1px);}
+.agro-news-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:1px;padding:2px 6px;border-radius:2px;margin-bottom:5px;}
+.ant-soja{background:#1a2a08;color:#86efac;}
+.ant-carne{background:#1a1000;color:#fcd34d;}
+.ant-energia{background:#0a0a20;color:#93c5fd;}
+.ant-clima{background:#001520;color:#67e8f9;}
+.ant-insumo{background:#1a0020;color:#d8b4fe;}
+.ant-terra{background:#200800;color:#fb923c;}
+.agro-news-title{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:#c8e8b0;line-height:1.35;margin-bottom:4px;}
+.agro-news-desc{font-size:10px;color:#5a8a48;line-height:1.5;margin-bottom:6px;}
+.agro-news-meta{font-family:'Space Mono',monospace;font-size:8px;color:#3a6a28;display:flex;gap:8px;align-items:center;}
+
+/* Agro market map */
+.agro-market-map{background:#0a1507;border:.5px solid #1a3a0a;border-radius:4px;padding:12px;margin-bottom:14px;}
+.agro-map-title{font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.agro-map-title::after{content:'';flex:1;height:.5px;background:#1a3a0a;}
+.agro-flow-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.agro-flow-card{background:#060d03;border:.5px solid #152510;border-radius:3px;padding:8px;text-align:center;}
+.agro-flow-flag{font-size:16px;margin-bottom:3px;}
+.agro-flow-name{font-family:'Space Mono',monospace;font-size:7px;color:#4a7a38;letter-spacing:.5px;margin-bottom:4px;}
+.agro-flow-val{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:#86efac;}
+.agro-flow-desc{font-size:8px;color:#3a6a28;margin-top:2px;}
+
+/* Agro alerts / climate block */
+.agro-climate-block{background:linear-gradient(135deg,#050d02,#0a1507);border:.5px solid #1a3a0a;border-left:3px solid #2d7a14;border-radius:4px;padding:10px 14px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;}
+.agro-climate-icon{font-size:24px;flex-shrink:0;margin-top:2px;}
+.agro-climate-content{flex:1;min-width:0;}
+.agro-climate-title{font-family:'Space Mono',monospace;font-size:9px;color:#86efac;font-weight:700;letter-spacing:1px;margin-bottom:3px;text-transform:uppercase;}
+.agro-climate-text{font-size:11px;color:#7aaa68;line-height:1.55;}
+.agro-climate-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.agro-ctag{font-size:7px;padding:2px 6px;border-radius:2px;font-family:'Space Mono',monospace;font-weight:700;background:#1a3a0a;color:#4ade80;letter-spacing:.5px;}
+
+/* Agro video section */
+.agro-videos{margin-top:14px;}
+.agro-vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+
+/* Mobile agro adjustments */
+@media(max-width:720px){
+  .agro-grid{grid-template-columns:1fr 1fr;}
+  .agro-chart-grid{grid-template-columns:1fr 1fr;}
+  .agro-news-grid{grid-template-columns:1fr;}
+  .agro-flow-grid{grid-template-columns:repeat(2,1fr);}
+  .agro-vgrid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:480px){
+  .agro-grid{grid-template-columns:1fr;}
+  .agro-chart-grid{grid-template-columns:1fr;}
+}
+
 /* ─── CALENDAR SECTION ─── */
 .calsec{padding:16px var(--gutter);border-top:1px solid var(--b1);background:#fff;}
 .calsec .slabel{color:#555;border-bottom-color:#e5e7eb;}
@@ -417,6 +520,7 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
     <div class="nvi" data-cat="Metais Preciosos">Metais Preciosos</div>
     <div class="nvi" data-cat="Análises SMC">Análises SMC</div>
     <div class="nvi" data-cat="📈 Gráficos">📈 Gráficos</div>
+    <div class="nvi" data-cat="🌾 Agronegócio" style="color:#4a9a30;">🌾 Agronegócio</div>
   </nav>
 </div>
 
@@ -558,13 +662,213 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
     <div class="mob-bn-icon">🎯</div>
     <div class="mob-bn-label">SMC</div>
   </div>
+  <div class="mob-bn-item" data-section="agro" onclick="mobNav(this,'agro')">
+    <div class="mob-bn-icon">🌾</div>
+    <div class="mob-bn-label">Agro</div>
+  </div>
 </nav>
+
+<!-- ── AGRONEGÓCIO ── -->
+<section class="agrosec" id="agrosec" style="display:none;">
+
+  <!-- Header -->
+  <div class="agro-header">
+    <div class="agro-title-block">
+      <div class="agro-icon">🌾</div>
+      <div>
+        <div class="agro-label">Mundo do Agronegócio</div>
+        <div class="agro-sub">Commodities · Insumos · Clima · Energia · Mercados Globais</div>
+      </div>
+    </div>
+    <div class="agro-live-pill">● Tempo Real · CBOT · B3 · USDA</div>
+  </div>
+
+  <!-- Agro commodity ticker -->
+  <div class="agro-ticker-strip">
+    <div class="agro-ticker-inner" id="agro-ticker">
+      <span class="atick"><span class="atn">SOJA ZS1!</span><span class="atv">$1.084</span><span class="up">+0.8%</span></span>
+      <span class="atick"><span class="atn">MILHO ZC1!</span><span class="atv">$442</span><span class="dn">-0.3%</span></span>
+      <span class="atick"><span class="atn">TRIGO ZW1!</span><span class="atv">$528</span><span class="up">+0.5%</span></span>
+      <span class="atick"><span class="atn">BOI BGI1!</span><span class="atv">R$285</span><span class="up">+1.2%</span></span>
+      <span class="atick"><span class="atn">CAFÉ KC1!</span><span class="atv">$381</span><span class="up">+2.1%</span></span>
+      <span class="atick"><span class="atn">ALGODÃO CT1!</span><span class="atv">$67</span><span class="dn">-0.4%</span></span>
+      <span class="atick"><span class="atn">AÇÚCAR SB1!</span><span class="atv">$19.4</span><span class="dn">-0.9%</span></span>
+      <span class="atick"><span class="atn">ETANOL</span><span class="atv">R$3.48/L</span><span class="up">+0.6%</span></span>
+      <span class="atick"><span class="atn">FRANGO</span><span class="atv">R$12,40/kg</span><span class="up">+0.3%</span></span>
+      <span class="atick"><span class="atn">PORCO</span><span class="atv">R$9,80/kg</span><span class="dn">-0.2%</span></span>
+      <span class="atick"><span class="atn">UREIA</span><span class="atv">$320/t</span><span class="up">+1.5%</span></span>
+      <span class="atick"><span class="atn">MAP</span><span class="atv">$580/t</span><span class="up">+0.8%</span></span>
+      <span class="atick"><span class="atn">POTÁSSIO</span><span class="atv">$315/t</span><span class="dn">-0.1%</span></span>
+      <span class="atick"><span class="atn">DIESEL</span><span class="atv">R$6,38/L</span><span class="dn">-0.2%</span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="atick"><span class="atn">SOJA ZS1!</span><span class="atv">$1.084</span><span class="up">+0.8%</span></span>
+      <span class="atick"><span class="atn">MILHO ZC1!</span><span class="atv">$442</span><span class="dn">-0.3%</span></span>
+      <span class="atick"><span class="atn">TRIGO ZW1!</span><span class="atv">$528</span><span class="up">+0.5%</span></span>
+      <span class="atick"><span class="atn">BOI BGI1!</span><span class="atv">R$285</span><span class="up">+1.2%</span></span>
+      <span class="atick"><span class="atn">CAFÉ KC1!</span><span class="atv">$381</span><span class="up">+2.1%</span></span>
+      <span class="atick"><span class="atn">ALGODÃO CT1!</span><span class="atv">$67</span><span class="dn">-0.4%</span></span>
+      <span class="atick"><span class="atn">AÇÚCAR SB1!</span><span class="atv">$19.4</span><span class="dn">-0.9%</span></span>
+      <span class="atick"><span class="atn">ETANOL</span><span class="atv">R$3.48/L</span><span class="up">+0.6%</span></span>
+    </div>
+  </div>
+
+  <!-- Panels: Grãos, Proteínas, Energia, Insumos, Clima, Mercados -->
+  <div class="agro-grid">
+    <div class="agro-panel">
+      <div class="agro-panel-head">
+        <span class="agro-panel-title">🌱 Grãos &amp; Oleaginosas</span>
+        <span class="agro-panel-badge apb-grain">CBOT</span>
+      </div>
+      <div class="agro-panel-body">
+        <div class="agro-stat"><span class="agro-stat-name">Soja (ZS1!)</span><span class="agro-stat-val">$1.084/bu</span><span class="agro-stat-chg up">▲ +0.8%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Milho (ZC1!)</span><span class="agro-stat-val">$442/bu</span><span class="agro-stat-chg dn">▼ -0.3%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Trigo (ZW1!)</span><span class="agro-stat-val">$528/bu</span><span class="agro-stat-chg up">▲ +0.5%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Arroz (ZR1!)</span><span class="agro-stat-val">$15.2/cwt</span><span class="agro-stat-chg up">▲ +0.2%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Farelo Soja</span><span class="agro-stat-val">$310/t</span><span class="agro-stat-chg up">▲ +1.1%</span></div>
+      </div>
+    </div>
+    <div class="agro-panel">
+      <div class="agro-panel-head">
+        <span class="agro-panel-title">🥩 Proteínas Animais</span>
+        <span class="agro-panel-badge apb-protein">B3 · CME</span>
+      </div>
+      <div class="agro-panel-body">
+        <div class="agro-stat"><span class="agro-stat-name">Boi Gordo (BGI1!)</span><span class="agro-stat-val">R$285/@ </span><span class="agro-stat-chg up">▲ +1.2%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Frango Griller</span><span class="agro-stat-val">R$12,40/kg</span><span class="agro-stat-chg up">▲ +0.3%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Porco (Suíno)</span><span class="agro-stat-val">R$9,80/kg</span><span class="agro-stat-chg dn">▼ -0.2%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Leite ESALQ</span><span class="agro-stat-val">R$2,85/L</span><span class="agro-stat-chg up">▲ +0.7%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Ovos Brancos</span><span class="agro-stat-val">R$38,00/cx</span><span class="agro-stat-chg up">▲ +1.8%</span></div>
+      </div>
+    </div>
+    <div class="agro-panel">
+      <div class="agro-panel-head">
+        <span class="agro-panel-title">⚡ Energia &amp; Biocombustível</span>
+        <span class="agro-panel-badge apb-energy">NYMEX · ANP</span>
+      </div>
+      <div class="agro-panel-body">
+        <div class="agro-stat"><span class="agro-stat-name">Etanol Hidratado</span><span class="agro-stat-val">R$3,48/L</span><span class="agro-stat-chg up">▲ +0.6%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Açúcar (SB1!)</span><span class="agro-stat-val">$19.4/lb</span><span class="agro-stat-chg dn">▼ -0.9%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Diesel S10</span><span class="agro-stat-val">R$6,38/L</span><span class="agro-stat-chg dn">▼ -0.2%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Biodiesel B100</span><span class="agro-stat-val">R$5,92/L</span><span class="agro-stat-chg up">▲ +0.4%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Petróleo WTI</span><span class="agro-stat-val">$72,80/bbl</span><span class="agro-stat-chg dn">▼ -0.5%</span></div>
+      </div>
+    </div>
+    <div class="agro-panel">
+      <div class="agro-panel-head">
+        <span class="agro-panel-title">🧪 Insumos Agrícolas</span>
+        <span class="agro-panel-badge apb-insumo">CRU · FOB</span>
+      </div>
+      <div class="agro-panel-body">
+        <div class="agro-stat"><span class="agro-stat-name">Ureia Granulada</span><span class="agro-stat-val">$320/t</span><span class="agro-stat-chg up">▲ +1.5%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">MAP (11-52-0)</span><span class="agro-stat-val">$580/t</span><span class="agro-stat-chg up">▲ +0.8%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Cloreto de K (MOP)</span><span class="agro-stat-val">$315/t</span><span class="agro-stat-chg dn">▼ -0.1%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Superfosfato Simples</span><span class="agro-stat-val">$420/t</span><span class="agro-stat-chg up">▲ +0.3%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Nitrato Amônio</span><span class="agro-stat-val">$375/t</span><span class="agro-stat-chg dn">▼ -0.5%</span></div>
+      </div>
+    </div>
+    <div class="agro-panel">
+      <div class="agro-panel-head">
+        <span class="agro-panel-title">🌦 Clima &amp; El Niño / La Niña</span>
+        <span class="agro-panel-badge apb-clima">NOAA · INMET</span>
+      </div>
+      <div class="agro-panel-body">
+        <div class="agro-stat"><span class="agro-stat-name">ENOS Fase Atual</span><span class="agro-stat-val" style="color:#67e8f9;">La Niña</span><span class="agro-stat-chg" style="color:#67e8f9;">Fraco</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Previsão Jun/Jul</span><span class="agro-stat-val" style="color:#fbbf24;">Neutro</span><span class="agro-stat-chg" style="color:#fbbf24;">Transição</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Chuvas MT/MS</span><span class="agro-stat-val">Normal</span><span class="agro-stat-chg up">▲ Acima</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Safra BR 24/25</span><span class="agro-stat-val">322 Mi/t</span><span class="agro-stat-chg up">▲ Recorde</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Seca Hemisfério N</span><span class="agro-stat-val">Moderada</span><span class="agro-stat-chg dn">▼ Impacto</span></div>
+      </div>
+    </div>
+    <div class="agro-panel">
+      <div class="agro-panel-head">
+        <span class="agro-panel-title">🌍 Fibras &amp; Soft Commodities</span>
+        <span class="agro-panel-badge apb-grain">ICE · CBOT</span>
+      </div>
+      <div class="agro-panel-body">
+        <div class="agro-stat"><span class="agro-stat-name">Algodão (CT1!)</span><span class="agro-stat-val">$67/lb</span><span class="agro-stat-chg dn">▼ -0.4%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Café Arabica KC1!</span><span class="agro-stat-val">$381/lb</span><span class="agro-stat-chg up">▲ +2.1%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Café Robusta</span><span class="agro-stat-val">$5.820/t</span><span class="agro-stat-chg up">▲ +1.4%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Laranja (OJ1!)</span><span class="agro-stat-val">$475/lb</span><span class="agro-stat-chg dn">▼ -1.2%</span></div>
+        <div class="agro-stat"><span class="agro-stat-name">Cacau (CC1!)</span><span class="agro-stat-val">$8.940/t</span><span class="agro-stat-chg up">▲ +3.4%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Climate block -->
+  <div class="agro-climate-block">
+    <div class="agro-climate-icon">🌡️</div>
+    <div class="agro-climate-content">
+      <div class="agro-climate-title">Monitor Climático Agrícola · NOAA / INMET / CONAB</div>
+      <div class="agro-climate-text">La Niña de intensidade fraca em fase de dissipação. Previsão de transição para neutralidade entre junho e julho. Monitoramento especial para MATOPIBA, Sudeste e Sul do Brasil. Possibilidade de El Niño de fraca intensidade no 2º semestre de 2025 eleva atenção para safra de verão. Europa Central enfrenta seca moderada, impactando trigo e canola. EUA (Corn Belt) com umidade dentro do normal para plantio de primavera.</div>
+      <div class="agro-climate-tags">
+        <span class="agro-ctag">La Niña Fraca</span>
+        <span class="agro-ctag">Neutralidade Jun/Jul</span>
+        <span class="agro-ctag">Seca Europa</span>
+        <span class="agro-ctag">Corn Belt Normal</span>
+        <span class="agro-ctag">MATOPIBA ✓</span>
+        <span class="agro-ctag">Mudanças Climáticas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main export markets -->
+  <div class="agro-market-map">
+    <div class="agro-map-title">Principais Importadores do Agro Brasileiro</div>
+    <div class="agro-flow-grid">
+      <div class="agro-flow-card"><div class="agro-flow-flag">🇨🇳</div><div class="agro-flow-name">CHINA</div><div class="agro-flow-val">$53 Bi</div><div class="agro-flow-desc">Soja · Carne · Açúcar</div></div>
+      <div class="agro-flow-card"><div class="agro-flow-flag">🇺🇸</div><div class="agro-flow-name">EUA</div><div class="agro-flow-val">$11 Bi</div><div class="agro-flow-desc">Café · Celulose · Suco</div></div>
+      <div class="agro-flow-card"><div class="agro-flow-flag">🇳🇱</div><div class="agro-flow-name">PAÍSES BAIXOS</div><div class="agro-flow-val">$8 Bi</div><div class="agro-flow-desc">Soja · Farelo · Carne</div></div>
+      <div class="agro-flow-card"><div class="agro-flow-flag">🇪🇸</div><div class="agro-flow-name">ESPANHA</div><div class="agro-flow-val">$5 Bi</div><div class="agro-flow-desc">Carne · Celulose · Café</div></div>
+      <div class="agro-flow-card"><div class="agro-flow-flag">🇸🇦</div><div class="agro-flow-name">ARÁBIA S.</div><div class="agro-flow-val">$4 Bi</div><div class="agro-flow-desc">Carne Halal · Açúcar</div></div>
+      <div class="agro-flow-card"><div class="agro-flow-flag">🇯🇵</div><div class="agro-flow-name">JAPÃO</div><div class="agro-flow-val">$3,5 Bi</div><div class="agro-flow-desc">Carne · Café · Soja</div></div>
+      <div class="agro-flow-card"><div class="agro-flow-flag">🇮🇳</div><div class="agro-flow-name">ÍNDIA</div><div class="agro-flow-val">$3 Bi</div><div class="agro-flow-desc">Soja · Algodão · Milho</div></div>
+      <div class="agro-flow-card"><div class="agro-flow-flag">🇩🇪</div><div class="agro-flow-name">ALEMANHA</div><div class="agro-flow-val">$2,5 Bi</div><div class="agro-flow-desc">Café · Carne · Celulose</div></div>
+    </div>
+  </div>
+
+  <!-- Agro Charts TradingView -->
+  <div class="agro-charts">
+    <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;">Gráficos Agrícolas · TradingView<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span></div>
+    <div class="agro-chart-tabs">
+      <span class="agro-chart-tab active" onclick="showAgroCharts(event,'graos')">🌾 Grãos</span>
+      <span class="agro-chart-tab" onclick="showAgroCharts(event,'proteinas')">🥩 Proteínas</span>
+      <span class="agro-chart-tab" onclick="showAgroCharts(event,'softs')">☕ Softs</span>
+      <span class="agro-chart-tab" onclick="showAgroCharts(event,'energia_agro')">⚡ Energia</span>
+      <span class="agro-chart-tab" onclick="showAgroCharts(event,'insumos_agro')">🧪 Insumos</span>
+    </div>
+    <div class="agro-chart-grid" id="agro-chart-content">
+      <!-- default: grãos -->
+      <div class="agro-chart-frame"><div class="agro-chart-label">Soja (ZS1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+      <div class="agro-chart-frame"><div class="agro-chart-label">Milho (ZC1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZC1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+      <div class="agro-chart-frame"><div class="agro-chart-label">Trigo (ZW1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZW1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    </div>
+  </div>
+
+  <!-- Agro News Cards (loaded via AI) -->
+  <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;margin-top:16px;display:flex;align-items:center;gap:6px;">Notícias do Agro · Tempo Real<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span><span id="agro-news-status" style="font-size:7px;color:#3a6a28;">Carregando...</span></div>
+  <div class="agro-news-grid" id="agro-news-grid">
+    <div class="agro-news-card"><div class="agro-news-tag ant-soja">GRÃOS</div><div class="agro-news-title">Carregando notícias do agronegócio...</div><div class="agro-news-desc">Buscando as últimas informações sobre commodities agrícolas, insumos e mercados.</div><div class="agro-news-meta"><span>CONAB · Reuters</span><span>agora</span></div></div>
+    <div class="agro-news-card"><div class="agro-news-tag ant-clima">CLIMA</div><div class="agro-news-title">Monitoramento climático global</div><div class="agro-news-desc">NOAA, INMET e CONAB acompanham padrões de El Niño / La Niña para safra 2025/26.</div><div class="agro-news-meta"><span>NOAA · INMET</span><span>agora</span></div></div>
+  </div>
+
+  <!-- Agro Videos -->
+  <div class="agro-videos">
+    <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;">Vídeos &amp; Análises Agrícolas<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span></div>
+    <div class="agro-vgrid">
+      <div class="vcard" onclick="openVideo('lRkuRqB36JE','Safra Brasil 2025 — CONAB Análise Completa')"><div class="vthumb"><img src="https://img.youtube.com/vi/lRkuRqB36JE/mqdefault.jpg" alt="CONAB" loading="lazy" onerror="this.parentElement.style.background='#0a1507'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">Safra Brasil 2025 — CONAB Análise</div><div class="vmeta">CONAB · Grãos</div></div></div>
+      <div class="vcard" onclick="openVideo('nT84uTJWM5I','Commodities Agrícolas — Bloomberg Markets')"><div class="vthumb"><img src="https://img.youtube.com/vi/nT84uTJWM5I/mqdefault.jpg" alt="Bloomberg Agro" loading="lazy" onerror="this.parentElement.style.background='#0a1507'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">Agricultural Commodities — Bloomberg</div><div class="vmeta">Bloomberg TV · Mercados</div></div></div>
+      <div class="vcard" onclick="openVideo('OQcuVJfAbkU','USDA World Supply & Demand — WASDE Report')"><div class="vthumb"><img src="https://img.youtube.com/vi/OQcuVJfAbkU/mqdefault.jpg" alt="WASDE" loading="lazy" onerror="this.parentElement.style.background='#0a1507'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">WASDE Report — USDA Analysis</div><div class="vmeta">USDA · Global Supply</div></div></div>
+      <div class="vcard" onclick="openVideo('pHGrp_TBbgA','Soja vs Milho 2025 — Estratégias de Mercado')"><div class="vthumb"><img src="https://img.youtube.com/vi/pHGrp_TBbgA/mqdefault.jpg" alt="Soja Milho" loading="lazy" onerror="this.parentElement.style.background='#0a1507'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">Soja vs Milho 2025 — Estratégia</div><div class="vmeta">Agro Insight · B3</div></div></div>
+    </div>
+  </div>
+
+</section>
 
 <footer>
   <span class="fdot">●</span><span>BLACK SWAN NEWS</span><span>·</span>
   <span>Inteligência de Mercado Global</span><span>·</span>
   <span>TradingView · Reuters · Bloomberg · AP</span><span>·</span>
-  <span>v7.0 · 2025</span><span>·</span><span>Desenvolvido por <strong style="color:var(--t2);">José Youssef</strong></span>
+  <span>v7.0 · Agro Edition · 2025</span><span>·</span><span>Desenvolvido por <strong style="color:var(--t2);">José Youssef</strong></span>
 </footer>
 
 <script>
@@ -580,7 +884,8 @@ const QUERIES={
   'Saúde Global':    'virus OR disease OR WHO OR health OR outbreak OR pandemic OR medicine',
   'Metais Preciosos':'gold OR silver OR platinum OR palladium OR bullion OR metals',
   'Análises SMC':    'market OR trading OR liquidity OR institutional OR "smart money" OR stocks OR forex',
-  '📈 Gráficos':     ''
+  '📈 Gráficos':     '',
+  '🌾 Agronegócio':  'soybean OR corn OR wheat OR agriculture OR agribusiness OR livestock OR "food prices" OR USDA OR CONAB OR "crop" OR fertilizer OR biofuel OR ethanol OR "food security"'
 };
 const newsCache={};
 let cat='Destaques';
@@ -671,10 +976,17 @@ function selectCat(c){
   if(c==='📈 Gráficos'){
     document.getElementById('chartsec').style.display='block';
     document.getElementById('main-layout').style.display='none';
+    document.getElementById('agrosec').style.display='none';
     showCharts({target:document.querySelector('.chart-tab.active')},'indices');
+  } else if(c==='🌾 Agronegócio'){
+    document.getElementById('chartsec').style.display='none';
+    document.getElementById('main-layout').style.display='none';
+    document.getElementById('agrosec').style.display='block';
+    loadAgroNews();
   } else {
     document.getElementById('chartsec').style.display='none';
     document.getElementById('main-layout').style.display='';
+    document.getElementById('agrosec').style.display='none';
     if(newsCache[c]){render(newsCache[c],c);}
     else{loadNews(c);}
   }
@@ -691,7 +1003,8 @@ function mobNav(el,section){
     markets:{el:document.getElementById('mob-markets'),scroll:true},
     charts:{section:'📈 Gráficos',scroll:true},
     videos:{el:document.querySelector('.vsec'),scroll:true},
-    smc:{el:document.querySelector('.asec'),scroll:true}
+    smc:{el:document.querySelector('.asec'),scroll:true},
+    agro:{section:'🌾 Agronegócio',scroll:true}
   };
   const t=targets[section];
   if(!t)return;
@@ -818,6 +1131,55 @@ async function loadNews(q){
 }
 
 // ── CHARTS ──
+const AGRO_CHARTS={
+  graos:`<div class="agro-chart-frame"><div class="agro-chart-label">Soja (ZS1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Milho (ZC1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZC1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Trigo (ZW1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZW1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`,
+  proteinas:`<div class="agro-chart-frame"><div class="agro-chart-label">Boi Gordo (BGI1!) · B3</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3ABGI1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Farelo de Soja (ZM1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZM1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Óleo de Soja (ZL1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZL1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`,
+  softs:`<div class="agro-chart-frame"><div class="agro-chart-label">Café Arabica (KC1!) · ICE</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3AKC1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Açúcar (SB1!) · ICE</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3ASB1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Algodão (CT1!) · ICE</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3ACT1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`,
+  energia_agro:`<div class="agro-chart-frame"><div class="agro-chart-label">Petróleo WTI (CL1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ACL1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Gás Natural (NG1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ANG1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Açúcar Etanol (SB1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3ASB1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`,
+  insumos_agro:`<div class="agro-chart-frame"><div class="agro-chart-label">Ureia (UAN Futures)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3AHH1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Gás Natural (insumo NPK)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ANG1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div><div class="agro-chart-frame"><div class="agro-chart-label">Potássio via ETF MOS</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYSE%3AMOS&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`
+};
+function showAgroCharts(evt,tipo){
+  document.querySelectorAll('.agro-chart-tab').forEach(t=>t.classList.remove('active'));
+  if(evt&&evt.target)evt.target.classList.add('active');
+  const el=document.getElementById('agro-chart-content');
+  if(el)el.innerHTML=AGRO_CHARTS[tipo]||'';
+}
+
+// ── AGRO NEWS LOADER ──
+async function loadAgroNews(){
+  const grid=document.getElementById('agro-news-grid');
+  const status=document.getElementById('agro-news-status');
+  if(!grid)return;
+  const q=QUERIES['🌾 Agronegócio'];
+  try{
+    const r=await fetch('/api/news?q='+encodeURIComponent(q));
+    const d=await r.json();
+    if(d.articles&&d.articles.length){
+      const arts=d.articles.filter(a=>a.title).slice(0,6);
+      const tagMap=a=>{
+        const t=(a.title+' '+(a.description||'')).toLowerCase();
+        if(t.match(/soy|soja|corn|milho|wheat|trigo|grain/))return{c:'ant-soja',l:'GRÃOS'};
+        if(t.match(/cattle|beef|chicken|pork|protein|carne|frango/))return{c:'ant-carne',l:'PROTEÍNAS'};
+        if(t.match(/ethanol|biofuel|etanol|biodiesel|energy|energia/))return{c:'ant-energia',l:'ENERGIA'};
+        if(t.match(/weather|clima|drought|flood|el ni|la ni|rain/))return{c:'ant-clima',l:'CLIMA'};
+        if(t.match(/fertilizer|insumo|urea|potash|phosphate|npk/))return{c:'ant-insumo',l:'INSUMOS'};
+        if(t.match(/land|terra|farm|deforest|forest|biome/))return{c:'ant-terra',l:'TERRAS'};
+        return{c:'ant-soja',l:'AGRO'};
+      };
+      grid.innerHTML=arts.map(a=>{
+        const tg=tagMap(a);
+        const src=a.source&&a.source.name?a.source.name:'Internacional';
+        const tm=ago(a.publishedAt);
+        return `<div class="agro-news-card" onclick="window.open('${a.url}','_blank')"><span class="agro-news-tag ${tg.c}">${tg.l}</span><div class="agro-news-title">${a.title}</div>${a.description?`<div class="agro-news-desc">${a.description.substring(0,100)}...</div>`:''}<div class="agro-news-meta"><span>${src}</span><span>${tm}</span></div></div>`;
+      }).join('');
+      if(status)status.textContent='● '+arts.length+' notícias';
+    } else {
+      if(status)status.textContent='Sem dados';
+    }
+  }catch(e){if(status)status.textContent='Offline';}
+}
+
+// ── CHARTS ──
 const CHARTS={
   indices:`<div class="chart-grid">
     <div class="chart-frame"><div class="chart-label">Nasdaq 100 (NQ1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
@@ -909,6 +1271,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   const cats=['Destaques','Cripto','Bancos Centrais','CME · Futuros','Saúde Global'];
   cats.forEach((c,i)=>setTimeout(()=>loadNews(c),i*8000));
   buildVideos('todos');
+  // Pre-load agro news in background
+  setTimeout(()=>loadAgroNews(),12000);
 });
 </script>
 </body>
