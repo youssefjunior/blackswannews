@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Black Swan News · Inteligência de Mercado Global</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"/>
+<style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --red:#dc2626;--red-dark:#b91c1c;
@@ -355,3 +364,552 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 @media(hover:none){
   .lead:active,.mini:active,.vcard:active,.nvi:active,.mob-nvi:active{opacity:.7;}
 }
+</style>
+</head>
+<body>
+
+<!-- ── TOPBAR / TICKER ── -->
+<div class="topbar">
+  <button class="mob-nav-toggle" id="mob-nav-toggle" aria-label="Menu">☰</button>
+  <span class="live-pill">LIVE</span>
+  <div class="ticker-wrap"><div class="ticker-inner" id="ticker"></div></div>
+</div>
+
+<!-- ── MOBILE NAV DRAWER ── -->
+<div class="mob-nav-overlay" id="mob-overlay"></div>
+<div class="mob-nav-drawer" id="mob-drawer">
+  <div class="mob-nav-header">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--t1);">BLACK<span style="color:var(--red);">SWAN</span></div>
+    <div style="font-family:'Space Mono',monospace;font-size:7px;color:var(--t4);margin-top:3px;letter-spacing:1px;">INTELIGÊNCIA DE MERCADO</div>
+  </div>
+  <div id="mob-nav-items"></div>
+</div>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-top">
+    <div style="flex:1;min-width:0;">
+      <div class="logo">
+        <svg viewBox="0 0 38 38" fill="none"><path d="M10 32C10 32 5 24 8 16C11 8 18 6 22 9C27 12 28 20 23 25C20 28 15 28 12 25" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 25C10 29 10 32 10 32" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="23" cy="10" r="2" fill="#dc2626"/><path d="M8 16C5 13 4 10 6 9C9 7 11 11 8 16" fill="#dc2626" opacity="0.7"/></svg>
+        BLACK<span class="logo-red">SWAN</span>
+      </div>
+      <div class="logo-sub">Inteligência de Mercado Global · O Imprevisto que Move o Mundo</div>
+      <div class="logo-author">Desenvolvido por <strong>José Youssef</strong> · Produtor Rural · Trader · Financista · Entusiasta Jurídico</div>
+    </div>
+    <div class="hright" id="hright-desktop">
+      <div class="hdate" id="hdate">Carregando...</div>
+      <div class="hstatus">● Reuters · Bloomberg · AP · Tempo Real</div>
+      <div class="search-row">
+        <input class="sinput" id="sinput" type="text" placeholder="Fed, ouro, BTC, guerra..."/>
+        <button class="btn-ai" id="btnai">Analisar IA ↗</button>
+      </div>
+    </div>
+  </div>
+  <nav class="nav" id="desktop-nav">
+    <div class="nvi active" data-cat="Destaques">Destaques</div>
+    <div class="nvi" data-cat="Geopolítica">Geopolítica</div>
+    <div class="nvi" data-cat="Commodities">Commodities</div>
+    <div class="nvi" data-cat="CME · Futuros">CME · Futuros</div>
+    <div class="nvi" data-cat="Cripto">Cripto</div>
+    <div class="nvi" data-cat="Bancos Centrais">Bancos Centrais</div>
+    <div class="nvi" data-cat="Guerras & Conflitos">Guerras & Conflitos</div>
+    <div class="nvi" data-cat="Saúde Global">Saúde Global</div>
+    <div class="nvi" data-cat="Metais Preciosos">Metais Preciosos</div>
+    <div class="nvi" data-cat="Análises SMC">Análises SMC</div>
+    <div class="nvi" data-cat="📈 Gráficos">📈 Gráficos</div>
+  </nav>
+</div>
+
+<!-- ── MOBILE SEARCH BAR ── -->
+<div class="mob-search-bar" id="mob-search-bar" style="display:none;">
+  <input class="sinput" id="sinput-mob" type="text" placeholder="Fed, ouro, BTC, guerra..."/>
+  <button class="btn-ai" id="btnai-mob">IA ↗</button>
+</div>
+
+<!-- ── ALERT ── -->
+<div class="alert">
+  <div class="adot"></div>
+  <span class="alabel">CISNE NEGRO</span>
+  <div class="atext">Notícias em tempo real · Reuters · Bloomberg · AP · CNBC · FT · CoinDesk</div>
+</div>
+
+<!-- ── MAIN LAYOUT ── -->
+<div class="layout" id="main-layout">
+  <main class="feed" id="feed">
+    <div class="slabel">Carregando...</div>
+    <div style="padding-top:6px;">
+      <div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
+      <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
+      <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
+    </div>
+  </main>
+  <aside class="sidebar-widget" id="sidebar-widget">
+    <iframe
+      src="https://s.tradingview.com/embed-widget/market-quotes/?locale=br#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A800%2C%22showSymbolLogo%22%3Atrue%2C%22isTransparent%22%3Afalse%2C%22colorTheme%22%3A%22dark%22%2C%22locale%22%3A%22br%22%2C%22symbolsGroups%22%3A%5B%7B%22name%22%3A%22Indices%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3ASPXUSD%22%2C%22displayName%22%3A%22S%26P%20500%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ANSXUSD%22%2C%22displayName%22%3A%22Nasdaq%20100%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ADJI%22%2C%22displayName%22%3A%22Dow%20Jones%22%7D%2C%7B%22name%22%3A%22INDEX%3ANKY%22%2C%22displayName%22%3A%22Nikkei%22%7D%2C%7B%22name%22%3A%22INDEX%3ADAX%22%2C%22displayName%22%3A%22DAX%22%7D%2C%7B%22name%22%3A%22INDEX%3AFTSE%22%2C%22displayName%22%3A%22FTSE%22%7D%2C%7B%22name%22%3A%22BMFBOVESPA%3AIBOV%22%2C%22displayName%22%3A%22IBOV%22%7D%2C%7B%22name%22%3A%22TVC%3AVIX%22%2C%22displayName%22%3A%22VIX%22%7D%5D%7D%2C%7B%22name%22%3A%22Commodities%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3AXAUUSD%22%2C%22displayName%22%3A%22Ouro%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AXAGUSD%22%2C%22displayName%22%3A%22Prata%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AOILUSD%22%2C%22displayName%22%3A%22Petr%C3%B3leo%22%7D%2C%7B%22name%22%3A%22AMEX%3ASOYB%22%2C%22displayName%22%3A%22Soja%22%7D%2C%7B%22name%22%3A%22AMEX%3AWEAT%22%2C%22displayName%22%3A%22Trigo%22%7D%2C%7B%22name%22%3A%22AMEX%3ACORN%22%2C%22displayName%22%3A%22Milho%22%7D%5D%7D%2C%7B%22name%22%3A%22Forex%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FX%3AEURUSD%22%2C%22displayName%22%3A%22EUR%2FUSD%22%7D%2C%7B%22name%22%3A%22FX%3AUSDBRL%22%2C%22displayName%22%3A%22USD%2FBRL%22%7D%2C%7B%22name%22%3A%22FX%3AGBPUSD%22%2C%22displayName%22%3A%22GBP%2FUSD%22%7D%2C%7B%22name%22%3A%22FX%3AUSDJPY%22%2C%22displayName%22%3A%22USD%2FJPY%22%7D%2C%7B%22name%22%3A%22TVC%3ADXY%22%2C%22displayName%22%3A%22DXY%22%7D%5D%7D%2C%7B%22name%22%3A%22Cripto%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22displayName%22%3A%22Bitcoin%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3AETHUSD%22%2C%22displayName%22%3A%22Ethereum%22%7D%2C%7B%22name%22%3A%22COINBASE%3ASOLUSD%22%2C%22displayName%22%3A%22Solana%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3AXRPUSD%22%2C%22displayName%22%3A%22XRP%22%7D%5D%7D%5D%7D"
+      width="100%"
+      height="800"
+      frameborder="0"
+      scrolling="no"
+      style="display:block;">
+    </iframe>
+  </aside>
+</div>
+
+<!-- ── CHARTS ── -->
+<section class="chartsec" id="chartsec" style="display:none;">
+  <div class="slabel">Gráficos · TradingView · Tempo Real</div>
+  <div class="chart-tabs">
+    <span class="chart-tab active" onclick="showCharts(event,'indices')">Índices</span>
+    <span class="chart-tab" onclick="showCharts(event,'moedas')">Forex</span>
+    <span class="chart-tab" onclick="showCharts(event,'commodities')">Commodities</span>
+    <span class="chart-tab" onclick="showCharts(event,'cripto')">Cripto</span>
+    <span class="chart-tab" onclick="showCharts(event,'brasil')">Brasil · B3</span>
+    <span class="chart-tab" onclick="showCharts(event,'avancado')">Avançado</span>
+  </div>
+  <div id="chart-content"></div>
+</section>
+
+<!-- ── MOBILE MARKETS WIDGET (shown only on mobile, inside feed area) ── -->
+<div id="mob-markets" style="display:none;border-top:1px solid var(--b1);padding:0;">
+  <div style="padding:10px 14px 6px;font-family:'Space Mono',monospace;font-size:9px;color:#a0b0c0;letter-spacing:2px;text-transform:uppercase;font-weight:700;border-bottom:1px solid var(--b2);">Mercados · Tempo Real</div>
+  <iframe
+    src="https://s.tradingview.com/embed-widget/market-quotes/?locale=br#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A500%2C%22showSymbolLogo%22%3Atrue%2C%22isTransparent%22%3Afalse%2C%22colorTheme%22%3A%22dark%22%2C%22locale%22%3A%22br%22%2C%22symbolsGroups%22%3A%5B%7B%22name%22%3A%22Indices%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3ASPXUSD%22%2C%22displayName%22%3A%22S%26P%20500%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ANSXUSD%22%2C%22displayName%22%3A%22Nasdaq%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AXAUUSD%22%2C%22displayName%22%3A%22Ouro%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22displayName%22%3A%22Bitcoin%22%7D%2C%7B%22name%22%3A%22FX%3AUSDBRL%22%2C%22displayName%22%3A%22USD%2FBRL%22%7D%2C%7B%22name%22%3A%22BMFBOVESPA%3AIBOV%22%2C%22displayName%22%3A%22IBOV%22%7D%5D%7D%5D%7D"
+    width="100%"
+    height="500"
+    frameborder="0"
+    scrolling="no"
+    style="display:block;">
+  </iframe>
+</div>
+
+<!-- ── VIDEOS ── -->
+<section class="vsec">
+  <div class="slabel">Vídeos · Analistas &amp; Entrevistas Globais</div>
+  <div class="chips">
+    <span class="chip active" onclick="filterVideos(event,'todos')">Todos</span>
+    <span class="chip chip-live" onclick="filterVideos(event,'live')">● Live</span>
+    <span class="chip" onclick="filterVideos(event,'bloomberg')">Bloomberg</span>
+    <span class="chip" onclick="filterVideos(event,'cnbc')">CNBC</span>
+    <span class="chip" onclick="filterVideos(event,'kitco')">Kitco</span>
+    <span class="chip" onclick="filterVideos(event,'tradingview')">TradingView</span>
+    <span class="chip" onclick="filterVideos(event,'reuters')">Reuters</span>
+  </div>
+  <div class="vgrid" id="vgrid"></div>
+</section>
+
+<!-- ── VIDEO MODAL ── -->
+<div class="vmodal" id="vmodal">
+  <div class="vmodal-inner">
+    <div class="vmodal-header">
+      <span class="vmodal-title" id="vmodal-title"></span>
+      <button class="vmodal-close" onclick="closeVideo()">✕</button>
+    </div>
+    <div class="vmodal-frame">
+      <iframe id="vmodal-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ── CALENDAR ── -->
+<section class="calsec">
+  <div class="slabel" style="color:#555;">Calendário Econômico · Investing.com · Tempo Real</div>
+  <div style="background:#fff;border-radius:4px;overflow:hidden;">
+    <iframe
+      src="https://sslecal2.investing.com?ecoDayBackground=%23ffffff&columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&features=datepicker,timezone,filters&countries=5,22,17,39,25,32,6,23,7,24,26,4,72,36,110,11,43,14,8,38,27&calType=day&timeZone=20&lang=12"
+      width="100%" height="600" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" style="display:block;">
+    </iframe>
+    <div style="font-family:'Space Mono',monospace;font-size:8px;color:#9ca3af;padding:7px 12px;background:#f9fafb;border-top:1px solid #e5e7eb;text-align:right;">
+      Fonte: <a href="https://br.investing.com" target="_blank" style="color:var(--red);font-weight:700;">Investing.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ANALYSES SMC ── -->
+<section class="asec">
+  <div class="slabel">Análises Exclusivas — Black Swan Intelligence · SMC</div>
+  <div class="agrid">
+    <div class="acard"><div class="atop"><div class="atit">Nasdaq (NQ1!) — Estrutura Semanal</div><span class="dir dwatch">AGUARDAR</span></div><div class="alevs"><div>Resistência: <span class="lv">21,940 · 22,200</span></div><div>Suporte: <span class="lv">21,600 · 21,280</span></div><div>OB Bearish: <span class="lv">21,880–21,920</span></div><div>FVG: <span class="lv">21,500–21,560</span></div></div><div class="anote">Mercado em distribuição no topo da range semanal. Aguardar rejeição no OB ou reclaim acima de 22.200 para bias direcional.</div><div class="adate">27 Abr 2025 · 08:00 BRT</div></div>
+    <div class="acard"><div class="atop"><div class="atit">Ouro (GC1!) — Setup de Alta em Confluência</div><span class="dir dlong">LONG</span></div><div class="alevs"><div>Entrada: <span class="lv">3,285–3,295</span></div><div>Alvo 1: <span class="lv">3,340</span></div><div>Alvo 2: <span class="lv">3,390</span></div><div>Stop: <span class="lv">3,268</span></div></div><div class="anote">OB semanal testado com absorção. Estrutura de alta intacta. R:R 1:3 favorável.</div><div class="adate">27 Abr 2025 · 07:30 BRT</div></div>
+    <div class="acard"><div class="atop"><div class="atit">Bitcoin (BTC/USD) — Breakout ou Fakeout?</div><span class="dir dwatch">MONITORAR</span></div><div class="alevs"><div>Resistência: <span class="lv">94,500</span></div><div>Liquidez: <span class="lv">95,000–96,200</span></div><div>Suporte: <span class="lv">89,000 · 85,400</span></div><div>FVG: <span class="lv">90,200–91,000</span></div></div><div class="anote">Rally varrendo liquidez acima de 94,5k. Reclaim = alvo 98k. Abaixo de 89k estrutura deteriora.</div><div class="adate">27 Abr 2025 · 09:15 BRT</div></div>
+    <div class="acard"><div class="atop"><div class="atit">Petróleo (CL1!) — Pressão Vendedora</div><span class="dir dshort">SHORT</span></div><div class="alevs"><div>Entrada: <span class="lv">83,00–83,80</span></div><div>Alvo 1: <span class="lv">79.50</span></div><div>Alvo 2: <span class="lv">77.00</span></div><div>Stop: <span class="lv">84.20</span></div></div><div class="anote">OPEC+ sinaliza reversão de cortes. OB bearish como entrada. R:R 1:4.</div><div class="adate">26 Abr 2025 · 18:00 BRT</div></div>
+  </div>
+  <button class="btnnew" id="btnnew">+ Nova Análise SMC — Black Swan Intelligence ↗</button>
+</section>
+
+<!-- ── MOBILE BOTTOM NAV ── -->
+<nav class="mob-bottom-nav" id="mob-bottom-nav">
+  <div class="mob-bn-item active" data-section="feed" onclick="mobNav(this,'feed')">
+    <div class="mob-bn-icon">📰</div>
+    <div class="mob-bn-label">Notícias</div>
+  </div>
+  <div class="mob-bn-item" data-section="markets" onclick="mobNav(this,'markets')">
+    <div class="mob-bn-icon">📊</div>
+    <div class="mob-bn-label">Mercados</div>
+  </div>
+  <div class="mob-bn-item" data-section="charts" onclick="mobNav(this,'charts')">
+    <div class="mob-bn-icon">📈</div>
+    <div class="mob-bn-label">Gráficos</div>
+  </div>
+  <div class="mob-bn-item" data-section="videos" onclick="mobNav(this,'videos')">
+    <div class="mob-bn-icon">▶️</div>
+    <div class="mob-bn-label">Vídeos</div>
+  </div>
+  <div class="mob-bn-item" data-section="smc" onclick="mobNav(this,'smc')">
+    <div class="mob-bn-icon">🎯</div>
+    <div class="mob-bn-label">SMC</div>
+  </div>
+</nav>
+
+<footer>
+  <span class="fdot">●</span><span>BLACK SWAN NEWS</span><span>·</span>
+  <span>Inteligência de Mercado Global</span><span>·</span>
+  <span>TradingView · Reuters · Bloomberg · AP</span><span>·</span>
+  <span>v7.0 · 2025</span><span>·</span><span>Desenvolvido por <strong style="color:var(--t2);">José Youssef</strong></span>
+</footer>
+
+<script>
+// ── BLACK SWAN NEWS v7.0 — GODMODE ──
+const QUERIES={
+  'Destaques':       'gold OR oil OR stocks OR economy OR war OR bitcoin OR market OR fed',
+  'Geopolítica':     'war OR conflict OR NATO OR sanctions OR diplomacy OR military OR geopolitics',
+  'Commodities':     'gold OR oil OR wheat OR soybean OR copper OR OPEC OR commodity OR corn',
+  'CME · Futuros':   'nasdaq OR futures OR "wall street" OR bonds OR treasury OR "stock market" OR trading',
+  'Cripto':          'bitcoin OR ethereum OR crypto OR BTC OR ETH OR blockchain OR altcoin',
+  'Bancos Centrais': 'federal reserve OR "interest rate" OR inflation OR ECB OR "central bank" OR Powell',
+  'Guerras & Conflitos':'war OR military OR Ukraine OR Russia OR Gaza OR conflict OR attack OR troops',
+  'Saúde Global':    'virus OR disease OR WHO OR health OR outbreak OR pandemic OR medicine',
+  'Metais Preciosos':'gold OR silver OR platinum OR palladium OR bullion OR metals',
+  'Análises SMC':    'market OR trading OR liquidity OR institutional OR "smart money" OR stocks OR forex',
+  '📈 Gráficos':     ''
+};
+const newsCache={};
+let cat='Destaques';
+
+// ── CLOCK ──
+function clock(){
+  const n=new Date();
+  const d=n.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+  const t=n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+' BRT';
+  const el=document.getElementById('hdate');
+  if(el)el.textContent=d+' · '+t;
+}
+clock();setInterval(clock,30000);
+
+// ── TICKER ──
+const TKS=[
+  {s:'NQ1!',v:'21,847',c:'+0.34%',u:true},{s:'ES1!',v:'5,912',c:'+0.21%',u:true},
+  {s:'YM1!',v:'42,160',c:'+0.18%',u:true},{s:'GC1!',v:'3,312',c:'+1.14%',u:true},
+  {s:'SI1!',v:'31.88',c:'+0.66%',u:true},{s:'CL1!',v:'82.40',c:'-0.87%',u:false},
+  {s:'ZS1!',v:'1,142',c:'+0.88%',u:true},{s:'BTC',v:'93,210',c:'+2.31%',u:true},
+  {s:'ETH',v:'3,440',c:'+1.77%',u:true},{s:'SOL',v:'172.40',c:'+3.12%',u:true},
+  {s:'DXY',v:'104.21',c:'-0.32%',u:false},{s:'US10Y',v:'4.41%',c:'-0.04',u:false},
+  {s:'USD/BRL',v:'5.14',c:'-0.41%',u:false},{s:'IBOV',v:'128,770',c:'-0.22%',u:false},
+  {s:'EUR/USD',v:'1.0731',c:'-0.18%',u:false},{s:'KC1!',v:'214.50',c:'+1.22%',u:true}
+];
+function buildTicker(){
+  const el=document.getElementById('ticker');if(!el)return;
+  el.innerHTML=[...TKS,...TKS].map(t=>`<span class="tick"><span class="tn">${t.s}</span><span class="tv">${t.v}</span><span class="${t.u?'up':'dn'}">${t.c}</span></span>`).join('');
+}
+buildTicker();
+
+// ── MOBILE DETECT ──
+const isMobile=()=>window.innerWidth<=768;
+
+// ── MOBILE SEARCH BAR ──
+function setupMobSearch(){
+  const bar=document.getElementById('mob-search-bar');
+  if(!bar)return;
+  if(isMobile()){bar.style.display='flex';}
+  else{bar.style.display='none';}
+}
+setupMobSearch();
+window.addEventListener('resize',setupMobSearch);
+
+// ── HAMBURGER / DRAWER ──
+const CATS=Object.keys(QUERIES);
+function buildMobNav(){
+  const container=document.getElementById('mob-nav-items');
+  if(!container)return;
+  container.innerHTML=CATS.map(c=>`<div class="mob-nvi${c===cat?' active':''}" data-cat="${c}">${c}</div>`).join('');
+  container.querySelectorAll('.mob-nvi').forEach(el=>{
+    el.addEventListener('click',()=>{
+      selectCat(el.dataset.cat);
+      closeMobDrawer();
+    });
+  });
+}
+function openMobDrawer(){
+  document.getElementById('mob-drawer').classList.add('open');
+  document.getElementById('mob-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMobDrawer(){
+  document.getElementById('mob-drawer').classList.remove('open');
+  document.getElementById('mob-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('mob-nav-toggle').addEventListener('click',openMobDrawer);
+document.getElementById('mob-overlay').addEventListener('click',closeMobDrawer);
+buildMobNav();
+
+// ── DESKTOP NAV ──
+document.querySelectorAll('#desktop-nav .nvi').forEach(n=>{
+  n.addEventListener('click',()=>{selectCat(n.dataset.cat);});
+});
+
+// ── CATEGORY SELECTION ──
+function selectCat(c){
+  cat=c;
+  // Update desktop nav
+  document.querySelectorAll('#desktop-nav .nvi').forEach(n=>{
+    n.classList.toggle('active',n.dataset.cat===c);
+  });
+  // Update mob nav
+  document.querySelectorAll('.mob-nvi').forEach(n=>{
+    n.classList.toggle('active',n.dataset.cat===c);
+  });
+  if(c==='📈 Gráficos'){
+    document.getElementById('chartsec').style.display='block';
+    document.getElementById('main-layout').style.display='none';
+    showCharts({target:document.querySelector('.chart-tab.active')},'indices');
+  } else {
+    document.getElementById('chartsec').style.display='none';
+    document.getElementById('main-layout').style.display='';
+    if(newsCache[c]){render(newsCache[c],c);}
+    else{loadNews(c);}
+  }
+  // Scroll to top smoothly
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── MOBILE BOTTOM NAV ──
+function mobNav(el,section){
+  document.querySelectorAll('.mob-bn-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  const targets={
+    feed:{el:document.getElementById('main-layout'),scroll:true},
+    markets:{el:document.getElementById('mob-markets'),scroll:true},
+    charts:{section:'📈 Gráficos',scroll:true},
+    videos:{el:document.querySelector('.vsec'),scroll:true},
+    smc:{el:document.querySelector('.asec'),scroll:true}
+  };
+  const t=targets[section];
+  if(!t)return;
+  if(t.section){selectCat(t.section);return;}
+  if(section==='markets'){
+    const mm=document.getElementById('mob-markets');
+    mm.style.display='block';
+    mm.scrollIntoView({behavior:'smooth',block:'start'});
+  } else if(t.el){
+    t.el.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+// ── SEARCH ──
+function doSearch(val){
+  const v=(val||'').trim();if(!v)return;
+  window.open('https://claude.ai/new?q='+encodeURIComponent('Analise o impacto nos mercados globais e CME com visão SMC: '+v),'_blank');
+}
+document.getElementById('sinput').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
+document.getElementById('btnai').addEventListener('click',()=>doSearch(document.getElementById('sinput').value));
+const sinputMob=document.getElementById('sinput-mob');
+const btnaIMob=document.getElementById('btnai-mob');
+if(sinputMob)sinputMob.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
+if(btnaIMob)btnaIMob.addEventListener('click',()=>doSearch(sinputMob?sinputMob.value:''));
+document.getElementById('btnnew').addEventListener('click',()=>window.open('https://claude.ai/new?q='+encodeURIComponent('Crie uma análise SMC para o Black Swan News com: ativo, timeframe, OBs, FVGs, direção, entrada, stop e alvos.'),'_blank'));
+
+// ── NEWS UTILS ──
+function badge(a){const t=(a.title+' '+(a.description||'')).toLowerCase();if(t.match(/war|attack|military|nato|nuclear|conflict/))return{c:'bg',l:'● Geopolítica'};if(t.match(/bitcoin|crypto|ethereum|btc|eth/))return{c:'bcr',l:'● Cripto'};if(t.match(/gold|silver|oil|wheat|opec|commodity/))return{c:'bco',l:'● Commodities'};if(t.match(/pandemic|disease|outbreak|virus|who/))return{c:'bm',l:'● Saúde'};if(t.match(/crash|crisis|collapse|recession/))return{c:'bc',l:'● Crítico'};return{c:'bh',l:'● Mercados'};}
+function itag(a){const t=(a.title+' '+(a.description||'')).toLowerCase();const tags=[];if(t.match(/nasdaq/))tags.push('NQ1!');if(t.match(/gold|ouro/))tags.push('GC1!');if(t.match(/oil|crude|opec/))tags.push('CL1!');if(t.match(/bitcoin|btc/))tags.push('BTC');if(t.match(/dollar|dxy/))tags.push('DXY');if(t.match(/soybean/))tags.push('ZS1!');return tags.length?'▲ '+tags.join(' · '):'▲ Mercados Globais';}
+function ago(d){const s=(Date.now()-new Date(d))/1000;if(s<3600)return Math.floor(s/60)+'min';if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';}
+function isReuters(a){const src=(a.source&&a.source.name?a.source.name:'').toLowerCase();return src.includes('reuters')||(a.url||'').includes('reuters');}
+
+function translateText(encodedText,btnEl,targetEl){
+  btnEl.textContent='...';btnEl.disabled=true;
+  const text=decodeURIComponent(encodedText);
+  fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text.substring(0,500))+'&langpair=en|pt-BR')
+    .then(r=>r.json())
+    .then(d=>{
+      if(d.responseStatus===200&&d.responseData&&d.responseData.translatedText){
+        targetEl.textContent=d.responseData.translatedText;targetEl.style.display='block';btnEl.textContent='✓ PT';
+      } else {btnEl.textContent='Err';btnEl.disabled=false;}
+    }).catch(()=>{btnEl.textContent='Err';btnEl.disabled=false;});
+}
+
+function loading(){
+  document.getElementById('feed').innerHTML='<div class="slabel">Carregando · '+cat+'...</div><div style="padding-top:6px;">'+'<div style="margin-bottom:16px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>'.repeat(3)+'</div>';
+}
+
+// CME special panel
+function renderCMEPanel(){
+  const feed=document.getElementById('feed');if(!feed)return;
+  let h='<div class="slabel">CME · Futuros · Mercados</div>';
+  h+='<div style="background:#1a0a00;border:.5px solid #3a1a00;border-radius:4px;padding:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
+    +'<div style="min-width:0;">'
+    +'<div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-family:\'Space Mono\',monospace;margin-bottom:3px;">● CME GROUP OFICIAL</div>'
+    +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:700;color:var(--t1);margin-bottom:3px;">CME Group — Notícias & Análises</div>'
+    +'<div style="font-size:10px;color:var(--t3);">Contratos futuros, índices e commodities via Investing.com</div>'
+    +'</div>'
+    +'<a href="https://br.investing.com/equities/cme-group-inc.-news" target="_blank" style="background:var(--red);color:#fff;padding:9px 14px;border-radius:3px;font-size:9px;font-weight:700;text-decoration:none;white-space:nowrap;font-family:\'Space Mono\',monospace;flex-shrink:0;">Acessar ↗</a>'
+    +'</div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin-bottom:14px;">'
+    +'<a href="https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.html" target="_blank" style="background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;padding:9px;text-decoration:none;" onmouseover="this.style.borderColor=\'var(--red)\'" onmouseout="this.style.borderColor=\'var(--b1)\'">'
+    +'<div style="font-family:\'Space Mono\',monospace;font-size:8px;color:var(--t4);margin-bottom:3px;">CME</div>'
+    +'<div style="font-size:11px;font-weight:600;color:var(--t1);">E-mini S&P 500</div>'
+    +'<div style="font-size:9px;color:var(--green);">ES1! · Futuros</div></a>'
+    +'<a href="https://www.cmegroup.com/markets/equities/nasdaq/e-mini-nasdaq-100.html" target="_blank" style="background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;padding:9px;text-decoration:none;" onmouseover="this.style.borderColor=\'var(--red)\'" onmouseout="this.style.borderColor=\'var(--b1)\'">'
+    +'<div style="font-family:\'Space Mono\',monospace;font-size:8px;color:var(--t4);margin-bottom:3px;">CME</div>'
+    +'<div style="font-size:11px;font-weight:600;color:var(--t1);">E-mini Nasdaq 100</div>'
+    +'<div style="font-size:9px;color:var(--green);">NQ1! · Futuros</div></a>'
+    +'<a href="https://www.cmegroup.com/markets/metals/precious/gold.html" target="_blank" style="background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;padding:9px;text-decoration:none;" onmouseover="this.style.borderColor=\'var(--red)\'" onmouseout="this.style.borderColor=\'var(--b1)\'">'
+    +'<div style="font-family:\'Space Mono\',monospace;font-size:8px;color:var(--t4);margin-bottom:3px;">COMEX</div>'
+    +'<div style="font-size:11px;font-weight:600;color:var(--t1);">Ouro · Gold Futures</div>'
+    +'<div style="font-size:9px;color:var(--amber);">GC1! · COMEX</div></a>'
+    +'</div>';
+  if(newsCache['CME · Futuros']&&newsCache['CME · Futuros'].length){
+    h+='<div class="slabel">Notícias · CME</div>';
+    newsCache['CME · Futuros'].slice(0,4).forEach((a,idx)=>{
+      const b=badge(a),src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
+      const tid='cme-tr-'+idx;
+      h+=`<article class="lead" onclick="window.open('${a.url}','_blank')"><span class="badge ${b.c}">${b.l}</span><h2>${a.title}</h2>${a.description?`<p>${a.description}</p>`:''}<div class="meta"><span>${src} · ${tm}</span><button class="translate-btn" onclick="event.stopPropagation();translateText('${encodeURIComponent((a.title+'. '+(a.description||'')).replace(/'/g,"\\'"))}',this,document.getElementById('${tid}'))">🌐 PT</button></div><div class="translated" id="${tid}" style="display:none;"></div></article>`;
+    });
+  }
+  feed.innerHTML=h;
+}
+
+function render(arts,catName){
+  const feed=document.getElementById('feed');if(!feed)return;
+  const c=catName||cat;
+  if(c==='CME · Futuros'){renderCMEPanel();return;}
+  if(!arts||!arts.length){feed.innerHTML='<div class="slabel">Notícias · '+c+'</div><p style="color:var(--t4);font-size:12px;padding:20px 0;">Nenhuma notícia encontrada.</p>';return;}
+  const sorted=arts.slice().sort((a,b)=>isReuters(b)?1:isReuters(a)?-1:0);
+  const leads=sorted.slice(0,3),minis=sorted.slice(3);
+  let h=`<div class="slabel">Notícias · ${c} <span style="color:var(--amber);font-size:7px;margin-left:6px;">● REUTERS PRIORITÁRIO</span></div>`;
+  leads.forEach((a,idx)=>{
+    const b=badge(a),i=itag(a),src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
+    const rLabel=isReuters(a)?'<span class="src-badge">REUTERS</span>':'';
+    const tid='tr-'+idx;
+    h+=`<article class="lead" onclick="window.open('${a.url}','_blank')"><span class="badge ${b.c}">${b.l}</span>${rLabel}<h2>${a.title}</h2>${a.description?`<p>${a.description}</p>`:''}<div class="meta"><span>${src} · ${tm}</span><span class="itag">${i}</span><button class="translate-btn" onclick="event.stopPropagation();translateText('${encodeURIComponent((a.title+'. '+(a.description||'')).replace(/'/g,"\\'"))}',this,document.getElementById('${tid}'))">🌐 PT</button></div><div class="translated" id="${tid}" style="display:none;"></div></article>`;
+  });
+  if(minis.length){
+    h+='<div class="slabel">Mais Notícias</div>';
+    minis.forEach((a,i)=>{
+      const src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
+      const rL=isReuters(a)?' <span style="color:var(--amber);font-size:7px;">REUTERS</span>':'';
+      h+=`<article class="mini" onclick="window.open('${a.url}','_blank')"><div class="mnum">0${i+1}</div><div><div class="mtit">${a.title}</div><div class="mmeta">${src}${rL} · ${tm}</div></div></article>`;
+    });
+  }
+  feed.innerHTML=h;
+}
+
+async function loadNews(q){
+  if(q==='📈 Gráficos')return;
+  if(q==='CME · Futuros'){renderCMEPanel();}
+  else{loading();}
+  const query=QUERIES[q]||QUERIES['Destaques'];
+  try{
+    const r=await fetch('/api/news?q='+encodeURIComponent(query));
+    const d=await r.json();
+    if(d.articles){
+      const arts=d.articles.filter(a=>a.title);
+      newsCache[q]=arts;render(arts,q);
+    } else {render(null,q);}
+  }catch(e){console.error(e);render(null,q);}
+}
+
+// ── CHARTS ──
+const CHARTS={
+  indices:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">Nasdaq 100 (NQ1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">S&P 500 (ES1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3AES1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Dow Jones (YM1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3AYM1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Russell 2000 (RTY1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ARTY1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Nikkei 225</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=INDEX%3ANKY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">DAX</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=INDEX%3ADAX&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  moedas:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">EUR/USD</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AEURUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">USD/BRL</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDBRL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">GBP/USD</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AGBPUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">USD/JPY</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDJPY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">DXY</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=TVC%3ADXY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">USD/CHF</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDCHF&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  commodities:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">Ouro (GC1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3AGC1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Prata (SI1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3ASI1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Petróleo WTI (CL1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ACL1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Gás Natural (NG1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ANG1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Soja (ZS1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Trigo (ZW1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZW1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  cripto:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">Bitcoin (BTC/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3ABTCUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Ethereum (ETH/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3AETHUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Solana (SOL/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COINBASE%3ASOLUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">BNB (BNB/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE%3ABNBUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">XRP (XRP/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3AXRPUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Total Cripto Cap</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CRYPTOCAP%3ATOTAL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  brasil:`<div class="chart-grid">
+    <div class="chart-frame"><div class="chart-label">IBOVESPA</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AIBOV&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">USD/BRL</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDBRL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Petrobras (PETR4)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3APETR4&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Vale (VALE3)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AVALE3&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Itaú (ITUB4)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AITUB4&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="chart-frame"><div class="chart-label">Boi Gordo (BGI1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3ABGI1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  </div>`,
+  avancado:`<div class="chart-full"><div class="chart-label">Gráfico Avançado TradingView</div><iframe src="https://www.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=60&theme=dark&style=1&locale=pt&withdateranges=1&hide_side_toolbar=0&allow_symbol_change=1" allowfullscreen style="height:500px;"></iframe></div>`
+};
+function showCharts(evt,tipo){
+  document.querySelectorAll('.chart-tab').forEach(t=>t.classList.remove('active'));
+  if(evt&&evt.target)evt.target.classList.add('active');
+  document.getElementById('chart-content').innerHTML=CHARTS[tipo]||'';
+}
+
+// ── VIDEOS ──
+const VIDEOS=[
+  {id:'8oc1UoQIB7A',title:'Kitco News — Gold & Silver: análise 2025',canal:'Kitco Gold',meta:'Recente',live:false,cat:'kitco'},
+  {id:'5XE7qdlI344',title:'Kitco — Gold Market: Key Levels & Inflation',canal:'Kitco Gold',meta:'28min',live:false,cat:'kitco'},
+  {id:'ePYssvU1yTQ',title:'Kitco — Gold Price Surge: What Predicted It',canal:'Kitco Gold',meta:'35min',live:false,cat:'kitco'},
+  {id:'dp8PhLsUcFE',title:'Bloomberg Markets — Sessão ao vivo',canal:'Bloomberg TV',meta:'Ao Vivo',live:true,cat:'bloomberg'},
+  {id:'Nu4lHaSh7D4',title:'Bloomberg — Ray Dalio: World Order 2025',canal:'Bloomberg',meta:'40min',live:false,cat:'bloomberg'},
+  {id:'coiDqM9JFPE',title:'Bloomberg — Global Markets & Economy',canal:'Bloomberg TV',meta:'28min',live:false,cat:'bloomberg'},
+  {id:'M3TGFU5iFCg',title:'CNBC — Markets & Fed Analysis',canal:'CNBC',meta:'22min',live:false,cat:'cnbc'},
+  {id:'kfY9THBlGqU',title:'CNBC — Inflation & Interest Rates',canal:'CNBC',meta:'18min',live:false,cat:'cnbc'},
+  {id:'EpMLAQbSYAw',title:'TradingView — Weekly Market Structure SMC',canal:'TradingView',meta:'25min',live:false,cat:'tradingview'},
+  {id:'p0_JGNa0FMo',title:'Reuters — Geopolitics & Energy Markets',canal:'Reuters',meta:'20min',live:false,cat:'reuters'},
+];
+function buildVideos(filter){
+  const grid=document.getElementById('vgrid');if(!grid)return;
+  const filtered=filter==='todos'?VIDEOS:filter==='live'?VIDEOS.filter(v=>v.live):VIDEOS.filter(v=>v.cat===filter);
+  if(!filtered.length){grid.innerHTML='<p style="color:var(--t4);font-size:12px;padding:14px 0;">Nenhum vídeo.</p>';return;}
+  grid.innerHTML=filtered.map(v=>`<div class="vcard" onclick="openVideo('${v.id}','${v.title.replace(/'/g,"\\'")}')"><div class="vthumb"><img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy" onerror="this.parentElement.style.background='#1a1a1a'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo">${v.live?'<div class="vlive">● AO VIVO</div>':''}<div class="vtit">${v.title}</div><div class="vmeta">${v.canal} · ${v.meta}</div><div class="vtrans">✓ PT-BR</div></div></div>`).join('');
+}
+function filterVideos(evt,filter){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  evt.target.classList.add('active');buildVideos(filter);
+}
+function openVideo(id,title){
+  document.getElementById('vmodal-title').textContent=title;
+  document.getElementById('vmodal-frame').src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1';
+  document.getElementById('vmodal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeVideo(){
+  document.getElementById('vmodal').classList.remove('open');
+  document.getElementById('vmodal-frame').src='';
+  document.body.style.overflow='';
+}
+document.getElementById('vmodal').addEventListener('click',e=>{if(e.target===document.getElementById('vmodal'))closeVideo();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded',()=>{
+  const cats=['Destaques','Cripto','Bancos Centrais','CME · Futuros','Saúde Global'];
+  cats.forEach((c,i)=>setTimeout(()=>loadNews(c),i*8000));
+  buildVideos('todos');
+});
+</script>
+</body>
+</html>
