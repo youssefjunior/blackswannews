@@ -1216,7 +1216,8 @@ async function loadNews(q){
     ],
   };
 
-  const RSS2JSON='https://api.rss2json.com/v1/api.json?rss_url=';
+  const RSS2JSON_KEY = localStorage.getItem('blackswan_rss') || '';
+const RSS2JSON = 'https://api.rss2json.com/v1/api.json?api_key=' + RSS2JSON_KEY + '&rss_url=';
   const GNEWS_KEY=''; // opcional: adicione sua chave GNews aqui
   const feeds=RSS_FEEDS[q]||RSS_FEEDS['Destaques'];
 
