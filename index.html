@@ -1202,8 +1202,101 @@ async function loadNews(q){
     if(filtered.length>=3)articles=filtered;
   }
 
-  newsCache[q]=articles;
-  render(articles,q);
+// ── GEMINI AI LAYER ──
+const GEMINI_API_KEY =
+localStorage.getItem('blackswan_gemini') || '';
+
+const GEMINI_MODEL='gemini-2.5-flash';
+
+async function geminiEnhance(article){
+
+  if(!GEMINI_API_KEY)return article;
+
+  try{
+
+    const endpoint =
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+
+    const prompt = `
+Analise esta notícia financeira/geopolítica.
+
+Título:
+${article.title}
+
+Descrição:
+${article.description}
+
+Retorne JSON válido:
+
+{
+ "summary_pt":"",
+ "impact":"high|medium|low",
+ "sentiment":"bullish|bearish|neutral",
+ "macro":""
+}
+`;
+
+    const response = await fetch(endpoint,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        contents:[
+          {
+            parts:[
+              {
+                text:prompt
+              }
+            ]
+          }
+        ],
+        generationConfig:{
+          temperature:0.3,
+          maxOutputTokens:300
+        }
+      })
+    });
+
+    if(!response.ok){
+      return article;
+    }
+
+    const data = await response.json();
+
+    const raw =
+      data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    const clean = raw
+      .replace(/```json/g,'')
+      .replace(/```/g,'')
+      .trim();
+
+    const parsed = JSON.parse(clean);
+
+    return {
+      ...article,
+      aiSummary:parsed.summary_pt || '',
+      aiImpact:parsed.impact || 'medium',
+      aiSentiment:parsed.sentiment || 'neutral',
+      aiMacro:parsed.macro || ''
+    };
+
+  }catch(err){
+    console.error('Gemini Error:',err);
+    return article;
+  }
+}
+
+// ── ENHANCE ARTICLES ──
+const enhanced = await Promise.all(
+  articles.map(a=>geminiEnhance(a))
+);
+
+newsCache[q]=enhanced;
+
+render(enhanced,q);
+  
 }
 
 // ── CHARTS ──
