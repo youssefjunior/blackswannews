@@ -1146,8 +1146,18 @@ function render(arts,catName){
     const b=badge(a),i=itag(a),src=a.source&&a.source.name?a.source.name:'Internacional',tm=ago(a.publishedAt);
     const rLabel=isReuters(a)?'<span class="src-badge">REUTERS</span>':'';
     const tid='tr-'+idx;
-    h+=`<article class="lead" onclick="window.open('${a.url}','_blank')"><span class="badge ${b.c}">${b.l}</span>${rLabel}<h2>${a.title}</h2>${a.description?`<p>${a.description}</p>`:''}<div class="meta"><span>${src} · ${tm}</span><span class="itag">${i}</span><button class="translate-btn" onclick="event.stopPropagation();translateText('${encodeURIComponent((a.title+'. '+(a.description||'')).replace(/'/g,"\\'"))}',this,document.getElementById('${tid}'))">🌐 PT</button></div><div class="translated" id="${tid}" style="display:none;"></div></article>`;
-  });
+    h+=`<article class="lead" onclick="window.open('${a.url}','_blank')">
+          <span class="badge ${b.c}">${b.l}</span>${rLabel}
+          <h2>${a.title}</h2>
+          ${a.aiSummary
+            ? `<p>${a.aiSummary}</p>
+               <div class="ai-meta">
+                 <span class="impact ${a.aiImpact}">${a.aiImpact==='high'?'● Alto Impacto':a.aiImpact==='medium'?'◎ Médio':'○ Baixo'}</span>
+                 <span class="sentiment">${a.aiSentiment==='bullish'?'📈 Bullish':a.aiSentiment==='bearish'?'📉 Bearish':'➡ Neutro'}</span>
+               </div>`
+            : a.description ? `<p>${a.description}</p>` : ''
+          }
+          <div class="meta">...`;
   if(minis.length){
     h+='<div class="slabel">Mais Notícias</div>';
     minis.forEach((a,i)=>{
