@@ -699,39 +699,69 @@ document.querySelectorAll('#desktop-nav .nvi').forEach(n => {
 // ── CATEGORY SELECTION ──
 function selectCat(c) {
   cat = c;
-  document.querySelectorAll('#desktop-nav .nvi').forEach(n => n.classList.toggle('active', n.dataset.cat === c));
-  document.querySelectorAll('.mob-nvi').forEach(n => n.classList.toggle('active', n.dataset.cat === c));
+
+  document.querySelectorAll('#desktop-nav .nvi').forEach(n =>
+    n.classList.toggle('active', n.dataset.cat === c)
+  );
+
+  document.querySelectorAll('.mob-nvi').forEach(n =>
+    n.classList.toggle('active', n.dataset.cat === c)
+  );
 
   if (c === '📈 Gráficos') {
+
     document.getElementById('chartsec').style.display = 'block';
     document.getElementById('main-layout').style.display = 'none';
     document.getElementById('agrosec').style.display = 'none';
-    showCharts({target: document.querySelector('.chart-tab.active')}, 'indices');
-} else if (c === '🌾 Agronegócio') {
+    document.getElementById('vsec').style.display = '';
+    document.getElementById('calsec').style.display = '';
+
+    showCharts(
+      { target: document.querySelector('.chart-tab.active') },
+      'indices'
+    );
+
+  } else if (c === '🌾 Agronegócio') {
+
     document.getElementById('chartsec').style.display = 'none';
     document.getElementById('main-layout').style.display = 'none';
     document.getElementById('vsec').style.display = 'none';
     document.getElementById('calsec').style.display = 'none';
     document.getElementById('agrosec').style.display = 'block';
+
     loadAgroNews();
-  }
-} else if (c === 'Análises SMC') {
+
+  } else if (c === 'Análises SMC') {
+
     document.getElementById('chartsec').style.display = 'none';
     document.getElementById('main-layout').style.display = 'block';
     document.getElementById('agrosec').style.display = 'none';
-    document.querySelector('.asec').scrollIntoView({behavior:'smooth'});
-} else {
+    document.getElementById('vsec').style.display = '';
+    document.getElementById('calsec').style.display = '';
+
+    document.querySelector('.asec')
+      .scrollIntoView({ behavior: 'smooth' });
+
+  } else {
+
     document.getElementById('chartsec').style.display = 'none';
     document.getElementById('main-layout').style.display = '';
     document.getElementById('vsec').style.display = '';
     document.getElementById('calsec').style.display = '';
     document.getElementById('agrosec').style.display = 'none';
-    if (newsCache[c]) render(newsCache[c], c);
-    else loadNews(c);
-  }
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
 
+    if (newsCache[c]) {
+      render(newsCache[c], c);
+    } else {
+      loadNews(c);
+    }
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
 // ── MOBILE BOTTOM NAV ──
 function mobNav(el, section) {
   document.querySelectorAll('.mob-bn-item').forEach(i => i.classList.remove('active'));
