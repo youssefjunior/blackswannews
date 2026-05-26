@@ -900,6 +900,86 @@ function renderCMEPanel() {
   }
   feed.innerHTML = h;
 }
+// ── RENDER NEWS ──
+function render(articles, category) {
+
+  const feed = document.getElementById('feed');
+
+  if (!feed) return;
+
+  if (!articles || !articles.length) {
+    feed.innerHTML = `
+      <div class="slabel">${category}</div>
+      <div style="padding:20px;color:var(--t3);">
+        Nenhuma notícia encontrada.
+      </div>
+    `;
+    return;
+  }
+
+  let html = `<div class="slabel">${category}</div>`;
+
+  articles.forEach((a, idx) => {
+
+    const b = badge(a);
+    const src = a.source?.name || 'Internacional';
+    const tm = ago(a.publishedAt);
+
+    const tid = `tr-${idx}`;
+
+    const safeTitle =
+      (a.title || '')
+      .replace(/'/g, "\\'")
+      .replace(/`/g, '\\`');
+
+    const safeDesc =
+      (a.description || '')
+      .replace(/'/g, "\\'")
+      .replace(/`/g, '\\`');
+
+    html += `
+      <article class="lead"
+        onclick="window.open('${a.url}','_blank')">
+
+        <span class="badge ${b.c}">
+          ${b.l}
+        </span>
+
+        <h2>${a.title}</h2>
+
+        ${a.description ? `<p>${a.description}</p>` : ''}
+
+        <div class="meta">
+
+          <span>${src} · ${tm}</span>
+
+          <span class="itag">
+            ${itag(a)}
+          </span>
+
+          <button class="translate-btn"
+            onclick="event.stopPropagation();
+            translateText(
+              '${encodeURIComponent(safeTitle + '. ' + safeDesc)}',
+              this,
+              document.getElementById('${tid}')
+            )">
+            🌐 PT
+          </button>
+
+        </div>
+
+        <div class="translated"
+          id="${tid}"
+          style="display:none;">
+        </div>
+
+      </article>
+    `;
+  });
+
+  feed.innerHTML = html;
+}
 // ── FETCH RSS UNIVERSAL (proxy CORS, sem chave) ──
 async function fetchRSS(feedUrl, count = 20) {
   const proxy = 'https://api.allorigins.win/get?url=';
