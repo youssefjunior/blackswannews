@@ -893,120 +893,13 @@ async function fetchRSS(feedUrl, count = 20) {
 }
 // ── FETCH CME NEWS ── (BUG FIX: função antes ausente)
 async function fetchNewsForCME() {
-  const key = localStorage.getItem('blackswan_rss') || 'pdqncjg92e79ldog65wokhbjss6qsxxhtv0j9w1i';
-  const feeds = [
-    'https://feeds.reuters.com/reuters/businessNews',
-    'https://feeds.bbci.co.uk/news/business/rss.xml'
-  ];
   let articles = [];
-  for (const feed of feeds) {
-    try {
-      const url = RSS2JSON_BASE + '?rss_url=' + encodeURIComponent(feed) + '&count=20' + (key ? '&api_key=' + key : '');
-      const resp = await fetch(url, {signal: AbortSignal.timeout(7000)});
-      const data = await resp.json();
-      if (data.status === 'ok' && data.items && data.items.length) {
-        articles = data.items.map(it => ({
-          title: it.title,
-          description: it.description ? it.description.replace(/<[^>]*>/g, '').substring(0, 200) : '',
-          url: it.link,
-          publishedAt: it.pubDate,
-          source: {name: data.feed && data.feed.title ? data.feed.title : 'Internacional'}
-        }));
-        break;
-      }
-    } catch(e) {}
-  }
+  try {
+    articles = await fetchRSS('https://feeds.reuters.com/reuters/businessNews', 15);
+  } catch(e) {}
   newsCache['CME · Futuros'] = articles;
   renderCMEPanel();
 }
-
-// ── RENDER ── (BUG FIX: template literal incompleto corrigido)
-function render(arts, catName) {
-  const feed = document.getElementById('feed');
-  if (!feed) return;
-  const c = catName || cat;
-  if (c === 'CME · Futuros') { renderCMEPanel(); return; }
-  if (!arts || !arts.length) {
-    feed.innerHTML = '<div class="slabel">Notícias · ' + c + '</div><p style="color:var(--t4);font-size:12px;padding:20px 0;">Nenhuma notícia encontrada. Verifique a chave RSS2JSON em rss2json.com</p>';
-    return;
-  }
-  const sorted = arts.slice().sort((a, b) => isReuters(b) ? 1 : isReuters(a) ? -1 : 0);
-  const leads = sorted.slice(0, 3);
-  const minis = sorted.slice(3);
-  let h = `<div class="slabel">Notícias · ${c} <span style="color:var(--amber);font-size:7px;margin-left:6px;">● REUTERS PRIORITÁRIO</span></div>`;
-
-  // ─ leads: template literal COMPLETO (bug corrigido) ─
-  leads.forEach((a, idx) => {
-    const b = badge(a);
-    const i = itag(a);
-    const src = a.source && a.source.name ? a.source.name : 'Internacional';
-    const tm = ago(a.publishedAt);
-    const rLabel = isReuters(a) ? '<span class="src-badge">REUTERS</span>' : '';
-    const tid = 'tr-' + idx;
-    const safeUrl = (a.url || '').replace(/'/g, "\\'");
-    const safeEnc = encodeURIComponent(((a.title || '') + '. ' + (a.description || '')).replace(/'/g, "\\'").replace(/`/g, '\\`'));
-
-    h += `<article class="lead" onclick="window.open('${safeUrl}','_blank')">
-      <span class="badge ${b.c}">${b.l}</span>${rLabel}
-      <h2>${a.title || ''}</h2>
-      ${a.aiSummary
-        ? `<p>${a.aiSummary}</p>
-           <div class="ai-meta">
-             <span class="impact ${a.aiImpact}">${a.aiImpact==='high'?'● Alto Impacto':a.aiImpact==='medium'?'◎ Médio':'○ Baixo'}</span>
-             <span class="sentiment">${a.aiSentiment==='bullish'?'📈 Bullish':a.aiSentiment==='bearish'?'📉 Bearish':'➡ Neutro'}</span>
-           </div>`
-        : a.description ? `<p>${a.description}</p>` : ''
-      }
-      <div class="meta">
-        <span>${src} · ${tm}</span>
-        <span class="itag">${i}</span>
-        <button class="translate-btn" onclick="event.stopPropagation();translateText('${safeEnc}',this,document.getElementById('${tid}'))">🌐 PT</button>
-      </div>
-      <div class="translated" id="${tid}" style="display:none;"></div>
-    </article>`;
-  });
-
-  if (minis.length) {
-    h += '<div class="slabel">Mais Notícias</div>';
-    minis.forEach((a, i) => {
-      const src = a.source && a.source.name ? a.source.name : 'Internacional';
-      const tm = ago(a.publishedAt);
-      const rL = isReuters(a) ? ' <span style="color:var(--amber);font-size:7px;">REUTERS</span>' : '';
-      const safeUrl = (a.url || '').replace(/'/g, "\\'");
-      h += `<article class="mini" onclick="window.open('${safeUrl}','_blank')">
-        <div class="mnum">0${i+1}</div>
-        <div><div class="mtit">${a.title || ''}</div><div class="mmeta">${src}${rL} · ${tm}</div></div>
-      </article>`;
-    });
-  }
-  feed.innerHTML = h;
-}
-
-// ── LOAD NEWS ──
-const RSS_FEEDS = {
-  'Destaques':       ['https://feeds.reuters.com/reuters/businessNews','https://feeds.bbci.co.uk/news/business/rss.xml'],
-  'Geopolítica':     ['https://feeds.reuters.com/Reuters/worldNews','https://feeds.bbci.co.uk/news/world/rss.xml'],
-  'Bancos Centrais': ['https://feeds.reuters.com/reuters/businessNews','https://feeds.bbci.co.uk/news/business/rss.xml'],
-  'Commodities':     ['https://feeds.reuters.com/reuters/commoditiesNews','https://feeds.bbci.co.uk/news/business/rss.xml'],
-  'Cripto':          ['https://cointelegraph.com/rss','https://coindesk.com/arc/outboundfeeds/rss/'],
-  'Guerras & Conflitos':['https://feeds.reuters.com/Reuters/worldNews','https://feeds.bbci.co.uk/news/world/rss.xml'],
-  'Saúde Global':    ['https://feeds.reuters.com/reuters/healthNews','https://feeds.bbci.co.uk/news/health/rss.xml'],
-  'Metais Preciosos':['https://feeds.reuters.com/reuters/commoditiesNews','https://www.kitco.com/rss/Kitco-News-1.xml'],
-  '🌾 Agronegócio':  ['https://feeds.reuters.com/reuters/commoditiesNews','https://feeds.bbci.co.uk/news/business/rss.xml'],
-};
-
-// ─ DEFINIÇÃO ÚNICA de KW (bug corrigido: estava duplicado) ─
-const KW = {
-  'Geopolítica':      /(war|conflict|nato|sanction|diplomat|military|geopolit|russia|ukraine|china|taiwan|iran|israel|hamas|gaza|troops)/i,
-  'Bancos Centrais':  /(fed|central bank|interest rate|inflation|ecb|powell|lagarde|boe|boj|monetary|rate cut|rate hike)/i,
-  'Commodities':      /(gold|oil|wheat|soybean|copper|opec|commodity|corn|crude|brent|natural gas)/i,
-  'Cripto':           /(bitcoin|ethereum|crypto|btc|eth|blockchain|altcoin|defi|nft|binance|coinbase)/i,
-  'Guerras & Conflitos': /(war|military|attack|troops|conflict|bomb|missile|ceasefire|invasion|ukraine|russia|gaza|hamas)/i,
-  'Saúde Global':     /(virus|disease|who|health|outbreak|pandemic|vaccine|epidemic|covid|mpox|flu|dengue)/i,
-  'Metais Preciosos': /(gold|silver|platinum|palladium|bullion|metal|precious|comex|oz)/i,
-  '🌾 Agronegócio':   /(soybean|corn|wheat|agriculture|agri|livestock|usda|conab|crop|fertilizer|biofuel|ethanol|food)/i,
-};
-
 async function loadNews(q) {
   if (q === '📈 Gráficos') return;
   if (q === 'CME · Futuros') { renderCMEPanel(); fetchNewsForCME(); return; }
