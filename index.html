@@ -684,19 +684,24 @@ function selectCat(c) {
     document.getElementById('main-layout').style.display = 'none';
     document.getElementById('agrosec').style.display = 'none';
     showCharts({target: document.querySelector('.chart-tab.active')}, 'indices');
-  } else if (c === '🌾 Agronegócio') {
+} else if (c === '🌾 Agronegócio') {
     document.getElementById('chartsec').style.display = 'none';
     document.getElementById('main-layout').style.display = 'none';
+    document.getElementById('vsec').style.display = 'none';
+    document.getElementById('calsec').style.display = 'none';
     document.getElementById('agrosec').style.display = 'block';
     loadAgroNews();
-  } else if (c === 'Análises SMC') {
+  }
+} else if (c === 'Análises SMC') {
     document.getElementById('chartsec').style.display = 'none';
     document.getElementById('main-layout').style.display = 'block';
     document.getElementById('agrosec').style.display = 'none';
     document.querySelector('.asec').scrollIntoView({behavior:'smooth'});
-  } else {
+} else {
     document.getElementById('chartsec').style.display = 'none';
     document.getElementById('main-layout').style.display = '';
+    document.getElementById('vsec').style.display = '';
+    document.getElementById('calsec').style.display = '';
     document.getElementById('agrosec').style.display = 'none';
     if (newsCache[c]) render(newsCache[c], c);
     else loadNews(c);
