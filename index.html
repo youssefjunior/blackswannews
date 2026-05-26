@@ -870,7 +870,27 @@ function renderCMEPanel() {
   }
   feed.innerHTML = h;
 }
-
+// ── FETCH RSS UNIVERSAL (proxy CORS, sem chave) ──
+async function fetchRSS(feedUrl, count = 20) {
+  const proxy = 'https://api.allorigins.win/get?url=';
+  const url = proxy + encodeURIComponent(feedUrl);
+  const resp = await fetch(url, {signal: AbortSignal.timeout(8000)});
+  const data = await resp.json();
+  if (!data.contents) return [];
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(data.contents, 'text/xml');
+  const items = Array.from(xml.querySelectorAll('item')).slice(0, count);
+  const feedTitle = xml.querySelector('channel > title')?.textContent || 'Internacional';
+  return items.map(item => ({
+    title: item.querySelector('title')?.textContent?.trim() || '',
+    description: (item.querySelector('description')?.textContent || '')
+      .replace(/<[^>]*>/g, '').substring(0, 200).trim(),
+    url: item.querySelector('link')?.textContent?.trim()
+      || item.querySelector('guid')?.textContent?.trim() || '#',
+    publishedAt: item.querySelector('pubDate')?.textContent || new Date().toISOString(),
+    source: {name: feedTitle}
+  }));
+}
 // ── FETCH CME NEWS ── (BUG FIX: função antes ausente)
 async function fetchNewsForCME() {
   const key = localStorage.getItem('blackswan_rss') || 'pdqncjg92e79ldog65wokhbjss6qsxxhtv0j9w1i';
