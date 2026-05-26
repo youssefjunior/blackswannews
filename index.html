@@ -845,7 +845,7 @@ function renderCMEPanel() {
 
 // ── FETCH CME NEWS ── (BUG FIX: função antes ausente)
 async function fetchNewsForCME() {
-  const key = localStorage.getItem('blackswan_rss') || '';
+  const key = localStorage.getItem('blackswan_rss') || 'pdqncjg92e79ldog65wokhbjss6qsxxhtv0j9w1i';
   const feeds = [
     'https://feeds.reuters.com/reuters/businessNews',
     'https://feeds.bbci.co.uk/news/business/rss.xml'
@@ -966,7 +966,7 @@ async function loadNews(q) {
   if (q === 'Análises SMC') return;
   loading();
 
-  const key = localStorage.getItem('blackswan_rss') || '';
+  const key = localStorage.getItem('blackswan_rss') || 'pdqncjg92e79ldog65wokhbjss6qsxxhtv0j9w1i';
   const feeds = RSS_FEEDS[q] || RSS_FEEDS['Destaques'];
   let articles = [];
 
@@ -1027,7 +1027,7 @@ async function loadAgroNews() {
   const statusEl = document.getElementById('agro-news-status');
   if (statusEl) statusEl.textContent = 'Carregando...';
 
-  const key = localStorage.getItem('blackswan_rss') || '';
+  const key = localStorage.getItem('blackswan_rss') || 'pdqncjg92e79ldog65wokhbjss6qsxxhtv0j9w1i';
   const feeds = [
     'https://feeds.reuters.com/reuters/commoditiesNews',
     'https://feeds.bbci.co.uk/news/business/rss.xml',
