@@ -907,27 +907,42 @@ async function loadNews(q) {
   if (q === 'Análises SMC') return;
   loading();
 
-  const key = localStorage.getItem('blackswan_rss') || 'pdqncjg92e79ldog65wokhbjss6qsxxhtv0j9w1i';
-  const feeds = RSS_FEEDS[q] || RSS_FEEDS['Destaques'];
+  const FEEDS = {
+    'Destaques':          ['https://feeds.reuters.com/reuters/businessNews','https://feeds.bbci.co.uk/news/business/rss.xml'],
+    'Geopolítica':        ['https://feeds.reuters.com/Reuters/worldNews','https://feeds.bbci.co.uk/news/world/rss.xml'],
+    'Bancos Centrais':    ['https://feeds.reuters.com/reuters/businessNews','https://feeds.bbci.co.uk/news/business/rss.xml'],
+    'Commodities':        ['https://feeds.reuters.com/reuters/commoditiesNews'],
+    'Cripto':             ['https://cointelegraph.com/rss','https://coindesk.com/arc/outboundfeeds/rss/'],
+    'Guerras & Conflitos':['https://feeds.reuters.com/Reuters/worldNews','https://feeds.bbci.co.uk/news/world/rss.xml'],
+    'Saúde Global':       ['https://feeds.reuters.com/reuters/healthNews','https://feeds.bbci.co.uk/news/health/rss.xml'],
+    'Metais Preciosos':   ['https://feeds.reuters.com/reuters/commoditiesNews','https://www.kitco.com/rss/Kitco-News-1.xml'],
+  };
+
+  const KW = {
+    'Geopolítica':        /(war|conflict|nato|sanction|diplomat|military|russia|ukraine|china|taiwan|iran|israel|gaza|troops)/i,
+    'Bancos Centrais':    /(fed|central bank|interest rate|inflation|ecb|powell|lagarde|boe|boj|monetary|rate cut|rate hike)/i,
+    'Commodities':        /(gold|oil|wheat|soybean|copper|opec|commodity|corn|crude|brent|natural gas)/i,
+    'Cripto':             /(bitcoin|ethereum|crypto|btc|eth|blockchain|altcoin|defi|nft|binance|coinbase)/i,
+    'Guerras & Conflitos':/(war|military|attack|troops|conflict|bomb|missile|ceasefire|invasion|ukraine|russia|gaza)/i,
+    'Saúde Global':       /(virus|disease|who|health|outbreak|pandemic|vaccine|epidemic|covid|mpox|flu|dengue)/i,
+    'Metais Preciosos':   /(gold|silver|platinum|palladium|bullion|metal|precious|oz)/i,
+  };
+
+  const feeds = FEEDS[q] || FEEDS['Destaques'];
   let articles = [];
 
   for (const feed of feeds) {
     try {
-      const url = RSS2JSON_BASE + '?rss_url=' + encodeURIComponent(feed) + '&count=20' + (key ? '&api_key=' + key : '');
-      const resp = await fetch(url, {signal: AbortSignal.timeout(7000)});
-      const data = await resp.json();
-      if (data.status === 'ok' && data.items && data.items.length) {
-        articles = data.items.map(it => ({
-          title: it.title,
-          description: it.description ? it.description.replace(/<[^>]*>/g, '').substring(0, 200) : '',
-          url: it.link,
-          publishedAt: it.pubDate,
-          source: {name: data.feed && data.feed.title ? data.feed.title : 'Internacional'}
-        }));
-        break;
-      }
+      const items = await fetchRSS(feed, 25);
+      if (items.length) articles = articles.concat(items);
     } catch(e) {}
   }
+
+  const seen = new Set();
+  articles = articles.filter(a => {
+    if (seen.has(a.title)) return false;
+    seen.add(a.title); return true;
+  });
 
   if (KW[q] && articles.length > 5) {
     const filtered = articles.filter(a => KW[q].test(a.title + ' ' + (a.description || '')));
@@ -936,88 +951,44 @@ async function loadNews(q) {
 
   newsCache[q] = articles;
   render(articles, q);
-
-  // Gemini enhancement — opcional
-  const GEMINI_KEY = localStorage.getItem('blackswan_gemini') || '';
-  if (!GEMINI_KEY) return;
-  try {
-    const enhanced = await Promise.all(articles.map(async article => {
-      try {
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
-        const prompt = `Analise esta notícia financeira. Título: ${article.title}\nDescrição: ${article.description||''}\nRetorne JSON: {"summary_pt":"","impact":"high|medium|low","sentiment":"bullish|bearish|neutral"}`;
-        const res = await fetch(endpoint, {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.3,maxOutputTokens:300}}),
-          signal: AbortSignal.timeout(8000)
-        });
-        if (!res.ok) return article;
-        const d = await res.json();
-        const raw = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-        return {...article, aiSummary:parsed.summary_pt||'', aiImpact:parsed.impact||'medium', aiSentiment:parsed.sentiment||'neutral'};
-      } catch(e) { return article; }
-    }));
-    newsCache[q] = enhanced;
-    render(enhanced, q);
-  } catch(e) {}
 }
-
 // ── LOAD AGRO NEWS ── (BUG FIX: função antes ausente)
 async function loadAgroNews() {
   const statusEl = document.getElementById('agro-news-status');
   if (statusEl) statusEl.textContent = 'Carregando...';
 
-  const key = localStorage.getItem('blackswan_rss') || '';
-  const feeds = [
+  const AGRO_FEEDS = [
     'https://feeds.reuters.com/reuters/commoditiesNews',
-    'https://www.feedforall.com/sample.xml',
     'https://feeds.bbci.co.uk/news/business/rss.xml',
     'https://rss.dw.com/rdf/rss-en-bus',
   ];
 
   let articles = [];
-  for (const feed of feeds) {
+  for (const feed of AGRO_FEEDS) {
     try {
-      const url = RSS2JSON_BASE + '?rss_url=' + encodeURIComponent(feed) + '&count=30' + (key ? '&api_key=' + key : '');
-      const resp = await fetch(url, {signal: AbortSignal.timeout(8000)});
-      const data = await resp.json();
-      if (data.status === 'ok' && data.items && data.items.length) {
-        const mapped = data.items.map(it => ({
-          title: it.title,
-          description: it.description ? it.description.replace(/<[^>]*>/g, '').substring(0, 200) : '',
-          url: it.link,
-          publishedAt: it.pubDate,
-          source: {name: data.feed && data.feed.title ? data.feed.title : 'Agro News'}
-        }));
-        articles = articles.concat(mapped);
-      }
+      const items = await fetchRSS(feed, 25);
+      if (items.length) articles = articles.concat(items);
     } catch(e) {}
   }
+
+  const seen = new Set();
+  articles = articles.filter(a => {
+    if (seen.has(a.title)) return false;
+    seen.add(a.title); return true;
+  });
 
   const grid = document.getElementById('agro-news-grid');
   if (!grid) return;
 
   if (!articles.length) {
-    if (statusEl) statusEl.textContent = 'Sem chave RSS2JSON';
-    grid.innerHTML = `
-      <div class="agro-news-card"><div class="agro-news-tag ant-soja">AGRO</div>
-        <div class="agro-news-title">Configure sua chave RSS2JSON</div>
-        <div class="agro-news-desc">No console do navegador (F12), cole: localStorage.setItem('blackswan_rss','SUA_CHAVE')</div>
-        <div class="agro-news-meta"><span>rss2json.com</span></div>
-      </div>
-      <div class="agro-news-card"><div class="agro-news-tag ant-clima">INFO</div>
-        <div class="agro-news-title">Gráficos e preços funcionam normalmente</div>
-        <div class="agro-news-desc">Os painéis de cotações, clima e TradingView acima independem de RSS.</div>
-        <div class="agro-news-meta"><span>Black Swan News</span></div>
-      </div>`;
+    if (statusEl) statusEl.textContent = 'Erro de conexão';
+    grid.innerHTML = '<div class="agro-news-card"><div class="agro-news-tag ant-soja">AGRO</div><div class="agro-news-title">Erro ao carregar</div><div class="agro-news-desc">Verifique sua conexão e recarregue.</div><div class="agro-news-meta"><span>Black Swan News</span></div></div>';
     return;
   }
 
-  // Filtra por agro — mas se filtrar demais, mostra tudo
-  const agroKW = /(soybean|corn|wheat|agri|livestock|usda|conab|crop|fertilizer|biofuel|ethanol|food|grain|harvest|farm|cattle|sugar|coffee|cotton|soja|milho|trigo|boi|frango|suino|insumo|safra|colheita|plantio|fertil|defensivo|commodity|commodit)/i;
+  const agroKW = /(soybean|corn|wheat|agri|livestock|usda|conab|crop|fertilizer|biofuel|ethanol|food|grain|harvest|farm|cattle|sugar|coffee|cotton|soja|milho|trigo|boi|frango|suino|insumo|safra|colheita|plantio|commodity)/i;
   const filtered = articles.filter(a => agroKW.test(a.title + ' ' + (a.description || '')));
-  const final = filtered.length >= 2 ? filtered : articles; // fallback: mostra tudo se filtro for vazio
+  const final = filtered.length >= 2 ? filtered : articles;
 
   if (statusEl) statusEl.textContent = final.length + ' notícias';
 
@@ -1029,13 +1000,13 @@ async function loadAgroNews() {
     const label = LABELS[i % LABELS.length];
     const src = a.source && a.source.name ? a.source.name : 'Agro';
     const tm = ago(a.publishedAt);
-    const safeUrl = (a.url || '').replace(/'/g, "\\'");
-    return `<div class="agro-news-card" onclick="window.open('${safeUrl}','_blank')">
-      <div class="agro-news-tag ${tagClass}">${label}</div>
-      <div class="agro-news-title">${a.title || ''}</div>
-      <div class="agro-news-desc">${a.description || ''}</div>
-      <div class="agro-news-meta"><span>${src}</span><span>${tm}</span></div>
-    </div>`;
+    const safeUrl = (a.url || '#').replace(/'/g, "\\'");
+    return '<div class="agro-news-card" onclick="window.open(\'' + safeUrl + '\',\'_blank\')">'
+      + '<div class="agro-news-tag ' + tagClass + '">' + label + '</div>'
+      + '<div class="agro-news-title">' + (a.title || '') + '</div>'
+      + '<div class="agro-news-desc">' + (a.description || '') + '</div>'
+      + '<div class="agro-news-meta"><span>' + src + '</span><span>' + tm + '</span></div>'
+      + '</div>';
   }).join('');
 }
 // ── CHARTS ──
