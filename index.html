@@ -1027,27 +1027,29 @@ async function loadAgroNews() {
   const statusEl = document.getElementById('agro-news-status');
   if (statusEl) statusEl.textContent = 'Carregando...';
 
-  const key = localStorage.getItem('blackswan_rss') || 'pdqncjg92e79ldog65wokhbjss6qsxxhtv0j9w1i';
+  const key = localStorage.getItem('blackswan_rss') || '';
   const feeds = [
     'https://feeds.reuters.com/reuters/commoditiesNews',
+    'https://www.feedforall.com/sample.xml',
     'https://feeds.bbci.co.uk/news/business/rss.xml',
+    'https://rss.dw.com/rdf/rss-en-bus',
   ];
-  let articles = [];
 
+  let articles = [];
   for (const feed of feeds) {
     try {
-      const url = RSS2JSON_BASE + '?rss_url=' + encodeURIComponent(feed) + '&count=20' + (key ? '&api_key=' + key : '');
-      const resp = await fetch(url, {signal: AbortSignal.timeout(7000)});
+      const url = RSS2JSON_BASE + '?rss_url=' + encodeURIComponent(feed) + '&count=30' + (key ? '&api_key=' + key : '');
+      const resp = await fetch(url, {signal: AbortSignal.timeout(8000)});
       const data = await resp.json();
       if (data.status === 'ok' && data.items && data.items.length) {
-        articles = data.items.map(it => ({
+        const mapped = data.items.map(it => ({
           title: it.title,
           description: it.description ? it.description.replace(/<[^>]*>/g, '').substring(0, 200) : '',
           url: it.link,
           publishedAt: it.pubDate,
           source: {name: data.feed && data.feed.title ? data.feed.title : 'Agro News'}
         }));
-        break;
+        articles = articles.concat(mapped);
       }
     } catch(e) {}
   }
@@ -1056,20 +1058,30 @@ async function loadAgroNews() {
   if (!grid) return;
 
   if (!articles.length) {
-    if (statusEl) statusEl.textContent = 'Configure RSS2JSON';
-    grid.innerHTML = '<div class="agro-news-card"><div class="agro-news-tag ant-soja">AGRO</div><div class="agro-news-title">Configure sua chave RSS2JSON</div><div class="agro-news-desc">Acesse rss2json.com, crie conta gratuita e insira a chave via localStorage.setItem(\'blackswan_rss\',\'SUA_CHAVE\')</div><div class="agro-news-meta"><span>rss2json.com</span></div></div><div class="agro-news-card"><div class="agro-news-tag ant-clima">CLIMA</div><div class="agro-news-title">Monitoramento climático disponível</div><div class="agro-news-desc">Os painéis de preços e gráficos acima funcionam independentemente das notícias.</div><div class="agro-news-meta"><span>NOAA · INMET</span></div></div>';
+    if (statusEl) statusEl.textContent = 'Sem chave RSS2JSON';
+    grid.innerHTML = `
+      <div class="agro-news-card"><div class="agro-news-tag ant-soja">AGRO</div>
+        <div class="agro-news-title">Configure sua chave RSS2JSON</div>
+        <div class="agro-news-desc">No console do navegador (F12), cole: localStorage.setItem('blackswan_rss','SUA_CHAVE')</div>
+        <div class="agro-news-meta"><span>rss2json.com</span></div>
+      </div>
+      <div class="agro-news-card"><div class="agro-news-tag ant-clima">INFO</div>
+        <div class="agro-news-title">Gráficos e preços funcionam normalmente</div>
+        <div class="agro-news-desc">Os painéis de cotações, clima e TradingView acima independem de RSS.</div>
+        <div class="agro-news-meta"><span>Black Swan News</span></div>
+      </div>`;
     return;
   }
 
-  // Filtrar por palavras-chave agro
-  const agroKW = /(soybean|corn|wheat|agriculture|agri|livestock|usda|conab|crop|fertilizer|biofuel|ethanol|food|grain|harvest|farm|cattle|sugar|coffee|cotton)/i;
+  // Filtra por agro — mas se filtrar demais, mostra tudo
+  const agroKW = /(soybean|corn|wheat|agri|livestock|usda|conab|crop|fertilizer|biofuel|ethanol|food|grain|harvest|farm|cattle|sugar|coffee|cotton|soja|milho|trigo|boi|frango|suino|insumo|safra|colheita|plantio|fertil|defensivo|commodity|commodit)/i;
   const filtered = articles.filter(a => agroKW.test(a.title + ' ' + (a.description || '')));
-  const final = filtered.length >= 2 ? filtered : articles;
+  const final = filtered.length >= 2 ? filtered : articles; // fallback: mostra tudo se filtro for vazio
 
   if (statusEl) statusEl.textContent = final.length + ' notícias';
 
-  const TAGS = ['ant-soja','ant-carne','ant-energia','ant-clima','ant-insumo','ant-terra'];
-  const LABELS = ['GRÃOS','PROTEÍNA','ENERGIA','CLIMA','INSUMO','TERRA'];
+  const TAGS =   ['ant-soja','ant-carne','ant-energia','ant-clima','ant-insumo','ant-terra'];
+  const LABELS = ['GRÃOS',   'PROTEÍNA', 'ENERGIA',    'CLIMA',    'INSUMO',    'MERCADO'];
 
   grid.innerHTML = final.slice(0, 6).map((a, i) => {
     const tagClass = TAGS[i % TAGS.length];
@@ -1085,7 +1097,6 @@ async function loadAgroNews() {
     </div>`;
   }).join('');
 }
-
 // ── CHARTS ──
 const CHARTS = {
   indices: `<div class="chart-grid">
