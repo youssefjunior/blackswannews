@@ -526,22 +526,23 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 
 <script>
 
+  <script>
+
 // ══════════════════════════════════════════════
-// BLACK SWAN NEWS v7.5 — ARTIFACT EDITION
-// Usa API Anthropic com web_search (único canal
-// disponível no ambiente Artifact do Claude.ai)
+// BLACK SWAN NEWS v7.5 — CORRIGIDO
+// Correções: callAI funcional, sem preload,
+// refresh inteligente, sem desperdício de tokens
 // ══════════════════════════════════════════════
 
 const newsCache = {};
 let cat = 'Destaques';
 
-// ── API CALL (funciona no Artifact) ──
-// DEPOIS
-const res = await fetch('/api/chat', {        // ← URL trocada
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ ... })
-});
+// ── API CALL — CORRIGIDA ──
+async function callAI(prompt, maxTokens = 800) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: maxTokens,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
@@ -549,6 +550,7 @@ const res = await fetch('/api/chat', {        // ← URL trocada
     })
   });
   const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
   const raw = (data.content || []).map(b => b.text || '').join('');
   return raw.replace(/```json[\s\S]*?```/g, m => m.slice(7, -3)).replace(/```/g, '').trim();
 }
@@ -585,7 +587,6 @@ const TAG_BADGE = {
   'BTC':'bcr','ETH':'bcr','SOL':'bcr','XRP':'bcr','DEFI':'bcr','ETF':'bcr',
   'UCRÂNIA':'bg','GAZA':'bg','TAIWAN':'bg',
   'OMS':'bm','EPIDEMIA':'bm','VACINA':'bm','SURTO':'bm',
-  // Agro
   'GRÃOS':'bco','PROTEÍNA':'bco','CLIMA':'bm','INSUMO':'bh',
 };
 
@@ -665,14 +666,13 @@ function selectCat(c) {
   document.querySelectorAll('#desktop-nav .nvi, .mob-nvi').forEach(n =>
     n.classList.toggle('active', n.dataset.cat === c)
   );
-  const layout    = document.getElementById('main-layout');
-  const chartsec  = document.getElementById('chartsec');
-  const agrosec   = document.getElementById('agrosec');
-  const vsec      = document.getElementById('vsec');
-  const calsec    = document.getElementById('calsec');
-  const asec      = document.querySelector('.asec');
+  const layout   = document.getElementById('main-layout');
+  const chartsec = document.getElementById('chartsec');
+  const agrosec  = document.getElementById('agrosec');
+  const vsec     = document.getElementById('vsec');
+  const calsec   = document.getElementById('calsec');
+  const asec     = document.querySelector('.asec');
 
-  // hide all first
   [chartsec, agrosec].forEach(el => el.style.display = 'none');
   asec.style.display = 'none';
 
@@ -695,6 +695,7 @@ function selectCat(c) {
   } else {
     layout.style.display = '';
     vsec.style.display = ''; calsec.style.display = '';
+    // ✅ Só carrega se não houver cache — sem desperdício
     newsCache[c] ? render(newsCache[c], c) : loadNews(c);
   }
   window.scrollTo({top:0, behavior:'smooth'});
@@ -738,16 +739,6 @@ document.getElementById('btnnew').addEventListener('click', () =>
 );
 
 // ── RENDER ──
-function ago(d) {
-  try {
-    const s = (Date.now()-new Date(d))/1000;
-    if(isNaN(s)||s<0) return 'recente';
-    if(s<3600) return Math.floor(s/60)+'min';
-    if(s<86400) return Math.floor(s/3600)+'h';
-    return Math.floor(s/86400)+'d';
-  } catch(e){ return 'recente'; }
-}
-
 function render(articles, category) {
   const feed = document.getElementById('feed');
   if (!feed) return;
@@ -763,7 +754,6 @@ function render(articles, category) {
   articles.forEach((a, idx) => {
     const tag = a.tag || 'MERCADO';
     const bc  = TAG_BADGE[tag] || 'bh';
-    const tid = `tr-${idx}`;
     const safeUrl = (a.url||'#').replace(/'/g,"\\'");
     html += `
       <article class="lead" onclick="window.open('${safeUrl}','_blank')">
@@ -787,9 +777,12 @@ function showSkeleton(label) {
     + '</div>';
 }
 
-// ── LOAD NEWS via API ──
+// ── LOAD NEWS (somente sob demanda) ──
 async function loadNews(q) {
   if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
+
+  // ✅ Usa cache se existir — zero tokens desperdiçados
+  if (newsCache[q]) { render(newsCache[q], q); return; }
 
   if (q === 'CME · Futuros') {
     renderCMEPanel();
@@ -802,7 +795,6 @@ async function loadNews(q) {
   const prompt = CAT_PROMPTS[q] || CAT_PROMPTS['Destaques'];
   try {
     const raw = await callAI(prompt);
-    // extract JSON array
     const match = raw.match(/\[[\s\S]*\]/);
     if (!match) throw new Error('No JSON found');
     const articles = JSON.parse(match[0]);
@@ -849,7 +841,7 @@ async function loadCMENews() {
     const body = document.getElementById('cme-news-body');
     if (!body) return;
     let h = '';
-    articles.slice(0,8).forEach((a,idx) => {
+    articles.slice(0,8).forEach((a) => {
       const tag = a.tag||'FUTUROS';
       const bc  = TAG_BADGE[tag]||'bh';
       const safeUrl = (a.url||'#').replace(/'/g,"\\'");
@@ -867,13 +859,20 @@ async function loadCMENews() {
   }
 }
 
-// ── LOAD AGRO NEWS via API ──
+// ── AGRO NEWS (somente quando aba Agro é aberta) ──
 async function loadAgroNews() {
   const statusEl = document.getElementById('agro-news-status');
   const grid = document.getElementById('agro-news-grid');
   if (!grid) return;
-  if (statusEl) statusEl.textContent = '● IA buscando...';
 
+  // ✅ Usa cache — não recarrega se já tiver dados
+  if (newsCache['_agro']) {
+    renderAgroNews(newsCache['_agro']);
+    if (statusEl) statusEl.textContent = newsCache['_agro'].length + ' notícias · cache';
+    return;
+  }
+
+  if (statusEl) statusEl.textContent = '● IA buscando...';
   grid.innerHTML = Array(4).fill(0).map(() =>
     '<div class="agro-news-card" style="pointer-events:none;">'
     + '<div class="skel w50 h8" style="margin-bottom:6px;"></div>'
@@ -891,32 +890,37 @@ Responda APENAS JSON sem markdown:
     if (!match) throw new Error('no json');
     const news = JSON.parse(match[0]);
     if (!news.length) throw new Error('empty');
-
-    const TAG_CLASS = {
-      'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia',
-      'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra'
-    };
+    newsCache['_agro'] = news;
+    renderAgroNews(news);
     if (statusEl) statusEl.textContent = news.length + ' notícias · IA';
-    grid.innerHTML = news.slice(0,6).map(n => {
-      const tagClass = TAG_CLASS[n.tag] || 'ant-soja';
-      const safeUrl = (n.url||'#').replace(/'/g,"\\'");
-      return `<div class="agro-news-card" onclick="window.open('${safeUrl}','_blank')">
-        <div class="agro-news-tag ${tagClass}">${n.tag||'AGRO'}</div>
-        <div class="agro-news-title">${n.title||''}</div>
-        <div class="agro-news-desc">${n.desc||''}</div>
-        <div class="agro-news-meta"><span>${n.source||'Reuters'}</span><span>${n.time||'agora'}</span></div>
-      </div>`;
-    }).join('');
   } catch(e) {
-    if (statusEl) statusEl.textContent = 'Erro · retry em 60s';
+    if (statusEl) statusEl.textContent = 'Erro';
     grid.innerHTML = `<div class="agro-news-card">
       <div class="agro-news-tag ant-soja">AGRO</div>
       <div class="agro-news-title">Erro ao carregar notícias</div>
       <div class="agro-news-desc">Clique para tentar novamente.</div>
-      <div class="agro-news-meta" style="cursor:pointer;" onclick="loadAgroNews()"><span>↺ Tentar novamente</span></div>
+      <div class="agro-news-meta" style="cursor:pointer;" onclick="delete newsCache['_agro'];loadAgroNews()"><span>↺ Tentar novamente</span></div>
     </div>`;
-    setTimeout(loadAgroNews, 60000);
   }
+}
+
+function renderAgroNews(news) {
+  const grid = document.getElementById('agro-news-grid');
+  if (!grid) return;
+  const TAG_CLASS = {
+    'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia',
+    'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra'
+  };
+  grid.innerHTML = news.slice(0,6).map(n => {
+    const tagClass = TAG_CLASS[n.tag] || 'ant-soja';
+    const safeUrl = (n.url||'#').replace(/'/g,"\\'");
+    return `<div class="agro-news-card" onclick="window.open('${safeUrl}','_blank')">
+      <div class="agro-news-tag ${tagClass}">${n.tag||'AGRO'}</div>
+      <div class="agro-news-title">${n.title||''}</div>
+      <div class="agro-news-desc">${n.desc||''}</div>
+      <div class="agro-news-meta"><span>${n.source||'Reuters'}</span><span>${n.time||'agora'}</span></div>
+    </div>`;
+  }).join('');
 }
 
 // ── CHARTS ──
@@ -1000,7 +1004,7 @@ function showAgroCharts(evt, tipo) {
   document.getElementById('agro-chart-content').innerHTML = AGRO_CHARTS[tipo] || AGRO_CHARTS.graos;
 }
 
-// ── VIDEOS (fixos — fetch externo não funciona no Artifact) ──
+// ── VIDEOS ──
 const VIDEOS = [
   {id:'ew5OCDEO9NI',title:'Gold & Silver Market Analysis 2025',canal:'Kitco News',meta:'26 min',live:false,cat:'kitco'},
   {id:'3J_sBbz9HiE',title:'Fed Rate Decision — Impact on Markets',canal:'Bloomberg',meta:'18 min',live:false,cat:'bloomberg'},
@@ -1065,24 +1069,18 @@ document.getElementById('agro-chart-modal').addEventListener('click', e => {
   if(e.target===document.getElementById('agro-chart-modal')) closeAgroChart();
 });
 
-// ── INIT ──
+// ── INIT — ✅ SEM preload, SEM auto-refresh agressivo ──
 document.addEventListener('DOMContentLoaded', () => {
   buildVideos('todos');
-  loadNews('Destaques');
+  loadNews('Destaques'); // ✅ Apenas 1 chamada na inicialização
 
-  // Preload outras categorias em segundo plano
-  const preload = ['Geopolítica','Cripto','Commodities','Metais Preciosos'];
-  preload.forEach((c, i) => {
-    setTimeout(() => { if (!newsCache[c]) loadNews(c); }, (i+1) * 15000);
-  });
-
-  // Auto-refresh a cada 10 min
+  // ✅ Auto-refresh: só a aba ativa, só a cada 30 minutos
   setInterval(() => {
     if (!['📈 Gráficos','Análises SMC','🌾 Agronegócio'].includes(cat)) {
       delete newsCache[cat];
       loadNews(cat);
     }
-  }, 10 * 60 * 1000);
+  }, 30 * 60 * 1000);
 });
 
 </script>
