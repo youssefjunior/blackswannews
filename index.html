@@ -1012,13 +1012,57 @@ async function fetchNewsForCME() {
   newsCache['CME · Futuros'] = articles;
   renderCMEPanel();
 }
-async function loadNews(q) {
-  if (q === '📈 Gráficos') return;
-  if (q === 'CME · Futuros') { renderCMEPanel(); fetchNewsForCME(); return; }
-  if (q === '🌾 Agronegócio') { loadAgroNews(); return; }
-  if (q === 'Análises SMC') return;
-  loading();
+async function loadNews(q){
 
+  if(q === '📈 Gráficos') return;
+
+  if(q === 'CME · Futuros'){
+
+    if(typeof renderCMEPanel === 'function'){
+      renderCMEPanel();
+    }
+
+    if(typeof fetchNewsForCME === 'function'){
+      fetchNewsForCME();
+    }
+
+    return;
+  }
+
+  if(q === '🌾 Agronegócio'){
+
+    if(typeof loadAgroNews === 'function'){
+      loadAgroNews();
+    }
+
+    return;
+  }
+
+  try{
+
+    const url = RSS[q];
+
+    if(!url){
+      console.error('RSS não encontrado:', q);
+      return;
+    }
+
+    const articles = await fetchRSS(url);
+
+    newsCache[q] = articles;
+
+    if(typeof render === 'function'){
+      render(articles, q);
+    }else{
+      console.error('render() não existe');
+    }
+
+  }catch(err){
+
+    console.error('Erro loadNews:', err);
+
+  }
+}
   const FEEDS = {
     'Destaques':          ['https://feeds.reuters.com/reuters/businessNews','https://feeds.bbci.co.uk/news/business/rss.xml'],
     'Geopolítica':        ['https://feeds.reuters.com/Reuters/worldNews','https://feeds.bbci.co.uk/news/world/rss.xml'],
