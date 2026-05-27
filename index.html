@@ -1,839 +1,388 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8"/>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-
 <title>Black Swan News · Inteligência de Mercado Global</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"/>
-
 <style>
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-
 :root{
-
   --red:#dc2626;--red-dark:#b91c1c;
-
   --bg:#0a0a0a;--bg2:#0f0f0f;--bg3:#111;
-
   --b1:#1e1e1e;--b2:#2a2a2a;
-
   --t1:#e8e4dc;--t2:#c8c4bc;--t3:#888880;--t4:#555550;
-
   --green:#22c55e;--redp:#ef4444;--amber:#fbbf24;--blue:#7dd3fc;
-
-  --gutter:20px;
-
-  --header-h:56px;
-
-  --topbar-h:36px;
-
+  --gutter:20px;--header-h:56px;--topbar-h:36px;
 }
-
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;}
-
 a{text-decoration:none;color:inherit;}
-
 img{max-width:100%;display:block;}
-
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999;mix-blend-mode:overlay;}
-
-/* ─── TOPBAR ─── */
-
 .topbar{background:#050505;border-bottom:1px solid var(--b1);padding:0 12px;height:var(--topbar-h);display:flex;align-items:center;gap:10px;overflow:hidden;position:sticky;top:0;z-index:200;}
-
 .live-pill{background:var(--red);color:#fff;font-size:8px;font-weight:700;letter-spacing:2px;padding:3px 7px;border-radius:2px;white-space:nowrap;font-family:'Space Mono',monospace;flex-shrink:0;animation:pill-pulse 2s ease-in-out infinite;}
-
 @keyframes pill-pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.4);}50%{box-shadow:0 0 0 4px rgba(220,38,38,0);}}
-
 .ticker-wrap{overflow:hidden;flex:1;mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);}
-
 .ticker-inner{display:flex;gap:28px;animation:scrt 60s linear infinite;white-space:nowrap;}
-
 .ticker-inner:hover{animation-play-state:paused;}
-
 @keyframes scrt{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-
 .tick{display:inline-flex;gap:6px;align-items:center;font-family:'Space Mono',monospace;font-size:10px;padding:0 4px;}
-
 .tick+.tick{border-left:.5px solid var(--b2);}
-
 .tn{color:#6a7a8a;font-size:10px;letter-spacing:.5px;}
-
 .tv{color:#f0ece4;font-weight:700;font-size:10px;}
-
 .up{color:#4ade80;font-weight:700;}
-
 .dn{color:#f87171;font-weight:700;}
-
-/* ─── HEADER ─── */
-
 .header{background:var(--bg);padding:14px var(--gutter) 0;border-bottom:1px solid var(--b1);position:sticky;top:var(--topbar-h);z-index:100;}
-
 .header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:12px;}
-
 .logo{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;letter-spacing:-1.5px;line-height:1;color:var(--t1);display:flex;align-items:center;gap:10px;}
-
 .logo svg{width:32px;height:32px;flex-shrink:0;}
-
 .logo-red{color:var(--red);}
-
 .logo-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t2);margin-top:3px;padding-left:42px;font-weight:600;}
-
 .logo-author{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:1.5px;color:var(--t3);margin-top:3px;padding-left:42px;text-transform:uppercase;}
-
 .logo-author strong{color:var(--t2);font-weight:700;}
-
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
-
 .hdate{font-family:'Space Mono',monospace;font-size:10px;color:#c8d4e0;font-weight:700;white-space:nowrap;}
-
 .hstatus{font-family:'Space Mono',monospace;font-size:8px;color:#ff6b6b;font-weight:600;white-space:nowrap;}
-
 .search-row{display:flex;gap:5px;width:100%;}
-
 .sinput{background:var(--bg3);border:.5px solid var(--b2);color:var(--t1);font-size:11px;padding:8px 12px;border-radius:3px;font-family:'Space Grotesk',sans-serif;width:100%;outline:none;transition:border-color .2s;min-width:0;}
-
 .sinput::placeholder{color:var(--t4);}
-
 .sinput:focus{border-color:var(--red);background:#0d0d0d;}
-
 .btn-ai{background:var(--red);color:#fff;border:none;padding:8px 12px;font-size:9px;font-weight:700;letter-spacing:.5px;border-radius:3px;cursor:pointer;font-family:'Space Mono',monospace;white-space:nowrap;transition:background .15s;flex-shrink:0;}
-
 .btn-ai:hover{background:var(--red-dark);}
-
 .btn-ai:active{transform:scale(.97);}
-
-/* ─── NAV ─── */
-
 .nav{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-bottom:none;padding-bottom:0;}
-
 .nav::-webkit-scrollbar{display:none;}
-
 .nvi{padding:10px 13px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#5a6a7a;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s;user-select:none;flex-shrink:0;}
-
 .nvi:hover{color:#d0ccc4;}
-
 .nvi.active{color:#f5f0e8;border-bottom:2px solid var(--red);}
-
-/* ─── ALERT ─── */
-
 .alert{background:linear-gradient(90deg,#1a0000,var(--red),#1a0000);background-size:200% auto;animation:alertSlide 4s linear infinite;padding:6px var(--gutter);display:flex;align-items:center;gap:10px;overflow:hidden;}
-
 @keyframes alertSlide{0%{background-position:0%;}100%{background-position:200%;}}
-
 .adot{width:6px;height:6px;background:#fff;border-radius:50%;flex-shrink:0;animation:pdot 1s ease-in-out infinite;}
-
 @keyframes pdot{0%,100%{opacity:1;}50%{opacity:.2;}}
-
 .alabel{font-size:8px;font-weight:700;letter-spacing:2px;color:#fca5a5;white-space:nowrap;font-family:'Space Mono',monospace;}
-
 .atext{font-size:9px;color:#fff;font-family:'Space Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
-/* ─── LAYOUT ─── */
-
 .layout{display:grid;grid-template-columns:1fr 380px;border-bottom:1px solid var(--b1);}
-
-/* ─── FEED ─── */
-
 .feed{padding:16px var(--gutter);border-right:1px solid var(--b1);min-width:0;}
-
 .slabel{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#a0b0c0;padding-bottom:10px;border-bottom:1px solid var(--b2);margin-bottom:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-bottom:7px;}
-
 .bc{background:#3f0000;color:#fca5a5;}.bh{background:#2a1a00;color:#fbbf24;}.bg{background:#1a0030;color:#c4b5fd;}.bco{background:#001a0a;color:#86efac;}.bcr{background:#1a0a00;color:#fdba74;}.bm{background:#001520;color:#7dd3fc;}
-
 .src-badge{display:inline-flex;align-items:center;gap:3px;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 5px;border-radius:2px;margin-left:5px;background:#1a0a00;color:#fdba74;}
-
 .lead{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--b1);cursor:pointer;transition:opacity .15s;}
-
 .lead:hover{opacity:.82;}
-
 .lead h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;line-height:1.3;color:#f5f0e8;margin-bottom:6px;}
-
 .lead p{font-size:12px;color:#8a9aaa;line-height:1.65;margin-bottom:7px;}
-
 .meta{font-family:'Space Mono',monospace;font-size:8px;color:var(--t4);display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-
 .itag{color:var(--red);font-weight:700;}
-
 .translate-btn{background:transparent;border:.5px solid var(--b2);color:var(--t4);font-size:7px;padding:2px 6px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;transition:all .15s;}
-
 .translate-btn:hover{border-color:var(--blue);color:var(--blue);}
-
 .translated{font-size:11px;color:var(--blue);line-height:1.6;margin-top:6px;padding:7px 10px;border-left:2px solid var(--blue);background:rgba(125,211,252,.05);}
-
 .mini{display:flex;gap:10px;padding:10px 0;border-bottom:.5px solid var(--b1);cursor:pointer;transition:opacity .15s;}
-
 .mini:hover{opacity:.8;}
-
 .mnum{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--b2);min-width:22px;line-height:1;margin-top:2px;flex-shrink:0;}
-
 .mtit{font-size:12px;font-weight:600;color:#d0ccC4;line-height:1.45;margin-bottom:3px;}
-
 .mmeta{font-family:'Space Mono',monospace;font-size:9px;color:#6a7a8a;}
-
 .skel{height:14px;background:var(--b1);border-radius:2px;margin-bottom:7px;animation:shimmer 1.5s ease-in-out infinite;}
-
 .skel.w90{width:90%;}.skel.w70{width:70%;}.skel.w50{width:50%;}.skel.h8{height:10px;}
-
 @keyframes shimmer{0%,100%{opacity:.3;}50%{opacity:.7;}}
-
 .ai-meta{display:flex;gap:8px;margin-top:10px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;flex-wrap:wrap;}
-
 .impact{padding:4px 8px;border-radius:999px;border:1px solid #222;}
-
 .impact.high{background:#3a0000;color:#ff8a8a;border-color:#5c1111;}
-
 .impact.medium{background:#3a2a00;color:#ffd36b;border-color:#5a4510;}
-
 .impact.low{background:#00260f;color:#72ffb0;border-color:#0f5a31;}
-
 .sentiment{padding:4px 8px;border-radius:999px;background:#111;border:1px solid #222;color:#aaa;}
-
-/* ─── SIDEBAR ─── */
-
 .sidebar-widget{border-left:1px solid var(--b1);min-height:600px;overflow:hidden;}
-
 .sidebar-widget iframe{display:block;}
-
-/* ─── CHARTS ─── */
-
 .chartsec{padding:16px var(--gutter);border-top:1px solid var(--b1);background:var(--bg);}
-
 .chart-tabs,.cal-tabs,.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
-
 .chart-tab,.cal-tab,.chip{font-size:8px;padding:5px 11px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;transition:all .15s;border:.5px solid var(--b2);color:var(--t3);background:transparent;white-space:nowrap;}
-
 .chart-tab:hover,.cal-tab:hover,.chip:hover{border-color:var(--red);color:var(--red);}
-
 .chart-tab.active,.cal-tab.active,.chip.active{border-color:var(--red);color:#fff;background:var(--red);}
-
 .chip-live{border-color:#3f0000;color:#fca5a5;background:#1a0000;}
-
 .chart-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px;}
-
 .chart-frame{background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;overflow:hidden;}
-
 .chart-frame iframe{width:100%;height:380px;border:none;display:block;}
-
 .chart-full{background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;overflow:hidden;}
-
 .chart-full iframe{width:100%;height:500px;border:none;display:block;}
-
 .chart-label{font-family:'Space Mono',monospace;font-size:8px;color:var(--t4);padding:5px 8px;border-bottom:.5px solid var(--b1);letter-spacing:1px;text-transform:uppercase;}
-
-/* ─── VIDEOS ─── */
-
 .vsec{padding:14px var(--gutter);border-top:1px solid var(--b1);}
-
 .vgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;}
-
 .vcard{background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s;}
-
 .vcard:hover{border-color:var(--b2);transform:translateY(-2px);}
-
 .vthumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000;}
-
 .vthumb img{width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .2s;}
-
 .vcard:hover .vthumb img{opacity:1;}
-
 .vthumb-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25);}
-
 .pbtn{width:30px;height:30px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
-
 .vcard:hover .pbtn{transform:scale(1.12);}
-
 .ptri{width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:11px solid #fff;margin-left:3px;}
-
 .vinfo{padding:5px 7px;}
-
 .vlive{display:inline-block;background:var(--red);color:#fff;font-size:6px;font-weight:700;letter-spacing:1.5px;padding:1px 4px;border-radius:2px;margin-bottom:3px;font-family:'Space Mono',monospace;}
-
 .vtit{font-size:8px;font-weight:500;color:var(--t2);line-height:1.35;margin-bottom:2px;}
-
 .vmeta{font-family:'Space Mono',monospace;font-size:7px;color:var(--t4);}
-
 .vtrans{font-size:7px;color:var(--green);margin-top:2px;font-family:'Space Mono',monospace;}
-
 .vmodal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:999;align-items:center;justify-content:center;padding:16px;}
-
 .vmodal.open{display:flex;}
-
 .vmodal-inner{width:100%;max-width:800px;background:#111;border-radius:6px;overflow:hidden;border:.5px solid var(--b2);}
-
 .vmodal-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--b1);gap:10px;}
-
 .vmodal-title{font-size:10px;font-weight:600;color:var(--t2);flex:1;margin-right:8px;}
-
 .vmodal-close{background:transparent;border:none;color:var(--t3);font-size:20px;cursor:pointer;line-height:1;padding:4px;}
-
 .vmodal-close:hover{color:var(--red);}
-
 .vmodal-frame{position:relative;aspect-ratio:16/9;}
-
 .vmodal-frame iframe{width:100%;height:100%;border:none;display:block;}
-
-/* ─── AGRO ─── */
-
 .agrosec{padding:18px var(--gutter);border-top:2px solid #1a3a0a;background:var(--bg);}
-
 .agro-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-
 .agro-title-block{display:flex;align-items:center;gap:10px;}
-
 .agro-icon{width:36px;height:36px;background:linear-gradient(135deg,#1a4a08,#2d7a14);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-
 .agro-label{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#c8e8b0;letter-spacing:-.5px;line-height:1;}
-
 .agro-sub{font-family:'Space Mono',monospace;font-size:7px;color:#6a9a58;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
-
 .agro-live-pill{background:#1a4a08;border:.5px solid #2d7a14;color:#86efac;font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:1.5px;padding:3px 8px;border-radius:2px;text-transform:uppercase;animation:agropulse 2.5s ease-in-out infinite;}
-
 @keyframes agropulse{0%,100%{box-shadow:0 0 0 0 rgba(45,122,20,0.5);}50%{box-shadow:0 0 0 5px rgba(45,122,20,0);}}
-
 .agro-ticker-strip{background:#0a1507;border:.5px solid #1a3a0a;border-radius:3px;padding:8px 12px;margin-bottom:14px;display:flex;gap:0;overflow:hidden;mask-image:linear-gradient(to right,transparent 0%,#000 4%,#000 96%,transparent 100%);}
-
 .agro-ticker-inner{display:flex;gap:20px;animation:scrt 40s linear infinite;white-space:nowrap;}
-
 .agro-ticker-inner:hover{animation-play-state:paused;}
-
 .atick{display:inline-flex;gap:5px;align-items:center;font-family:'Space Mono',monospace;font-size:9px;padding:0 3px;}
-
 .atick+.atick{border-left:.5px solid #1a3a0a;}
-
 .atn{color:#4a7a38;font-size:8px;letter-spacing:.5px;}
-
 .atv{color:#c8e8b0;font-weight:700;font-size:9px;}
-
 .agro-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
-
 .agro-panel{background:#0a1507;border:.5px solid #1a3a0a;border-radius:4px;overflow:hidden;transition:border-color .2s;}
-
 .agro-panel:hover{border-color:#2d7a14;}
-
 .agro-panel-head{padding:8px 11px;border-bottom:.5px solid #1a3a0a;display:flex;align-items:center;justify-content:space-between;}
-
 .agro-panel-title{font-family:'Space Mono',monospace;font-size:8px;color:#6a9a58;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
-
 .agro-panel-badge{font-size:7px;padding:2px 5px;border-radius:2px;font-family:'Space Mono',monospace;font-weight:700;letter-spacing:1px;}
-
 .apb-grain{background:#1a2a08;color:#86efac;}.apb-protein{background:#1a1a0a;color:#fbbf24;}.apb-energy{background:#0a0a1a;color:#7dd3fc;}.apb-insumo{background:#1a0a1a;color:#e879f9;}.apb-clima{background:#0a1520;color:#93c5fd;}
-
 .agro-panel-body{padding:10px 11px;}
-
 .agro-stat{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:.5px solid #111a08;}
-
 .agro-stat:last-child{border-bottom:none;}
-
 .agro-stat-name{font-size:10px;color:#8aaa78;font-weight:500;}
-
 .agro-stat-val{font-family:'Space Mono',monospace;font-size:10px;color:#c8e8b0;font-weight:700;}
-
 .agro-stat-chg{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;}
-
 .agro-stat-chg.up{color:#4ade80;}
-
 .agro-stat-chg.dn{color:#f87171;}
-
 .agro-charts{margin-bottom:14px;}
-
 .agro-chart-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
-
 .agro-chart-tab{font-size:8px;padding:5px 11px;border-radius:2px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;transition:all .15s;border:.5px solid #1a3a0a;color:#4a7a38;background:transparent;white-space:nowrap;}
-
 .agro-chart-tab:hover{border-color:#2d7a14;color:#86efac;}
-
 .agro-chart-tab.active{border-color:#2d7a14;color:#0a1507;background:#2d7a14;}
-
 .agro-chart-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-
 .agro-chart-frame{background:#0a1507;border:.5px solid #1a3a0a;border-radius:3px;overflow:hidden;}
-
 .agro-chart-frame iframe{width:100%;height:320px;border:none;display:block;}
-
 .agro-chart-label{font-family:'Space Mono',monospace;font-size:7px;color:#4a7a38;padding:5px 8px;border-bottom:.5px solid #1a3a0a;letter-spacing:1px;text-transform:uppercase;}
-
 .agro-news-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-
 .agro-news-card{background:#0a1507;border:.5px solid #1a3a0a;border-radius:4px;padding:10px 12px;cursor:pointer;transition:border-color .2s,transform .15s;}
-
 .agro-news-card:hover{border-color:#2d7a14;transform:translateY(-1px);}
-
 .agro-news-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:1px;padding:2px 6px;border-radius:2px;margin-bottom:5px;}
-
 .ant-soja{background:#1a2a08;color:#86efac;}.ant-carne{background:#1a1000;color:#fcd34d;}.ant-energia{background:#0a0a20;color:#93c5fd;}.ant-clima{background:#001520;color:#67e8f9;}.ant-insumo{background:#1a0020;color:#d8b4fe;}.ant-terra{background:#200800;color:#fb923c;}
-
 .agro-news-title{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:#c8e8b0;line-height:1.35;margin-bottom:4px;}
-
 .agro-news-desc{font-size:10px;color:#5a8a48;line-height:1.5;margin-bottom:6px;}
-
 .agro-news-meta{font-family:'Space Mono',monospace;font-size:8px;color:#3a6a28;display:flex;gap:8px;align-items:center;}
-
 .agro-market-map{background:#0a1507;border:.5px solid #1a3a0a;border-radius:4px;padding:12px;margin-bottom:14px;}
-
 .agro-map-title{font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-
 .agro-map-title::after{content:'';flex:1;height:.5px;background:#1a3a0a;}
-
 .agro-flow-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-
 .agro-flow-card{background:#060d03;border:.5px solid #152510;border-radius:3px;padding:8px;text-align:center;}
-
 .agro-flow-flag{font-size:16px;margin-bottom:3px;}
-
 .agro-flow-name{font-family:'Space Mono',monospace;font-size:7px;color:#4a7a38;letter-spacing:.5px;margin-bottom:4px;}
-
 .agro-flow-val{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:#86efac;}
-
 .agro-flow-desc{font-size:8px;color:#3a6a28;margin-top:2px;}
-
 .agro-climate-block{background:#0a0f08;border:.5px solid #1a3a0a;border-left:3px solid #2d7a14;border-radius:4px;padding:10px 14px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;}
-
 .agro-climate-icon{font-size:24px;flex-shrink:0;margin-top:2px;}
-
 .agro-climate-content{flex:1;min-width:0;}
-
 .agro-climate-title{font-family:'Space Mono',monospace;font-size:9px;color:#86efac;font-weight:700;letter-spacing:1px;margin-bottom:3px;text-transform:uppercase;}
-
 .agro-climate-text{font-size:11px;color:#7aaa68;line-height:1.55;}
-
 .agro-climate-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
-
 .agro-ctag{font-size:7px;padding:2px 6px;border-radius:2px;font-family:'Space Mono',monospace;font-weight:700;background:#1a3a0a;color:#4ade80;letter-spacing:.5px;}
-
 .agro-videos{margin-top:14px;}
-
 .agro-vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
-
-/* ─── CALENDAR ─── */
-
 .calsec{padding:16px var(--gutter);border-top:1px solid var(--b1);background:#fff;}
-
 .calsec .slabel{color:#555;border-bottom-color:#e5e7eb;}
-
-/* ─── ANALYSIS ─── */
-
 .asec{padding:16px var(--gutter);border-top:1px solid var(--b1);}
-
 .agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;}
-
 .acard{background:var(--bg2);border:.5px solid var(--b1);border-radius:4px;padding:13px;transition:border-color .2s;}
-
 .acard:hover{border-color:var(--b2);}
-
 .atop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;gap:8px;}
-
 .atit{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--t1);line-height:1.3;}
-
 .dir{font-size:9px;font-weight:700;letter-spacing:1px;white-space:nowrap;padding:3px 8px;border-radius:2px;flex-shrink:0;font-family:'Space Mono',monospace;}
-
 .dlong{background:#001a0a;color:#86efac;}.dshort{background:#3f0000;color:#fca5a5;}.dwatch{background:#2a1a00;color:#fbbf24;}
-
 .alevs{font-family:'Space Mono',monospace;font-size:8px;color:var(--t4);margin-bottom:9px;line-height:2.2;}
-
 .lv{color:var(--t2);font-weight:700;}
-
 .anote{font-size:11px;color:var(--t3);line-height:1.6;border-top:.5px solid var(--b1);padding-top:9px;}
-
 .adate{font-family:'Space Mono',monospace;font-size:8px;color:var(--t4);margin-top:7px;}
-
 .btnnew{margin-top:12px;background:transparent;border:.5px solid var(--b2);color:var(--t3);font-size:10px;padding:10px 16px;border-radius:3px;cursor:pointer;font-family:'Space Mono',monospace;width:100%;letter-spacing:.5px;transition:all .2s;}
-
 .btnnew:hover{border-color:var(--red);color:var(--red);}
-
-/* ─── FOOTER ─── */
-
 footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutter);display:flex;gap:12px;font-family:'Space Mono',monospace;font-size:8px;color:var(--t4);flex-wrap:wrap;align-items:center;}
-
 .fdot{color:var(--red);}
-
-/* ─── MOBILE HAMBURGER ─── */
-
 .mob-nav-toggle{display:none;background:transparent;border:.5px solid var(--b2);color:var(--t3);padding:6px 10px;font-size:16px;cursor:pointer;border-radius:3px;line-height:1;flex-shrink:0;}
-
 .mob-nav-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;}
-
 .mob-nav-drawer{position:fixed;top:0;left:0;bottom:0;width:75vw;max-width:300px;background:#0d0d0d;border-right:1px solid var(--b1);z-index:301;overflow-y:auto;padding:16px 0;transform:translateX(-100%);transition:transform .25s cubic-bezier(.4,0,.2,1);}
-
 .mob-nav-drawer.open{transform:translateX(0);}
-
 .mob-nav-overlay.open{display:block;}
-
 .mob-nav-header{padding:12px 16px 16px;border-bottom:1px solid var(--b1);margin-bottom:8px;}
-
 .mob-nvi{display:block;padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t4);cursor:pointer;border-left:3px solid transparent;transition:all .15s;user-select:none;}
-
 .mob-nvi:hover{color:var(--t2);border-left-color:var(--b2);}
-
 .mob-nvi.active{color:#f5f0e8;border-left-color:var(--red);background:rgba(220,38,38,.05);}
-
-/* ─── MOBILE BOTTOM NAV ─── */
-
 .mob-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid var(--b1);z-index:200;padding:6px 0 max(6px,env(safe-area-inset-bottom));}
-
 .mob-bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 8px;cursor:pointer;flex:1;}
-
 .mob-bn-icon{font-size:16px;line-height:1;}
-
 .mob-bn-label{font-family:'Space Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.5px;text-transform:uppercase;transition:color .15s;}
-
 .mob-bn-item.active .mob-bn-label{color:var(--red);}
-
-/* ─── RESPONSIVE ─── */
-
 @media(max-width:1024px){.layout{grid-template-columns:1fr 300px;}.vgrid{grid-template-columns:repeat(4,1fr);}.agrid{grid-template-columns:repeat(2,1fr);}.chart-grid{grid-template-columns:repeat(2,1fr);}}
-
 @media(max-width:768px){
-
   :root{--gutter:14px;--topbar-h:32px;}
-
   .header{padding:10px var(--gutter) 0;top:var(--topbar-h);}
-
   .header-top{flex-direction:row;align-items:center;margin-bottom:8px;}
-
-  .logo{font-size:26px;gap:7px;}
-
-  .logo svg{width:24px;height:24px;}
-
-  .logo-sub{font-size:8px;padding-left:31px;}
-
+  .logo{font-size:26px;gap:7px;}.logo svg{width:24px;height:24px;}.logo-sub{font-size:8px;padding-left:31px;}
   .hright{display:none;}
-
   .mob-search-bar{display:flex;gap:5px;padding:8px var(--gutter);background:var(--bg);border-bottom:1px solid var(--b1);}
-
   .mob-nav-toggle{display:flex;align-items:center;justify-content:center;}
-
   .nav{display:none;}
-
   .layout{grid-template-columns:1fr;display:block;}
-
   .sidebar-widget{display:none;}
-
   .feed{padding:12px var(--gutter);border-right:none;}
-
   .lead h2{font-size:17px;}
-
   .chart-grid{grid-template-columns:1fr;}
-
   .chart-frame iframe{height:280px;}
-
   .vgrid{grid-template-columns:repeat(2,1fr);gap:6px;}
-
   .agrid{grid-template-columns:1fr;}
-
   .mob-bottom-nav{display:flex;justify-content:space-around;align-items:center;}
-
   footer{padding-bottom:70px;}
-
   .asec{padding-bottom:70px;}
-
   .agro-grid{grid-template-columns:1fr 1fr;}
-
   .agro-chart-grid{grid-template-columns:1fr 1fr;}
-
   .agro-news-grid{grid-template-columns:1fr;}
-
   .agro-flow-grid{grid-template-columns:repeat(2,1fr);}
-
   .agro-vgrid{grid-template-columns:repeat(2,1fr);}
-
 }
-
-@media(max-width:480px){
-
-  .vgrid{grid-template-columns:1fr;}
-
-  .logo{font-size:22px;}
-
-  .agro-grid{grid-template-columns:1fr;}
-
-  .agro-chart-grid{grid-template-columns:1fr;}
-
-}
-
+@media(max-width:480px){.vgrid{grid-template-columns:1fr;}.logo{font-size:22px;}.agro-grid{grid-template-columns:1fr;}.agro-chart-grid{grid-template-columns:1fr;}}
 @supports(padding:max(0px)){
-
   .topbar{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right));}
-
   .mob-bottom-nav{padding-bottom:max(6px,env(safe-area-inset-bottom));}
-
 }
-
 </style>
-
 </head>
-
 <body>
 
-<!-- TOPBAR -->
-
 <div class="topbar">
-
   <button class="mob-nav-toggle" id="mob-nav-toggle" aria-label="Menu">☰</button>
-
   <span class="live-pill">LIVE</span>
-
   <div class="ticker-wrap"><div class="ticker-inner" id="ticker"></div></div>
-
 </div>
-
-<!-- MOBILE DRAWER -->
 
 <div class="mob-nav-overlay" id="mob-overlay"></div>
-
 <div class="mob-nav-drawer" id="mob-drawer">
-
   <div class="mob-nav-header">
-
     <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--t1);">BLACK<span style="color:var(--red);">SWAN</span></div>
-
     <div style="font-family:'Space Mono',monospace;font-size:7px;color:var(--t4);margin-top:3px;letter-spacing:1px;">INTELIGÊNCIA DE MERCADO</div>
-
   </div>
-
   <div id="mob-nav-items"></div>
-
 </div>
-
-<!-- HEADER -->
 
 <div class="header">
-
   <div class="header-top">
-
     <div style="flex:1;min-width:0;">
-
       <div class="logo">
-
         <svg viewBox="0 0 38 38" fill="none"><path d="M10 32C10 32 5 24 8 16C11 8 18 6 22 9C27 12 28 20 23 25C20 28 15 28 12 25" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 25C10 29 10 32 10 32" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="23" cy="10" r="2" fill="#dc2626"/><path d="M8 16C5 13 4 10 6 9C9 7 11 11 8 16" fill="#dc2626" opacity="0.7"/></svg>
-
         BLACK<span class="logo-red">SWAN</span>
-
       </div>
-
       <div class="logo-sub">Inteligência de Mercado Global · O Imprevisto que Move o Mundo</div>
-
       <div class="logo-author">Desenvolvido por <strong>José Youssef</strong> · Produtor Rural · Trader · Financista · Entusiasta Jurídico</div>
-
     </div>
-
     <div class="hright" id="hright-desktop">
-
       <div class="hdate" id="hdate">Carregando...</div>
-
       <div class="hstatus">● Reuters · Bloomberg · AP · Tempo Real</div>
-
       <div class="search-row">
-
         <input class="sinput" id="sinput" type="text" placeholder="Fed, ouro, BTC, guerra..."/>
-
         <button class="btn-ai" id="btnai">Analisar IA ↗</button>
-
       </div>
-
     </div>
-
   </div>
-
   <nav class="nav" id="desktop-nav">
-
     <div class="nvi active" data-cat="Destaques">Destaques</div>
-
     <div class="nvi" data-cat="Geopolítica">Geopolítica</div>
-
     <div class="nvi" data-cat="Bancos Centrais">Bancos Centrais</div>
-
     <div class="nvi" data-cat="CME · Futuros">CME · Futuros</div>
-
     <div class="nvi" data-cat="🌾 Agronegócio" style="color:#4a9a30;">🌾 Agronegócio</div>
-
     <div class="nvi" data-cat="Commodities">Commodities</div>
-
     <div class="nvi" data-cat="Metais Preciosos">Metais Preciosos</div>
-
     <div class="nvi" data-cat="Cripto">Cripto</div>
-
-    <div class="nvi" data-cat="Guerras & Conflitos">Guerras &amp; Conflitos</div>
-
+    <div class="nvi" data-cat="Guerras &amp; Conflitos">Guerras &amp; Conflitos</div>
     <div class="nvi" data-cat="Saúde Global">Saúde Global</div>
-
     <div class="nvi" data-cat="📈 Gráficos">📈 Gráficos</div>
-
     <div class="nvi" data-cat="Análises SMC">Análises SMC</div>
-
   </nav>
-
 </div>
-
-<!-- MOBILE SEARCH -->
 
 <div class="mob-search-bar" id="mob-search-bar" style="display:none;">
-
   <input class="sinput" id="sinput-mob" type="text" placeholder="Fed, ouro, BTC, guerra..."/>
-
   <button class="btn-ai" id="btnai-mob">IA ↗</button>
-
 </div>
-
-<!-- ALERT -->
 
 <div class="alert">
-
   <div class="adot"></div>
-
   <span class="alabel">CISNE NEGRO</span>
-
-  <div class="atext">Notícias em tempo real · Reuters · Bloomberg · AP · CNBC · FT · CoinDesk</div>
-
+  <div class="atext">Notícias em tempo real · NYT · BBC · Kitco · OilPrice · Notícias Agrícolas</div>
 </div>
-
-<!-- MAIN LAYOUT -->
 
 <div class="layout" id="main-layout">
-
   <main class="feed" id="feed">
-
     <div class="slabel">Carregando...</div>
-
     <div style="padding-top:6px;">
-
       <div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
-
       <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
-
       <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
-
     </div>
-
   </main>
-
   <aside class="sidebar-widget" id="sidebar-widget">
-
     <iframe src="https://s.tradingview.com/embed-widget/market-quotes/?locale=br#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A800%2C%22showSymbolLogo%22%3Atrue%2C%22isTransparent%22%3Afalse%2C%22colorTheme%22%3A%22dark%22%2C%22locale%22%3A%22br%22%2C%22symbolsGroups%22%3A%5B%7B%22name%22%3A%22Indices%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3ASPXUSD%22%2C%22displayName%22%3A%22S%26P%20500%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ANSXUSD%22%2C%22displayName%22%3A%22Nasdaq%20100%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ADJI%22%2C%22displayName%22%3A%22Dow%20Jones%22%7D%2C%7B%22name%22%3A%22INDEX%3ANKY%22%2C%22displayName%22%3A%22Nikkei%22%7D%2C%7B%22name%22%3A%22INDEX%3ADAX%22%2C%22displayName%22%3A%22DAX%22%7D%2C%7B%22name%22%3A%22INDEX%3AFTSE%22%2C%22displayName%22%3A%22FTSE%22%7D%2C%7B%22name%22%3A%22BMFBOVESPA%3AIBOV%22%2C%22displayName%22%3A%22IBOV%22%7D%2C%7B%22name%22%3A%22TVC%3AVIX%22%2C%22displayName%22%3A%22VIX%22%7D%5D%7D%2C%7B%22name%22%3A%22Commodities%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3AXAUUSD%22%2C%22displayName%22%3A%22Ouro%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AXAGUSD%22%2C%22displayName%22%3A%22Prata%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AOILUSD%22%2C%22displayName%22%3A%22Petr%C3%B3leo%22%7D%2C%7B%22name%22%3A%22AMEX%3ASOYB%22%2C%22displayName%22%3A%22Soja%22%7D%2C%7B%22name%22%3A%22AMEX%3AWEAT%22%2C%22displayName%22%3A%22Trigo%22%7D%2C%7B%22name%22%3A%22AMEX%3ACORN%22%2C%22displayName%22%3A%22Milho%22%7D%5D%7D%2C%7B%22name%22%3A%22Forex%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FX%3AEURUSD%22%2C%22displayName%22%3A%22EUR%2FUSD%22%7D%2C%7B%22name%22%3A%22FX%3AUSDBRL%22%2C%22displayName%22%3A%22USD%2FBRL%22%7D%2C%7B%22name%22%3A%22FX%3AGBPUSD%22%2C%22displayName%22%3A%22GBP%2FUSD%22%7D%2C%7B%22name%22%3A%22FX%3AUSDJPY%22%2C%22displayName%22%3A%22USD%2FJPY%22%7D%2C%7B%22name%22%3A%22TVC%3ADXY%22%2C%22displayName%22%3A%22DXY%22%7D%5D%7D%2C%7B%22name%22%3A%22Cripto%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22displayName%22%3A%22Bitcoin%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3AETHUSD%22%2C%22displayName%22%3A%22Ethereum%22%7D%2C%7B%22name%22%3A%22COINBASE%3ASOLUSD%22%2C%22displayName%22%3A%22Solana%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3AXRPUSD%22%2C%22displayName%22%3A%22XRP%22%7D%5D%7D%5D%7D" width="100%" height="800" frameborder="0" scrolling="no" style="display:block;"></iframe>
-
   </aside>
-
 </div>
-
-<!-- CHARTS SECTION -->
 
 <section class="chartsec" id="chartsec" style="display:none;">
-
   <div class="slabel">Gráficos · TradingView · Tempo Real</div>
-
   <div class="chart-tabs">
-
     <span class="chart-tab active" onclick="showCharts(event,'indices')">Índices</span>
-
     <span class="chart-tab" onclick="showCharts(event,'moedas')">Forex</span>
-
     <span class="chart-tab" onclick="showCharts(event,'commodities')">Commodities</span>
-
     <span class="chart-tab" onclick="showCharts(event,'cripto')">Cripto</span>
-
     <span class="chart-tab" onclick="showCharts(event,'brasil')">Brasil · B3</span>
-
     <span class="chart-tab" onclick="showCharts(event,'avancado')">Avançado</span>
-
   </div>
-
   <div id="chart-content"></div>
-
 </section>
-
-<!-- MOBILE MARKETS WIDGET -->
 
 <div id="mob-markets" style="display:none;border-top:1px solid var(--b1);padding:0;">
-
   <div style="padding:10px 14px 6px;font-family:'Space Mono',monospace;font-size:9px;color:#a0b0c0;letter-spacing:2px;text-transform:uppercase;font-weight:700;border-bottom:1px solid var(--b2);">Mercados · Tempo Real</div>
-
   <iframe src="https://s.tradingview.com/embed-widget/market-quotes/?locale=br#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A500%2C%22showSymbolLogo%22%3Atrue%2C%22isTransparent%22%3Afalse%2C%22colorTheme%22%3A%22dark%22%2C%22locale%22%3A%22br%22%2C%22symbolsGroups%22%3A%5B%7B%22name%22%3A%22Indices%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3ASPXUSD%22%2C%22displayName%22%3A%22S%26P%20500%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ANSXUSD%22%2C%22displayName%22%3A%22Nasdaq%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AXAUUSD%22%2C%22displayName%22%3A%22Ouro%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22displayName%22%3A%22Bitcoin%22%7D%2C%7B%22name%22%3A%22FX%3AUSDBRL%22%2C%22displayName%22%3A%22USD%2FBRL%22%7D%2C%7B%22name%22%3A%22BMFBOVESPA%3AIBOV%22%2C%22displayName%22%3A%22IBOV%22%7D%5D%7D%5D%7D" width="100%" height="500" frameborder="0" scrolling="no" style="display:block;"></iframe>
-
 </div>
-
-<!-- VIDEOS -->
 
 <section class="vsec" id="vsec">
-
   <div class="slabel">Vídeos · Analistas &amp; Entrevistas Globais</div>
-
   <div class="chips">
-
     <span class="chip active" onclick="filterVideos(event,'todos')">Todos</span>
-
     <span class="chip chip-live" onclick="filterVideos(event,'live')">● Live</span>
-
     <span class="chip" onclick="filterVideos(event,'bloomberg')">Bloomberg</span>
-
     <span class="chip" onclick="filterVideos(event,'cnbc')">CNBC</span>
-
     <span class="chip" onclick="filterVideos(event,'kitco')">Kitco</span>
-
     <span class="chip" onclick="filterVideos(event,'tradingview')">TradingView</span>
-
     <span class="chip" onclick="filterVideos(event,'reuters')">Reuters</span>
-
   </div>
-
-  <div class="vgrid" id="vgrid">
-  <div class="vcard" style="pointer-events:none;">
-    <div class="vthumb" style="background:var(--b1);aspect-ratio:16/9;"><div class="skel" style="width:100%;height:100%;margin:0;border-radius:0;"></div></div>
-    <div class="vinfo"><div class="skel w90" style="margin-bottom:5px;"></div><div class="skel w60 h8"></div></div>
-  </div><div class="vcard" style="pointer-events:none;">
-    <div class="vthumb" style="background:var(--b1);aspect-ratio:16/9;"><div class="skel" style="width:100%;height:100%;margin:0;border-radius:0;"></div></div>
-    <div class="vinfo"><div class="skel w90" style="margin-bottom:5px;"></div><div class="skel w60 h8"></div></div>
-  </div><div class="vcard" style="pointer-events:none;">
-    <div class="vthumb" style="background:var(--b1);aspect-ratio:16/9;"><div class="skel" style="width:100%;height:100%;margin:0;border-radius:0;"></div></div>
-    <div class="vinfo"><div class="skel w90" style="margin-bottom:5px;"></div><div class="skel w60 h8"></div></div>
-  </div><div class="vcard" style="pointer-events:none;">
-    <div class="vthumb" style="background:var(--b1);aspect-ratio:16/9;"><div class="skel" style="width:100%;height:100%;margin:0;border-radius:0;"></div></div>
-    <div class="vinfo"><div class="skel w90" style="margin-bottom:5px;"></div><div class="skel w60 h8"></div></div>
-  </div><div class="vcard" style="pointer-events:none;">
-    <div class="vthumb" style="background:var(--b1);aspect-ratio:16/9;"><div class="skel" style="width:100%;height:100%;margin:0;border-radius:0;"></div></div>
-    <div class="vinfo"><div class="skel w90" style="margin-bottom:5px;"></div><div class="skel w60 h8"></div></div>
-  </div>
-</div>
-
+  <div class="vgrid" id="vgrid"></div>
 </section>
 
-<!-- VIDEO MODAL -->
-
 <div class="vmodal" id="vmodal">
-
   <div class="vmodal-inner">
-
     <div class="vmodal-header">
-
       <span class="vmodal-title" id="vmodal-title"></span>
-
       <button class="vmodal-close" onclick="closeVideo()">✕</button>
-
     </div>
-
     <div class="vmodal-frame">
-
       <iframe id="vmodal-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-
     </div>
-
   </div>
-
 </div>
 
-<!-- AGRO CHART MODAL -->
 <div class="vmodal" id="agro-chart-modal">
   <div class="vmodal-inner" style="max-width:900px;">
     <div class="vmodal-header" style="background:#0a1507;border-bottom-color:#1a3a0a;">
@@ -846,336 +395,198 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
   </div>
 </div>
 
-
-<!-- CALENDAR -->
-
 <section class="calsec" id="calsec">
-
   <div class="slabel" style="color:#555;">Calendário Econômico · Investing.com · Tempo Real</div>
-
   <div style="background:#fff;border-radius:4px;overflow:hidden;">
-
     <iframe src="https://sslecal2.investing.com?ecoDayBackground=%23ffffff&columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&features=datepicker,timezone,filters&countries=5,22,17,39,25,32,6,23,7,24,26,4,72,36,110,11,43,14,8,38,27&calType=day&timeZone=20&lang=12" width="100%" height="600" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" style="display:block;"></iframe>
-
     <div style="font-family:'Space Mono',monospace;font-size:8px;color:#9ca3af;padding:7px 12px;background:#f9fafb;border-top:1px solid #e5e7eb;text-align:right;">Fonte: <a href="https://br.investing.com" target="_blank" style="color:var(--red);font-weight:700;">Investing.com</a></div>
-
   </div>
-
 </section>
-
-<!-- ANALYSIS SMC -->
 
 <section class="asec" style="display:none;">
-
   <div class="slabel">Análises Exclusivas — Black Swan Intelligence · SMC</div>
-
   <div class="agrid">
-
     <div class="acard"><div class="atop"><div class="atit">Nasdaq (NQ1!) — Estrutura Semanal</div><span class="dir dwatch">AGUARDAR</span></div><div class="alevs"><div>Resistência: <span class="lv">21,940 · 22,200</span></div><div>Suporte: <span class="lv">21,600 · 21,280</span></div><div>OB Bearish: <span class="lv">21,880–21,920</span></div><div>FVG: <span class="lv">21,500–21,560</span></div></div><div class="anote">Mercado em distribuição no topo da range semanal. Aguardar rejeição no OB ou reclaim acima de 22.200 para bias direcional.</div><div class="adate">27 Abr 2025 · 08:00 BRT</div></div>
-
     <div class="acard"><div class="atop"><div class="atit">Ouro (GC1!) — Setup de Alta em Confluência</div><span class="dir dlong">LONG</span></div><div class="alevs"><div>Entrada: <span class="lv">3,285–3,295</span></div><div>Alvo 1: <span class="lv">3,340</span></div><div>Alvo 2: <span class="lv">3,390</span></div><div>Stop: <span class="lv">3,268</span></div></div><div class="anote">OB semanal testado com absorção. Estrutura de alta intacta. R:R 1:3 favorável.</div><div class="adate">27 Abr 2025 · 07:30 BRT</div></div>
-
     <div class="acard"><div class="atop"><div class="atit">Bitcoin (BTC/USD) — Breakout ou Fakeout?</div><span class="dir dwatch">MONITORAR</span></div><div class="alevs"><div>Resistência: <span class="lv">94,500</span></div><div>Liquidez: <span class="lv">95,000–96,200</span></div><div>Suporte: <span class="lv">89,000 · 85,400</span></div><div>FVG: <span class="lv">90,200–91,000</span></div></div><div class="anote">Rally varrendo liquidez acima de 94,5k. Reclaim = alvo 98k. Abaixo de 89k estrutura deteriora.</div><div class="adate">27 Abr 2025 · 09:15 BRT</div></div>
-
     <div class="acard"><div class="atop"><div class="atit">Petróleo (CL1!) — Pressão Vendedora</div><span class="dir dshort">SHORT</span></div><div class="alevs"><div>Entrada: <span class="lv">83,00–83,80</span></div><div>Alvo 1: <span class="lv">79.50</span></div><div>Alvo 2: <span class="lv">77.00</span></div><div>Stop: <span class="lv">84.20</span></div></div><div class="anote">OPEC+ sinaliza reversão de cortes. OB bearish como entrada. R:R 1:4.</div><div class="adate">26 Abr 2025 · 18:00 BRT</div></div>
-
   </div>
-
   <button class="btnnew" id="btnnew">+ Nova Análise SMC — Black Swan Intelligence ↗</button>
-
 </section>
 
-<!-- MOBILE BOTTOM NAV -->
-
 <nav class="mob-bottom-nav" id="mob-bottom-nav">
-
   <div class="mob-bn-item active" data-section="feed" onclick="mobNav(this,'feed')"><div class="mob-bn-icon">📰</div><div class="mob-bn-label">Notícias</div></div>
-
   <div class="mob-bn-item" data-section="markets" onclick="mobNav(this,'markets')"><div class="mob-bn-icon">📊</div><div class="mob-bn-label">Mercados</div></div>
-
   <div class="mob-bn-item" data-section="charts" onclick="mobNav(this,'charts')"><div class="mob-bn-icon">📈</div><div class="mob-bn-label">Gráficos</div></div>
-
   <div class="mob-bn-item" data-section="videos" onclick="mobNav(this,'videos')"><div class="mob-bn-icon">▶️</div><div class="mob-bn-label">Vídeos</div></div>
-
   <div class="mob-bn-item" data-section="smc" onclick="mobNav(this,'smc')"><div class="mob-bn-icon">🎯</div><div class="mob-bn-label">SMC</div></div>
-
   <div class="mob-bn-item" data-section="agro" onclick="mobNav(this,'agro')"><div class="mob-bn-icon">🌾</div><div class="mob-bn-label">Agro</div></div>
-
 </nav>
 
-<!-- AGRONEGÓCIO -->
-
 <section class="agrosec" id="agrosec" style="display:none;">
-
   <div class="agro-header">
-
     <div class="agro-title-block">
-
       <div class="agro-icon">🌾</div>
-
       <div>
-
         <div class="agro-label">Mundo do Agronegócio</div>
-
         <div class="agro-sub">Commodities · Insumos · Clima · Energia · Mercados Globais</div>
-
       </div>
-
     </div>
-
     <div class="agro-live-pill">● Tempo Real · CBOT · B3 · USDA</div>
-
   </div>
-
   <div class="agro-ticker-strip">
-
     <div class="agro-ticker-inner" id="agro-ticker">
-
       <span class="atick"><span class="atn">SOJA ZS1!</span><span class="atv">$1.084</span><span class="up">+0.8%</span></span>
-
       <span class="atick"><span class="atn">MILHO ZC1!</span><span class="atv">$442</span><span class="dn">-0.3%</span></span>
-
       <span class="atick"><span class="atn">TRIGO ZW1!</span><span class="atv">$528</span><span class="up">+0.5%</span></span>
-
       <span class="atick"><span class="atn">BOI BGI1!</span><span class="atv">R$285</span><span class="up">+1.2%</span></span>
-
       <span class="atick"><span class="atn">CAFÉ KC1!</span><span class="atv">$381</span><span class="up">+2.1%</span></span>
-
       <span class="atick"><span class="atn">ALGODÃO CT1!</span><span class="atv">$67</span><span class="dn">-0.4%</span></span>
-
       <span class="atick"><span class="atn">AÇÚCAR SB1!</span><span class="atv">$19.4</span><span class="dn">-0.9%</span></span>
-
       <span class="atick"><span class="atn">ETANOL</span><span class="atv">R$3.48/L</span><span class="up">+0.6%</span></span>
-
       <span class="atick"><span class="atn">UREIA</span><span class="atv">$320/t</span><span class="up">+1.5%</span></span>
-
       <span class="atick"><span class="atn">MAP</span><span class="atv">$580/t</span><span class="up">+0.8%</span></span>
-
       <span class="atick"><span class="atn">DIESEL</span><span class="atv">R$6,38/L</span><span class="dn">-0.2%</span></span>
-
-      <!-- duplicate for loop -->
-
       <span class="atick"><span class="atn">SOJA ZS1!</span><span class="atv">$1.084</span><span class="up">+0.8%</span></span>
-
       <span class="atick"><span class="atn">MILHO ZC1!</span><span class="atv">$442</span><span class="dn">-0.3%</span></span>
-
       <span class="atick"><span class="atn">TRIGO ZW1!</span><span class="atv">$528</span><span class="up">+0.5%</span></span>
-
       <span class="atick"><span class="atn">BOI BGI1!</span><span class="atv">R$285</span><span class="up">+1.2%</span></span>
-
       <span class="atick"><span class="atn">CAFÉ KC1!</span><span class="atv">$381</span><span class="up">+2.1%</span></span>
-
     </div>
-
   </div>
-
   <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;margin-top:16px;display:flex;align-items:center;gap:6px;">Notícias do Agro · Tempo Real<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span><span id="agro-news-status" style="font-size:7px;color:#3a6a28;">Carregando...</span></div>
-
   <div class="agro-news-grid" id="agro-news-grid">
-
-    <div class="agro-news-card"><div class="agro-news-tag ant-soja">GRÃOS</div><div class="agro-news-title">Carregando notícias do agronegócio...</div><div class="agro-news-desc">Buscando as últimas informações sobre commodities agrícolas.</div><div class="agro-news-meta"><span>CONAB · Reuters</span><span>agora</span></div></div>
-
+    <div class="agro-news-card"><div class="agro-news-tag ant-soja">GRÃOS</div><div class="agro-news-title">Carregando notícias do agronegócio...</div><div class="agro-news-desc">Buscando as últimas informações sobre commodities agrícolas.</div><div class="agro-news-meta"><span>Notícias Agrícolas · Canal Rural</span><span>agora</span></div></div>
     <div class="agro-news-card"><div class="agro-news-tag ant-clima">CLIMA</div><div class="agro-news-title">Monitoramento climático global</div><div class="agro-news-desc">NOAA, INMET e CONAB acompanham padrões climáticos para safra 2025/26.</div><div class="agro-news-meta"><span>NOAA · INMET</span><span>agora</span></div></div>
-
   </div>
-
   <div class="agro-grid">
-
-    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🌱 Grãos &amp; Oleaginosas</span><span class="agro-panel-badge apb-grain">CBOT</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('CBOT:ZS1!','Soja ZS1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Soja (ZS1!)</span><span class="agro-stat-val">$1.084/bu</span><span class="agro-stat-chg up">▲ +0.8%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZC1!','Milho ZC1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Milho (ZC1!)</span><span class="agro-stat-val">$442/bu</span><span class="agro-stat-chg dn">▼ -0.3%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZW1!','Trigo ZW1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Trigo (ZW1!)</span><span class="agro-stat-val">$528/bu</span><span class="agro-stat-chg up">▲ +0.5%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZR1!','Arroz ZR1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Arroz (ZR1!)</span><span class="agro-stat-val">$15.2/cwt</span><span class="agro-stat-chg up">▲ +0.2%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZM1!','Farelo Soja ZM1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Farelo Soja</span><span class="agro-stat-val">$310/t</span><span class="agro-stat-chg up">▲ +1.1%</span></div></div></div>
-
-    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🥩 Proteínas Animais</span><span class="agro-panel-badge apb-protein">B3 · CME</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('BMFBOVESPA:BGI1!','Boi Gordo BGI1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Boi Gordo (BGI1!)</span><span class="agro-stat-val">R$285/@</span><span class="agro-stat-chg up">▲ +1.2%</span></div><div class="agro-stat"><span class="agro-stat-name">Frango Griller</span><span class="agro-stat-val">R$12,40/kg</span><span class="agro-stat-chg up">▲ +0.3%</span></div><div class="agro-stat"><span class="agro-stat-name">Porco (Suíno)</span><span class="agro-stat-val">R$9,80/kg</span><span class="agro-stat-chg dn">▼ -0.2%</span></div><div class="agro-stat"><span class="agro-stat-name">Leite ESALQ</span><span class="agro-stat-val">R$2,85/L</span><span class="agro-stat-chg up">▲ +0.7%</span></div><div class="agro-stat"><span class="agro-stat-name">Ovos Brancos</span><span class="agro-stat-val">R$38,00/cx</span><span class="agro-stat-chg up">▲ +1.8%</span></div></div></div>
-
-    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">⚡ Energia &amp; Biocombustível</span><span class="agro-panel-badge apb-energy">NYMEX · ANP</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('ICEUS:SB1!','Açúcar/Etanol SB1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Etanol Hidratado</span><span class="agro-stat-val">R$3,48/L</span><span class="agro-stat-chg up">▲ +0.6%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:SB1!','Açúcar SB1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Açúcar (SB1!)</span><span class="agro-stat-val">$19.4/lb</span><span class="agro-stat-chg dn">▼ -0.9%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:CL1!','Petróleo CL1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Diesel S10</span><span class="agro-stat-val">R$6,38/L</span><span class="agro-stat-chg dn">▼ -0.2%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:CL1!','Petróleo CL1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Biodiesel B100</span><span class="agro-stat-val">R$5,92/L</span><span class="agro-stat-chg up">▲ +0.4%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:CL1!','Petróleo WTI CL1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Petróleo WTI</span><span class="agro-stat-val">$72,80/bbl</span><span class="agro-stat-chg dn">▼ -0.5%</span></div></div></div>
-
-    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🧪 Insumos Agrícolas</span><span class="agro-panel-badge apb-insumo">CRU · FOB</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('NYMEX:NG1!','Gás Natural ref. Ureia NG1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Ureia Granulada</span><span class="agro-stat-val">$320/t</span><span class="agro-stat-chg up">▲ +1.5%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:NG1!','Gás Natural ref. MAP NG1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">MAP (11-52-0)</span><span class="agro-stat-val">$580/t</span><span class="agro-stat-chg up">▲ +0.8%</span></div><div class="agro-stat"><span class="agro-stat-name">Cloreto de K (MOP)</span><span class="agro-stat-val">$315/t</span><span class="agro-stat-chg dn">▼ -0.1%</span></div><div class="agro-stat"><span class="agro-stat-name">Superfosfato Simples</span><span class="agro-stat-val">$420/t</span><span class="agro-stat-chg up">▲ +0.3%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:NG1!','Insumos ref. NG1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Nitrato Amônio</span><span class="agro-stat-val">$375/t</span><span class="agro-stat-chg dn">▼ -0.5%</span></div></div></div>
-
+    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🌱 Grãos &amp; Oleaginosas</span><span class="agro-panel-badge apb-grain">CBOT</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('CBOT:ZS1!','Soja ZS1!')" style="cursor:pointer;"><span class="agro-stat-name">Soja (ZS1!)</span><span class="agro-stat-val">$1.084/bu</span><span class="agro-stat-chg up">▲ +0.8%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZC1!','Milho ZC1!')" style="cursor:pointer;"><span class="agro-stat-name">Milho (ZC1!)</span><span class="agro-stat-val">$442/bu</span><span class="agro-stat-chg dn">▼ -0.3%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZW1!','Trigo ZW1!')" style="cursor:pointer;"><span class="agro-stat-name">Trigo (ZW1!)</span><span class="agro-stat-val">$528/bu</span><span class="agro-stat-chg up">▲ +0.5%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZR1!','Arroz ZR1!')" style="cursor:pointer;"><span class="agro-stat-name">Arroz (ZR1!)</span><span class="agro-stat-val">$15.2/cwt</span><span class="agro-stat-chg up">▲ +0.2%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZM1!','Farelo Soja ZM1!')" style="cursor:pointer;"><span class="agro-stat-name">Farelo Soja</span><span class="agro-stat-val">$310/t</span><span class="agro-stat-chg up">▲ +1.1%</span></div></div></div>
+    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🥩 Proteínas Animais</span><span class="agro-panel-badge apb-protein">B3 · CME</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('BMFBOVESPA:BGI1!','Boi Gordo BGI1!')" style="cursor:pointer;"><span class="agro-stat-name">Boi Gordo (BGI1!)</span><span class="agro-stat-val">R$285/@</span><span class="agro-stat-chg up">▲ +1.2%</span></div><div class="agro-stat"><span class="agro-stat-name">Frango Griller</span><span class="agro-stat-val">R$12,40/kg</span><span class="agro-stat-chg up">▲ +0.3%</span></div><div class="agro-stat"><span class="agro-stat-name">Porco (Suíno)</span><span class="agro-stat-val">R$9,80/kg</span><span class="agro-stat-chg dn">▼ -0.2%</span></div><div class="agro-stat"><span class="agro-stat-name">Leite ESALQ</span><span class="agro-stat-val">R$2,85/L</span><span class="agro-stat-chg up">▲ +0.7%</span></div><div class="agro-stat"><span class="agro-stat-name">Ovos Brancos</span><span class="agro-stat-val">R$38,00/cx</span><span class="agro-stat-chg up">▲ +1.8%</span></div></div></div>
+    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">⚡ Energia &amp; Biocombustível</span><span class="agro-panel-badge apb-energy">NYMEX · ANP</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('ICEUS:SB1!','Açúcar/Etanol SB1!')" style="cursor:pointer;"><span class="agro-stat-name">Etanol Hidratado</span><span class="agro-stat-val">R$3,48/L</span><span class="agro-stat-chg up">▲ +0.6%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:SB1!','Açúcar SB1!')" style="cursor:pointer;"><span class="agro-stat-name">Açúcar (SB1!)</span><span class="agro-stat-val">$19.4/lb</span><span class="agro-stat-chg dn">▼ -0.9%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:CL1!','Petróleo CL1!')" style="cursor:pointer;"><span class="agro-stat-name">Diesel S10</span><span class="agro-stat-val">R$6,38/L</span><span class="agro-stat-chg dn">▼ -0.2%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:CL1!','Petróleo CL1!')" style="cursor:pointer;"><span class="agro-stat-name">Biodiesel B100</span><span class="agro-stat-val">R$5,92/L</span><span class="agro-stat-chg up">▲ +0.4%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:CL1!','Petróleo WTI CL1!')" style="cursor:pointer;"><span class="agro-stat-name">Petróleo WTI</span><span class="agro-stat-val">$72,80/bbl</span><span class="agro-stat-chg dn">▼ -0.5%</span></div></div></div>
+    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🧪 Insumos Agrícolas</span><span class="agro-panel-badge apb-insumo">CRU · FOB</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('NYMEX:NG1!','Gás Natural ref. Ureia NG1!')" style="cursor:pointer;"><span class="agro-stat-name">Ureia Granulada</span><span class="agro-stat-val">$320/t</span><span class="agro-stat-chg up">▲ +1.5%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:NG1!','Gás Natural ref. MAP NG1!')" style="cursor:pointer;"><span class="agro-stat-name">MAP (11-52-0)</span><span class="agro-stat-val">$580/t</span><span class="agro-stat-chg up">▲ +0.8%</span></div><div class="agro-stat"><span class="agro-stat-name">Cloreto de K (MOP)</span><span class="agro-stat-val">$315/t</span><span class="agro-stat-chg dn">▼ -0.1%</span></div><div class="agro-stat"><span class="agro-stat-name">Superfosfato Simples</span><span class="agro-stat-val">$420/t</span><span class="agro-stat-chg up">▲ +0.3%</span></div><div class="agro-stat" onclick="openAgroChart('NYMEX:NG1!','Insumos ref. NG1!')" style="cursor:pointer;"><span class="agro-stat-name">Nitrato Amônio</span><span class="agro-stat-val">$375/t</span><span class="agro-stat-chg dn">▼ -0.5%</span></div></div></div>
     <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🌦 Clima &amp; El Niño / La Niña</span><span class="agro-panel-badge apb-clima">NOAA · INMET</span></div><div class="agro-panel-body"><div class="agro-stat"><span class="agro-stat-name">ENOS Fase Atual</span><span class="agro-stat-val" style="color:#67e8f9;">La Niña</span><span class="agro-stat-chg" style="color:#67e8f9;">Fraco</span></div><div class="agro-stat"><span class="agro-stat-name">Previsão Jun/Jul</span><span class="agro-stat-val" style="color:#fbbf24;">Neutro</span><span class="agro-stat-chg" style="color:#fbbf24;">Transição</span></div><div class="agro-stat"><span class="agro-stat-name">Chuvas MT/MS</span><span class="agro-stat-val">Normal</span><span class="agro-stat-chg up">▲ Acima</span></div><div class="agro-stat"><span class="agro-stat-name">Safra BR 24/25</span><span class="agro-stat-val">322 Mi/t</span><span class="agro-stat-chg up">▲ Recorde</span></div><div class="agro-stat"><span class="agro-stat-name">Seca Hemisfério N</span><span class="agro-stat-val">Moderada</span><span class="agro-stat-chg dn">▼ Impacto</span></div></div></div>
-
-    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🌍 Fibras &amp; Soft Commodities</span><span class="agro-panel-badge apb-grain">ICE · CBOT</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('ICEUS:CT1!','Algodão CT1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Algodão (CT1!)</span><span class="agro-stat-val">$67/lb</span><span class="agro-stat-chg dn">▼ -0.4%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:KC1!','Café Arabica KC1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Café Arabica KC1!</span><span class="agro-stat-val">$381/lb</span><span class="agro-stat-chg up">▲ +2.1%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:RC1!','Café Robusta RC1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Café Robusta</span><span class="agro-stat-val">$5.820/t</span><span class="agro-stat-chg up">▲ +1.4%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:OJ1!','Laranja OJ1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Laranja (OJ1!)</span><span class="agro-stat-val">$475/lb</span><span class="agro-stat-chg dn">▼ -1.2%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:CC1!','Cacau CC1!')" style="cursor:pointer;" title="Ver gráfico"><span class="agro-stat-name">Cacau (CC1!)</span><span class="agro-stat-val">$8.940/t</span><span class="agro-stat-chg up">▲ +3.4%</span></div></div></div>
-
+    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🌍 Fibras &amp; Soft Commodities</span><span class="agro-panel-badge apb-grain">ICE · CBOT</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('ICEUS:CT1!','Algodão CT1!')" style="cursor:pointer;"><span class="agro-stat-name">Algodão (CT1!)</span><span class="agro-stat-val">$67/lb</span><span class="agro-stat-chg dn">▼ -0.4%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:KC1!','Café Arabica KC1!')" style="cursor:pointer;"><span class="agro-stat-name">Café Arabica KC1!</span><span class="agro-stat-val">$381/lb</span><span class="agro-stat-chg up">▲ +2.1%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:RC1!','Café Robusta RC1!')" style="cursor:pointer;"><span class="agro-stat-name">Café Robusta</span><span class="agro-stat-val">$5.820/t</span><span class="agro-stat-chg up">▲ +1.4%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:OJ1!','Laranja OJ1!')" style="cursor:pointer;"><span class="agro-stat-name">Laranja (OJ1!)</span><span class="agro-stat-val">$475/lb</span><span class="agro-stat-chg dn">▼ -1.2%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:CC1!','Cacau CC1!')" style="cursor:pointer;"><span class="agro-stat-name">Cacau (CC1!)</span><span class="agro-stat-val">$8.940/t</span><span class="agro-stat-chg up">▲ +3.4%</span></div></div></div>
   </div>
-
   <div class="agro-climate-block">
-
     <div class="agro-climate-icon">🌡️</div>
-
     <div class="agro-climate-content">
-
       <div class="agro-climate-title">Monitor Climático Agrícola · NOAA / INMET / CONAB</div>
-
-      <div class="agro-climate-text">La Niña de intensidade fraca em fase de dissipação. Previsão de transição para neutralidade entre junho e julho. Monitoramento especial para MATOPIBA, Sudeste e Sul do Brasil. Possibilidade de El Niño de fraca intensidade no 2º semestre de 2025 eleva atenção para safra de verão.</div>
-
+      <div class="agro-climate-text">La Niña de intensidade fraca em fase de dissipação. Previsão de transição para neutralidade entre junho e julho. Monitoramento especial para MATOPIBA, Sudeste e Sul do Brasil.</div>
       <div class="agro-climate-tags">
-
-        <span class="agro-ctag">La Niña Fraca</span>
-
-        <span class="agro-ctag">Neutralidade Jun/Jul</span>
-
-        <span class="agro-ctag">Seca Europa</span>
-
-        <span class="agro-ctag">Corn Belt Normal</span>
-
-        <span class="agro-ctag">MATOPIBA ✓</span>
-
-        <span class="agro-ctag">Mudanças Climáticas</span>
-
+        <span class="agro-ctag">La Niña Fraca</span><span class="agro-ctag">Neutralidade Jun/Jul</span><span class="agro-ctag">Seca Europa</span><span class="agro-ctag">Corn Belt Normal</span><span class="agro-ctag">MATOPIBA ✓</span><span class="agro-ctag">Mudanças Climáticas</span>
       </div>
-
     </div>
-
   </div>
-
   <div class="agro-market-map">
-
     <div class="agro-map-title">Principais Importadores do Agro Brasileiro</div>
-
     <div class="agro-flow-grid">
-
       <div class="agro-flow-card"><div class="agro-flow-flag">🇨🇳</div><div class="agro-flow-name">CHINA</div><div class="agro-flow-val">$53 Bi</div><div class="agro-flow-desc">Soja · Carne · Açúcar</div></div>
-
       <div class="agro-flow-card"><div class="agro-flow-flag">🇺🇸</div><div class="agro-flow-name">EUA</div><div class="agro-flow-val">$11 Bi</div><div class="agro-flow-desc">Café · Celulose · Suco</div></div>
-
       <div class="agro-flow-card"><div class="agro-flow-flag">🇳🇱</div><div class="agro-flow-name">PAÍSES BAIXOS</div><div class="agro-flow-val">$8 Bi</div><div class="agro-flow-desc">Soja · Farelo · Carne</div></div>
-
       <div class="agro-flow-card"><div class="agro-flow-flag">🇪🇸</div><div class="agro-flow-name">ESPANHA</div><div class="agro-flow-val">$5 Bi</div><div class="agro-flow-desc">Carne · Celulose · Café</div></div>
-
       <div class="agro-flow-card"><div class="agro-flow-flag">🇸🇦</div><div class="agro-flow-name">ARÁBIA S.</div><div class="agro-flow-val">$4 Bi</div><div class="agro-flow-desc">Carne Halal · Açúcar</div></div>
-
       <div class="agro-flow-card"><div class="agro-flow-flag">🇯🇵</div><div class="agro-flow-name">JAPÃO</div><div class="agro-flow-val">$3,5 Bi</div><div class="agro-flow-desc">Carne · Café · Soja</div></div>
-
       <div class="agro-flow-card"><div class="agro-flow-flag">🇮🇳</div><div class="agro-flow-name">ÍNDIA</div><div class="agro-flow-val">$3 Bi</div><div class="agro-flow-desc">Soja · Algodão · Milho</div></div>
-
       <div class="agro-flow-card"><div class="agro-flow-flag">🇩🇪</div><div class="agro-flow-name">ALEMANHA</div><div class="agro-flow-val">$2,5 Bi</div><div class="agro-flow-desc">Café · Carne · Celulose</div></div>
-
     </div>
-
   </div>
-
   <div class="agro-charts">
-
     <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;">Gráficos Agrícolas · TradingView<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span></div>
-
     <div class="agro-chart-tabs">
-
       <span class="agro-chart-tab active" onclick="showAgroCharts(event,'graos')">🌾 Grãos</span>
-
       <span class="agro-chart-tab" onclick="showAgroCharts(event,'proteinas')">🥩 Proteínas</span>
-
       <span class="agro-chart-tab" onclick="showAgroCharts(event,'softs')">☕ Softs</span>
-
       <span class="agro-chart-tab" onclick="showAgroCharts(event,'energia_agro')">⚡ Energia</span>
-
       <span class="agro-chart-tab" onclick="showAgroCharts(event,'insumos_agro')">🧪 Insumos</span>
-
     </div>
-
     <div class="agro-chart-grid" id="agro-chart-content">
-
       <div class="agro-chart-frame"><div class="agro-chart-label">Soja (ZS1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-
       <div class="agro-chart-frame"><div class="agro-chart-label">Milho (ZC1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZC1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-
       <div class="agro-chart-frame"><div class="agro-chart-label">Trigo (ZW1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZW1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-
     </div>
-
   </div>
-
   <div class="agro-videos">
-
     <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;">Vídeos &amp; Análises Agrícolas<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span></div>
-
     <div class="agro-vgrid">
-
-  <div class="vcard" onclick="openVideo('Lx6NpFbXMgk','Agronegócio Brasil 2025 — Análise de Mercado')">
-
-    <div class="vthumb">
-
-      <img src="https://img.youtube.com/vi/Lx6NpFbXMgk/mqdefault.jpg" alt="Agro" loading="lazy" onerror="this.src='';this.parentElement.style.background='#0a1507'"/>
-
-      <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>
-
+      <div class="vcard" onclick="openVideo('Lx6NpFbXMgk','Agronegócio Brasil 2025 — Análise de Mercado')"><div class="vthumb"><img src="https://img.youtube.com/vi/Lx6NpFbXMgk/mqdefault.jpg" alt="Agro" loading="lazy" onerror="this.src='';this.parentElement.style.background='#0a1507'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">Agronegócio Brasil 2025</div><div class="vmeta">Mercado Agro · Análise</div></div></div>
+      <div class="vcard" onclick="openVideo('pnV5l0c0fD0','Soja & Milho — Perspectivas CBOT 2025')"><div class="vthumb"><img src="https://img.youtube.com/vi/pnV5l0c0fD0/mqdefault.jpg" alt="Soja Milho" loading="lazy" onerror="this.src='';this.parentElement.style.background='#0a1507'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">Soja &amp; Milho — CBOT 2025</div><div class="vmeta">Bloomberg Commodities</div></div></div>
+      <div class="vcard" onclick="openVideo('8L_o7GFZEPE','USDA WASDE Report — Grãos e Oleaginosas')"><div class="vthumb"><img src="https://img.youtube.com/vi/8L_o7GFZEPE/mqdefault.jpg" alt="WASDE" loading="lazy" onerror="this.src='';this.parentElement.style.background='#0a1507'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">WASDE — USDA Grãos</div><div class="vmeta">USDA · Global Supply</div></div></div>
+      <div class="vcard" onclick="openVideo('K4tde9GwUis','Boi Gordo & Proteínas — B3 e CME 2025')"><div class="vthumb"><img src="https://img.youtube.com/vi/K4tde9GwUis/mqdefault.jpg" alt="Boi Gordo" loading="lazy" onerror="this.src='';this.parentElement.style.background='#0a1507'"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">Boi Gordo &amp; Proteínas — B3</div><div class="vmeta">Agro Insight · B3</div></div></div>
     </div>
-
-    <div class="vinfo"><div class="vtit">Agronegócio Brasil 2025</div><div class="vmeta">Mercado Agro · Análise</div></div>
-
   </div>
-
-  <div class="vcard" onclick="openVideo('pnV5l0c0fD0','Soja & Milho — Perspectivas CBOT 2025')">
-
-    <div class="vthumb">
-
-      <img src="https://img.youtube.com/vi/pnV5l0c0fD0/mqdefault.jpg" alt="Soja Milho" loading="lazy" onerror="this.src='';this.parentElement.style.background='#0a1507'"/>
-
-      <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>
-
-    </div>
-
-    <div class="vinfo"><div class="vtit">Soja & Milho — CBOT 2025</div><div class="vmeta">Bloomberg Commodities</div></div>
-
-  </div>
-
-  <div class="vcard" onclick="openVideo('8L_o7GFZEPE','USDA WASDE Report — Grãos e Oleaginosas')">
-
-    <div class="vthumb">
-
-      <img src="https://img.youtube.com/vi/8L_o7GFZEPE/mqdefault.jpg" alt="WASDE" loading="lazy" onerror="this.src='';this.parentElement.style.background='#0a1507'"/>
-
-      <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>
-
-    </div>
-
-    <div class="vinfo"><div class="vtit">WASDE — USDA Grãos</div><div class="vmeta">USDA · Global Supply</div></div>
-
-  </div>
-
-  <div class="vcard" onclick="openVideo('K4tde9GwUis','Boi Gordo & Proteínas — B3 e CME 2025')">
-
-    <div class="vthumb">
-
-      <img src="https://img.youtube.com/vi/K4tde9GwUis/mqdefault.jpg" alt="Boi Gordo" loading="lazy" onerror="this.src='';this.parentElement.style.background='#0a1507'"/>
-
-      <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>
-
-    </div>
-
-    <div class="vinfo"><div class="vtit">Boi Gordo & Proteínas — B3</div><div class="vmeta">Agro Insight · B3</div></div>
-
-  </div>
-
-</div>
-
 </section>
 
 <footer>
-
   <span class="fdot">●</span><span>BLACK SWAN NEWS</span><span>·</span>
-
   <span>Inteligência de Mercado Global</span><span>·</span>
-
-  <span>TradingView · Reuters · Bloomberg · AP</span><span>·</span>
-
-  <span>v7.1 · Agro Edition · 2025</span><span>·</span>
-
+  <span>NYT · BBC · Kitco · OilPrice · Notícias Agrícolas</span><span>·</span>
+  <span>v7.3 · Agro Edition · 2025</span><span>·</span>
   <span>Desenvolvido por <strong style="color:var(--t2);">José Youssef</strong></span>
-
 </footer>
 
 <script>
 
 // ══════════════════════════════════════════════
-// BLACK SWAN NEWS v7.2 — BUGS CORRIGIDOS
-// Correções aplicadas:
-// 1. loadVideos() agora chama buildVideos() em vez de si mesma
-// 2. DOMContentLoaded aguarda loadVideos() antes de renderizar
-// 3. fetchRSS com múltiplos proxies CORS e fallback em cadeia
-// 4. AbortController compatível com todos os browsers
-// 5. Preload não sobrescreve categoria ativa
-// 6. showCharts() null-check no evt.target
+// BLACK SWAN NEWS v7.5 — ARTIFACT EDITION
+// Usa API Anthropic com web_search (único canal
+// disponível no ambiente Artifact do Claude.ai)
 // ══════════════════════════════════════════════
 
 const newsCache = {};
 let cat = 'Destaques';
+
+// ── API CALL (funciona no Artifact) ──
+async function callAI(prompt, maxTokens = 1500) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: maxTokens,
+      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const data = await res.json();
+  const raw = (data.content || []).map(b => b.text || '').join('');
+  return raw.replace(/```json[\s\S]*?```/g, m => m.slice(7, -3)).replace(/```/g, '').trim();
+}
+
+// ── PROMPTS POR CATEGORIA ──
+const CAT_PROMPTS = {
+  'Destaques':
+    'Busque as 8 notícias financeiras mais importantes agora: mercados, Fed, dólar, S&P500, ouro, petróleo. Responda APENAS JSON sem markdown:\n[{"title":"...","desc":"resumo pt-BR 1 frase","source":"nome fonte","url":"url","time":"Xh atrás","tag":"MERCADO|CRÍTICO|FED|CRIPTO|COMMODITIES"}]',
+  'Geopolítica':
+    'Busque as 8 notícias geopolíticas mais relevantes agora: guerras, NATO, China, Oriente Médio, sanções, diplomacia. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"CONFLITO|DIPLOMACIA|SANÇÕES|MILITAR"}]',
+  'Bancos Centrais':
+    'Busque 8 notícias sobre bancos centrais: Fed, ECB, Copom, taxas de juros, inflação, política monetária. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"FED|ECB|COPOM|INFLAÇÃO|JUROS"}]',
+  'CME · Futuros':
+    'Busque 8 notícias sobre futuros CME: NQ1!, ES1!, YM1!, contratos futuros, S&P500, Nasdaq, Dow Jones. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"ÍNDICES|FUTUROS|CME|NQ|ES"}]',
+  'Commodities':
+    'Busque 8 notícias sobre commodities: petróleo, gás natural, cobre, OPEC, energia. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"PETRÓLEO|GÁS|COBRE|OPEC|ENERGIA"}]',
+  'Metais Preciosos':
+    'Busque 8 notícias sobre metais preciosos: ouro, prata, platina, paládio, GC1!, SI1!. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"OURO|PRATA|PLATINA|METAIS"}]',
+  'Cripto':
+    'Busque 8 notícias cripto: Bitcoin, Ethereum, Solana, XRP, altcoins, DeFi, ETF cripto. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"BTC|ETH|SOL|XRP|DEFI|ETF"}]',
+  'Guerras & Conflitos':
+    'Busque 8 notícias sobre guerras e conflitos armados ativos: Ucrânia, Gaza, Oriente Médio, Taiwan. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"UCRÂNIA|GAZA|TAIWAN|CONFLITO"}]',
+  'Saúde Global':
+    'Busque 8 notícias de saúde global: epidemias, OMS, vacinas, surtos, pandemias. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"OMS|EPIDEMIA|VACINA|SURTO"}]',
+};
+
+const TAG_BADGE = {
+  'MERCADO':'bh','CRÍTICO':'bc','FED':'bh','CRIPTO':'bcr','COMMODITIES':'bco',
+  'CONFLITO':'bg','DIPLOMACIA':'bg','SANÇÕES':'bg','MILITAR':'bg',
+  'ECB':'bh','COPOM':'bh','INFLAÇÃO':'bh','JUROS':'bh',
+  'ÍNDICES':'bh','FUTUROS':'bh','CME':'bh','NQ':'bh','ES':'bh',
+  'PETRÓLEO':'bco','GÁS':'bco','COBRE':'bco','OPEC':'bco','ENERGIA':'bco',
+  'OURO':'bco','PRATA':'bco','PLATINA':'bco','METAIS':'bco',
+  'BTC':'bcr','ETH':'bcr','SOL':'bcr','XRP':'bcr','DEFI':'bcr','ETF':'bcr',
+  'UCRÂNIA':'bg','GAZA':'bg','TAIWAN':'bg',
+  'OMS':'bm','EPIDEMIA':'bm','VACINA':'bm','SURTO':'bm',
+  // Agro
+  'GRÃOS':'bco','PROTEÍNA':'bco','CLIMA':'bm','INSUMO':'bh',
+};
 
 // ── CLOCK ──
 function clock() {
@@ -1185,8 +596,7 @@ function clock() {
   const el = document.getElementById('hdate');
   if (el) el.textContent = d + ' · ' + t;
 }
-clock();
-setInterval(clock, 30000);
+clock(); setInterval(clock, 30000);
 
 // ── TICKER ──
 const TKS = [
@@ -1208,19 +618,16 @@ function buildTicker() {
 }
 buildTicker();
 
-// ── MOBILE DETECT ──
+// ── MOBILE ──
 const isMobile = () => window.innerWidth <= 768;
-
-// ── MOBILE SEARCH BAR ──
 function setupMobSearch() {
   const bar = document.getElementById('mob-search-bar');
-  if (!bar) return;
-  bar.style.display = isMobile() ? 'flex' : 'none';
+  if (bar) bar.style.display = isMobile() ? 'flex' : 'none';
 }
 setupMobSearch();
 window.addEventListener('resize', setupMobSearch);
 
-// ── HAMBURGER / DRAWER ──
+// ── NAV ──
 const CATS = ['Destaques','Geopolítica','Bancos Centrais','CME · Futuros','🌾 Agronegócio','Commodities','Metais Preciosos','Cripto','Guerras & Conflitos','Saúde Global','📈 Gráficos','Análises SMC'];
 
 function buildMobNav() {
@@ -1230,10 +637,7 @@ function buildMobNav() {
     `<div class="mob-nvi${c===cat?' active':''}" data-cat="${c}">${c}</div>`
   ).join('');
   container.querySelectorAll('.mob-nvi').forEach(el => {
-    el.addEventListener('click', () => {
-      selectCat(el.dataset.cat);
-      closeMobDrawer();
-    });
+    el.addEventListener('click', () => { selectCat(el.dataset.cat); closeMobDrawer(); });
   });
 }
 function openMobDrawer() {
@@ -1250,7 +654,6 @@ document.getElementById('mob-nav-toggle').addEventListener('click', openMobDrawe
 document.getElementById('mob-overlay').addEventListener('click', closeMobDrawer);
 buildMobNav();
 
-// ── DESKTOP NAV ──
 document.querySelectorAll('#desktop-nav .nvi').forEach(n => {
   n.addEventListener('click', () => selectCat(n.dataset.cat));
 });
@@ -1258,50 +661,40 @@ document.querySelectorAll('#desktop-nav .nvi').forEach(n => {
 // ── CATEGORY SELECTION ──
 function selectCat(c) {
   cat = c;
-  document.querySelectorAll('#desktop-nav .nvi').forEach(n =>
+  document.querySelectorAll('#desktop-nav .nvi, .mob-nvi').forEach(n =>
     n.classList.toggle('active', n.dataset.cat === c)
   );
-  document.querySelectorAll('.mob-nvi').forEach(n =>
-    n.classList.toggle('active', n.dataset.cat === c)
-  );
+  const layout    = document.getElementById('main-layout');
+  const chartsec  = document.getElementById('chartsec');
+  const agrosec   = document.getElementById('agrosec');
+  const vsec      = document.getElementById('vsec');
+  const calsec    = document.getElementById('calsec');
+  const asec      = document.querySelector('.asec');
+
+  // hide all first
+  [chartsec, agrosec].forEach(el => el.style.display = 'none');
+  asec.style.display = 'none';
+
   if (c === '📈 Gráficos') {
-    document.getElementById('chartsec').style.display = 'block';
-    document.getElementById('main-layout').style.display = 'none';
-    document.getElementById('agrosec').style.display = 'none';
-    document.querySelector('.asec').style.display = 'none';
-    document.getElementById('vsec').style.display = '';
-    document.getElementById('calsec').style.display = '';
-    // FIX 6: null-check no evt.target
+    layout.style.display = 'none';
+    chartsec.style.display = 'block';
+    vsec.style.display = ''; calsec.style.display = '';
     const activeTab = document.querySelector('.chart-tab.active');
-    showCharts(activeTab ? {target: activeTab} : null, 'indices');
+    showCharts(activeTab ? {target:activeTab} : null, 'indices');
   } else if (c === '🌾 Agronegócio') {
-    document.getElementById('chartsec').style.display = 'none';
-    document.getElementById('main-layout').style.display = 'none';
-    document.getElementById('vsec').style.display = 'none';
-    document.getElementById('calsec').style.display = 'none';
-    document.getElementById('agrosec').style.display = 'block';
-    document.querySelector('.asec').style.display = 'none';
+    layout.style.display = 'none';
+    vsec.style.display = 'none'; calsec.style.display = 'none';
+    agrosec.style.display = 'block';
     loadAgroNews();
   } else if (c === 'Análises SMC') {
-    document.getElementById('chartsec').style.display = 'none';
-    document.getElementById('main-layout').style.display = 'none';
-    document.getElementById('agrosec').style.display = 'none';
-    document.getElementById('vsec').style.display = 'none';
-    document.getElementById('calsec').style.display = 'none';
-    document.querySelector('.asec').style.display = '';
-    document.querySelector('.asec').scrollIntoView({behavior:'smooth'});
+    layout.style.display = 'none';
+    vsec.style.display = 'none'; calsec.style.display = 'none';
+    asec.style.display = '';
+    asec.scrollIntoView({behavior:'smooth'});
   } else {
-    document.getElementById('chartsec').style.display = 'none';
-    document.getElementById('main-layout').style.display = '';
-    document.getElementById('vsec').style.display = '';
-    document.getElementById('calsec').style.display = '';
-    document.getElementById('agrosec').style.display = 'none';
-    document.querySelector('.asec').style.display = 'none';
-    if (newsCache[c]) {
-      render(newsCache[c], c);
-    } else {
-      loadNews(c);
-    }
+    layout.style.display = '';
+    vsec.style.display = ''; calsec.style.display = '';
+    newsCache[c] ? render(newsCache[c], c) : loadNews(c);
   }
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -1329,310 +722,156 @@ function mobNav(el, section) {
 
 // ── SEARCH ──
 function doSearch(val) {
-  const v = (val || '').trim();
+  const v = (val||'').trim();
   if (!v) return;
-  window.open('https://claude.ai/new?q=' + encodeURIComponent('Analise o impacto nos mercados globais e CME com visão SMC: ' + v), '_blank');
+  window.open('https://claude.ai/new?q='+encodeURIComponent('Analise o impacto nos mercados globais e CME com visão SMC: '+v),'_blank');
 }
-document.getElementById('sinput').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(e.target.value); });
+document.getElementById('sinput').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(e.target.value); });
 document.getElementById('btnai').addEventListener('click', () => doSearch(document.getElementById('sinput').value));
 const sinputMob = document.getElementById('sinput-mob');
 const btnaIMob  = document.getElementById('btnai-mob');
-if (sinputMob) sinputMob.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(e.target.value); });
-if (btnaIMob)  btnaIMob.addEventListener('click',   () => doSearch(sinputMob ? sinputMob.value : ''));
+if (sinputMob) sinputMob.addEventListener('keydown', e => { if(e.key==='Enter') doSearch(e.target.value); });
+if (btnaIMob)  btnaIMob.addEventListener('click', () => doSearch(sinputMob ? sinputMob.value : ''));
 document.getElementById('btnnew').addEventListener('click', () =>
-  window.open('https://claude.ai/new?q=' + encodeURIComponent('Crie uma análise SMC para o Black Swan News com: ativo, timeframe, OBs, FVGs, direção, entrada, stop e alvos.'), '_blank')
+  window.open('https://claude.ai/new?q='+encodeURIComponent('Crie uma análise SMC para o Black Swan News com: ativo, timeframe, OBs, FVGs, direção, entrada, stop e alvos.'),'_blank')
 );
 
-// ── NEWS UTILS ──
-function badge(a) {
-  const t = (a.title + ' ' + (a.description || '')).toLowerCase();
-  if (t.match(/war|attack|military|nato|nuclear|conflict/)) return {c:'bg',  l:'● Geopolítica'};
-  if (t.match(/bitcoin|crypto|ethereum|btc|eth/))          return {c:'bcr', l:'● Cripto'};
-  if (t.match(/gold|silver|oil|wheat|opec|commodity/))     return {c:'bco', l:'● Commodities'};
-  if (t.match(/pandemic|disease|outbreak|virus|who/))      return {c:'bm',  l:'● Saúde'};
-  if (t.match(/crash|crisis|collapse|recession/))          return {c:'bc',  l:'● Crítico'};
-  return {c:'bh', l:'● Mercados'};
-}
-function itag(a) {
-  const t = (a.title + ' ' + (a.description || '')).toLowerCase();
-  const tags = [];
-  if (t.match(/nasdaq/))   tags.push('NQ1!');
-  if (t.match(/gold|ouro/)) tags.push('GC1!');
-  if (t.match(/oil|crude|opec/)) tags.push('CL1!');
-  if (t.match(/bitcoin|btc/))    tags.push('BTC');
-  if (t.match(/dollar|dxy/))     tags.push('DXY');
-  if (t.match(/soybean/))        tags.push('ZS1!');
-  return tags.length ? '▲ ' + tags.join(' · ') : '▲ Mercados Globais';
-}
+// ── RENDER ──
 function ago(d) {
   try {
-    const s = (Date.now() - new Date(d)) / 1000;
-    if (isNaN(s) || s < 0) return 'recente';
-    if (s < 3600)  return Math.floor(s / 60) + 'min';
-    if (s < 86400) return Math.floor(s / 3600) + 'h';
-    return Math.floor(s / 86400) + 'd';
-  } catch(e) { return 'recente'; }
-}
-function translateText(encodedText, btnEl, targetEl) {
-  btnEl.textContent = '...';
-  btnEl.disabled = true;
-  const text = decodeURIComponent(encodedText);
-  fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text.substring(0,500)) + '&langpair=en|pt-BR')
-    .then(r => r.json())
-    .then(d => {
-      if (d.responseStatus === 200 && d.responseData?.translatedText) {
-        targetEl.textContent = d.responseData.translatedText;
-        targetEl.style.display = 'block';
-        btnEl.textContent = '✓ PT';
-      } else { btnEl.textContent = 'Err'; btnEl.disabled = false; }
-    }).catch(() => { btnEl.textContent = 'Err'; btnEl.disabled = false; });
+    const s = (Date.now()-new Date(d))/1000;
+    if(isNaN(s)||s<0) return 'recente';
+    if(s<3600) return Math.floor(s/60)+'min';
+    if(s<86400) return Math.floor(s/3600)+'h';
+    return Math.floor(s/86400)+'d';
+  } catch(e){ return 'recente'; }
 }
 
-// ── FETCH RSS — FIX 3: múltiplos proxies com fallback ──
-const CORS_PROXIES = [
-  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-];
-
-async function fetchWithProxy(feedUrl, proxyIndex = 0) {
-  if (proxyIndex >= CORS_PROXIES.length) throw new Error('All proxies failed');
-  
-  // FIX 4: AbortController compatível com todos os browsers
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
-  
-  try {
-    const proxyUrl = CORS_PROXIES[proxyIndex](feedUrl);
-    const resp = await fetch(proxyUrl, {signal: controller.signal});
-    clearTimeout(timer);
-    const data = await resp.json();
-    // allorigins retorna {contents:...}, corsproxy retorna texto direto
-    return data.contents || data;
-  } catch(e) {
-    clearTimeout(timer);
-    console.warn(`Proxy ${proxyIndex} failed for ${feedUrl}, trying next...`);
-    return fetchWithProxy(feedUrl, proxyIndex + 1);
+function render(articles, category) {
+  const feed = document.getElementById('feed');
+  if (!feed) return;
+  if (!articles || !articles.length) {
+    feed.innerHTML = `<div class="slabel">${category}</div><div style="padding:20px;text-align:center;color:var(--t3);">
+      <div style="font-size:24px;margin-bottom:8px;">⚠️</div>
+      <div>Nenhuma notícia encontrada.</div>
+      <button onclick="loadNews('${category}')" style="margin-top:12px;background:var(--red);color:#fff;border:none;padding:8px 16px;border-radius:3px;cursor:pointer;font-family:'Space Mono',monospace;font-size:9px;">↺ Tentar novamente</button>
+    </div>`;
+    return;
   }
+  let html = `<div class="slabel">${category} · ${articles.length} notícias · <span style="color:var(--green);">● IA</span></div>`;
+  articles.forEach((a, idx) => {
+    const tag = a.tag || 'MERCADO';
+    const bc  = TAG_BADGE[tag] || 'bh';
+    const tid = `tr-${idx}`;
+    const safeUrl = (a.url||'#').replace(/'/g,"\\'");
+    html += `
+      <article class="lead" onclick="window.open('${safeUrl}','_blank')">
+        <span class="badge ${bc}">● ${tag}</span>
+        <h2>${a.title||''}</h2>
+        ${a.desc ? `<p>${a.desc}</p>` : ''}
+        <div class="meta">
+          <span>${a.source||'Internacional'} · ${a.time||'recente'}</span>
+        </div>
+      </article>`;
+  });
+  feed.innerHTML = html;
 }
 
-async function fetchRSS(feedUrl, count = 20) {
-  const rawXml = await fetchWithProxy(feedUrl);
-  if (!rawXml || typeof rawXml !== 'string') return [];
-  
-  const parser = new DOMParser();
-  const xml = parser.parseFromString(rawXml, 'text/xml');
-  const items = Array.from(xml.querySelectorAll('item')).slice(0, count);
-  const feedTitle = xml.querySelector('channel > title')?.textContent || 'Internacional';
-  
-  return items.map(item => ({
-    title:       item.querySelector('title')?.textContent?.trim() || '',
-    description: (item.querySelector('description')?.textContent || '')
-                   .replace(/<[^>]*>/g, '').substring(0,200).trim(),
-    url:         item.querySelector('link')?.textContent?.trim()
-                   || item.querySelector('guid')?.textContent?.trim() || '#',
-    publishedAt: item.querySelector('pubDate')?.textContent || new Date().toISOString(),
-    source:      {name: feedTitle}
-  }));
+function showSkeleton(label) {
+  const feed = document.getElementById('feed');
+  if (!feed) return;
+  feed.innerHTML = `<div class="slabel">Carregando · ${label}... <span style="color:var(--green);">● IA buscando</span></div>`
+    + '<div style="padding-top:6px;">'
+    + '<div style="margin-bottom:16px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>'.repeat(5)
+    + '</div>';
+}
+
+// ── LOAD NEWS via API ──
+async function loadNews(q) {
+  if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
+
+  if (q === 'CME · Futuros') {
+    renderCMEPanel();
+    loadCMENews();
+    return;
+  }
+
+  showSkeleton(q);
+
+  const prompt = CAT_PROMPTS[q] || CAT_PROMPTS['Destaques'];
+  try {
+    const raw = await callAI(prompt);
+    // extract JSON array
+    const match = raw.match(/\[[\s\S]*\]/);
+    if (!match) throw new Error('No JSON found');
+    const articles = JSON.parse(match[0]);
+    newsCache[q] = articles;
+    if (cat === q) render(articles, q);
+  } catch(e) {
+    console.warn('loadNews error:', e);
+    const feed = document.getElementById('feed');
+    if (feed && cat === q) feed.innerHTML = `<div class="slabel">${q}</div>
+      <div style="padding:20px;text-align:center;color:var(--t3);">
+        <div style="font-size:24px;margin-bottom:8px;">⚠️</div>
+        <div style="margin-bottom:12px;">Erro ao carregar notícias.</div>
+        <button onclick="delete newsCache['${q}'];loadNews('${q}')" style="background:var(--red);color:#fff;border:none;padding:8px 16px;border-radius:3px;cursor:pointer;font-family:'Space Mono',monospace;font-size:9px;">↺ Tentar novamente</button>
+      </div>`;
+  }
 }
 
 // ── CME PANEL ──
 function renderCMEPanel() {
   const feed = document.getElementById('feed');
   if (!feed) return;
-  let h = '<div class="slabel">CME · Futuros · Mercados</div>';
-  h += '<div style="background:#1a0a00;border:.5px solid #3a1a00;border-radius:4px;padding:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
-    + '<div><div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-family:\'Space Mono\',monospace;margin-bottom:3px;">● CME GROUP OFICIAL</div>'
-    + '<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:700;color:var(--t1);margin-bottom:3px;">CME Group — Notícias & Análises</div>'
-    + '<div style="font-size:10px;color:var(--t3);">Contratos futuros, índices e commodities</div></div>'
-    + '<a href="https://br.investing.com/equities/cme-group-inc.-news" target="_blank" style="background:var(--red);color:#fff;padding:9px 14px;border-radius:3px;font-size:9px;font-weight:700;text-decoration:none;white-space:nowrap;font-family:\'Space Mono\',monospace;">Acessar ↗</a></div>';
-  h += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;margin-bottom:14px;">';
-  const links = [
-    {url:'https://www.cmegroup.com/markets/equities/nasdaq/e-mini-nasdaq-100.html', label:'E-mini Nasdaq 100', sub:'NQ1! · Futuros', color:'var(--green)'},
-    {url:'https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.html',       label:'E-mini S&P 500',   sub:'ES1! · Futuros', color:'var(--green)'},
-    {url:'https://www.cmegroup.com/markets/metals/precious/gold.html',              label:'Ouro · Gold Futures', sub:'GC1! · COMEX', color:'var(--amber)'},
-  ];
-  links.forEach(l => {
-    h += `<a href="${l.url}" target="_blank" style="background:var(--bg2);border:.5px solid var(--b1);border-radius:3px;padding:9px;text-decoration:none;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--b1)'"><div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--t4);margin-bottom:3px;">CME</div><div style="font-size:11px;font-weight:600;color:var(--t1);">${l.label}</div><div style="font-size:9px;color:${l.color};">${l.sub}</div></a>`;
-  });
-  h += '</div>';
-  const cached = newsCache['CME · Futuros'];
-  if (cached && cached.length) {
-    h += '<div class="slabel">Notícias · CME</div>';
-    cached.slice(0,5).forEach((a, idx) => {
-      const b = badge(a);
-      const src = a.source?.name || 'Internacional';
-      const tm  = ago(a.publishedAt);
-      const tid = 'cme-tr-' + idx;
-      const safeTitle = (a.title || '').replace(/'/g,"\\'").replace(/`/g,'\\`');
-      const safeDesc  = (a.description || '').replace(/'/g,"\\'").replace(/`/g,'\\`');
-      h += `<article class="lead" onclick="window.open('${a.url}','_blank')">
-        <span class="badge ${b.c}">${b.l}</span>
-        <h2>${a.title}</h2>
-        ${a.description ? `<p>${a.description}</p>` : ''}
-        <div class="meta">
-          <span>${src} · ${tm}</span>
-          <button class="translate-btn" onclick="event.stopPropagation();translateText('${encodeURIComponent(safeTitle+'. '+safeDesc)}',this,document.getElementById('${tid}'))">🌐 PT</button>
-        </div>
-        <div class="translated" id="${tid}" style="display:none;"></div>
-      </article>`;
-    });
-  }
+  let h = '<div class="slabel">CME · Futuros · <span style="color:var(--green);">● IA buscando...</span></div>';
+  h += `<div style="background:#1a0a00;border:.5px solid #3a1a00;border-radius:4px;padding:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-family:'Space Mono',monospace;margin-bottom:3px;">● CME GROUP</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--t1);">CME Group — Futuros & Notícias</div>
+      <div style="font-size:10px;color:var(--t3);">NQ1! · ES1! · YM1! · GC1! · CL1!</div>
+    </div>
+    <a href="https://www.cmegroup.com" target="_blank" style="background:var(--red);color:#fff;padding:9px 14px;border-radius:3px;font-size:9px;font-weight:700;text-decoration:none;white-space:nowrap;font-family:'Space Mono',monospace;">CME.com ↗</a>
+  </div>`;
+  h += '<div id="cme-news-body">'
+    + '<div class="skel w90"></div><div class="skel w70 h8" style="margin-top:6px;"></div>'.repeat(4)
+    + '</div>';
   feed.innerHTML = h;
 }
 
-async function fetchNewsForCME() {
-  let articles = [];
-  const cmeFeedList = [
-    'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-    'https://feeds.bbci.co.uk/news/business/rss.xml'
-  ];
-  for (const f of cmeFeedList) {
-    try { const r = await fetchRSS(f, 15); if (r.length) { articles = articles.concat(r); } } catch(e) {}
-  }
-  newsCache['CME · Futuros'] = articles;
-  renderCMEPanel();
-}
-
-// ── RENDER NEWS ──
-function render(articles, category) {
-  const feed = document.getElementById('feed');
-  if (!feed) return;
-  if (!articles || !articles.length) {
-    feed.innerHTML = `<div class="slabel">${category}</div><div style="padding:20px;color:var(--t3);">Nenhuma notícia encontrada. Verifique sua conexão.</div>`;
-    return;
-  }
-  let html = `<div class="slabel">${category} · ${articles.length} notícias</div>`;
-  articles.forEach((a, idx) => {
-    const b   = badge(a);
-    const src = a.source?.name || 'Internacional';
-    const tm  = ago(a.publishedAt);
-    const tid = `tr-${idx}`;
-    const safeTitle = (a.title || '').replace(/'/g,"\\'").replace(/`/g,'\\`');
-    const safeDesc  = (a.description || '').replace(/'/g,"\\'").replace(/`/g,'\\`');
-    html += `
-      <article class="lead" onclick="window.open('${a.url}','_blank')">
-        <span class="badge ${b.c}">${b.l}</span>
-        <h2>${a.title}</h2>
-        ${a.description ? `<p>${a.description}</p>` : ''}
-        <div class="meta">
-          <span>${src} · ${tm}</span>
-          <span class="itag">${itag(a)}</span>
-          <button class="translate-btn" onclick="event.stopPropagation();translateText('${encodeURIComponent(safeTitle+'. '+safeDesc)}',this,document.getElementById('${tid}'))">🌐 PT</button>
-        </div>
-        <div class="translated" id="${tid}" style="display:none;"></div>
+async function loadCMENews() {
+  try {
+    const raw = await callAI(CAT_PROMPTS['CME · Futuros']);
+    const match = raw.match(/\[[\s\S]*\]/);
+    if (!match) throw new Error('no json');
+    const articles = JSON.parse(match[0]);
+    newsCache['CME · Futuros'] = articles;
+    const body = document.getElementById('cme-news-body');
+    if (!body) return;
+    let h = '';
+    articles.slice(0,8).forEach((a,idx) => {
+      const tag = a.tag||'FUTUROS';
+      const bc  = TAG_BADGE[tag]||'bh';
+      const safeUrl = (a.url||'#').replace(/'/g,"\\'");
+      h += `<article class="lead" onclick="window.open('${safeUrl}','_blank')">
+        <span class="badge ${bc}">● ${tag}</span>
+        <h2>${a.title||''}</h2>
+        ${a.desc?`<p>${a.desc}</p>`:''}
+        <div class="meta"><span>${a.source||'CME'} · ${a.time||'recente'}</span></div>
       </article>`;
-  });
-  feed.innerHTML = html;
+    });
+    body.innerHTML = h || '<p style="color:var(--t3);padding:14px 0;">Nenhuma notícia.</p>';
+  } catch(e) {
+    const body = document.getElementById('cme-news-body');
+    if (body) body.innerHTML = '<p style="color:var(--t3);padding:14px 0;">Erro ao carregar. <button onclick="loadCMENews()" style="background:var(--red);color:#fff;border:none;padding:4px 10px;border-radius:2px;cursor:pointer;font-size:9px;">↺</button></p>';
+  }
 }
 
-// ── LOAD NEWS ──
-async function loadNews(q) {
-  if (q === '📈 Gráficos') return;
-  if (q === 'CME · Futuros') {
-    renderCMEPanel();
-    fetchNewsForCME();
-    return;
-  }
-  if (q === '🌾 Agronegócio') {
-    loadAgroNews();
-    return;
-  }
-
-  // Show skeleton while loading
-  const feed = document.getElementById('feed');
-  if (feed) {
-    feed.innerHTML = `<div class="slabel">Carregando · ${q}...</div><div style="padding-top:6px;">`
-      + '<div style="margin-bottom:16px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>'.repeat(4)
-      + '</div>';
-  }
-
-  const FEEDS = {
-    'Destaques':          [
-      'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-      'https://feeds.bbci.co.uk/news/business/rss.xml',
-      'https://www.ft.com/rss/home/uk'
-    ],
-    'Geopolítica':        [
-      'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
-      'https://feeds.bbci.co.uk/news/world/rss.xml',
-      'https://feeds.skynews.com/feeds/rss/world.xml'
-    ],
-    'Bancos Centrais':    [
-      'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-      'https://feeds.bbci.co.uk/news/business/rss.xml'
-    ],
-    'Commodities':        [
-      'https://feeds.bbci.co.uk/news/business/rss.xml',
-      'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-      'https://oilprice.com/rss/main'
-    ],
-    'Cripto':             [
-      'https://cointelegraph.com/rss',
-      'https://coindesk.com/arc/outboundfeeds/rss/',
-      'https://cryptonews.com/news/feed/'
-    ],
-    'Guerras & Conflitos':[
-      'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
-      'https://feeds.bbci.co.uk/news/world/rss.xml',
-      'https://feeds.skynews.com/feeds/rss/world.xml'
-    ],
-    'Saúde Global':       [
-      'https://rss.nytimes.com/services/xml/rss/nyt/Health.xml',
-      'https://feeds.bbci.co.uk/news/health/rss.xml'
-    ],
-    'Metais Preciosos':   [
-      'https://www.kitco.com/rss/Kitco-News-1.xml',
-      'https://oilprice.com/rss/main',
-      'https://feeds.bbci.co.uk/news/business/rss.xml'
-    ],
-  };
-
-  const KW = {
-    'Geopolítica':        /(war|conflict|nato|sanction|diplomat|military|russia|ukraine|china|taiwan|iran|israel|gaza|troops)/i,
-    'Bancos Centrais':    /(fed|central bank|interest rate|inflation|ecb|powell|lagarde|boe|boj|monetary|rate cut|rate hike)/i,
-    'Commodities':        /(gold|oil|wheat|soybean|copper|opec|commodity|corn|crude|brent|natural gas)/i,
-    'Cripto':             /(bitcoin|ethereum|crypto|btc|eth|blockchain|altcoin|defi|nft|binance|coinbase)/i,
-    'Guerras & Conflitos':/(war|military|attack|troops|conflict|bomb|missile|ceasefire|invasion|ukraine|russia|gaza)/i,
-    'Saúde Global':       /(virus|disease|who|health|outbreak|pandemic|vaccine|epidemic|covid|mpox|flu|dengue)/i,
-    'Metais Preciosos':   /(gold|silver|platinum|palladium|bullion|metal|precious|oz)/i,
-  };
-
-  const feeds = FEEDS[q] || FEEDS['Destaques'];
-  let articles = [];
-
-  for (const feed of feeds) {
-    try {
-      const items = await fetchRSS(feed, 25);
-      if (items.length) articles = articles.concat(items);
-    } catch(e) { console.warn('Feed error:', feed, e); }
-  }
-
-  // Deduplicate
-  const seen = new Set();
-  articles = articles.filter(a => {
-    if (seen.has(a.title)) return false;
-    seen.add(a.title); return true;
-  });
-
-  // Filter by keywords
-  if (KW[q] && articles.length > 5) {
-    const filtered = articles.filter(a => KW[q].test(a.title + ' ' + (a.description || '')));
-    if (filtered.length >= 3) articles = filtered;
-  }
-
-  newsCache[q] = articles;
-
-  // FIX 5: só renderiza se a categoria ainda for a ativa
-  if (cat === q) render(articles, q);
-}
-
-// ── LOAD AGRO NEWS ──
+// ── LOAD AGRO NEWS via API ──
 async function loadAgroNews() {
   const statusEl = document.getElementById('agro-news-status');
   const grid = document.getElementById('agro-news-grid');
   if (!grid) return;
-  if (statusEl) statusEl.textContent = 'Carregando...';
+  if (statusEl) statusEl.textContent = '● IA buscando...';
 
   grid.innerHTML = Array(4).fill(0).map(() =>
     '<div class="agro-news-card" style="pointer-events:none;">'
@@ -1641,81 +880,47 @@ async function loadAgroNews() {
     + '<div class="skel w70 h8"></div></div>'
   ).join('');
 
-  // Feeds RSS públicos de agronegócio — sem necessidade de API key
-  const AGRO_FEEDS = [
-    { url: 'https://www.noticiasagricolas.com.br/rss/soja.xml',    tag: 'GRÃOS',    src: 'Notícias Agrícolas' },
-    { url: 'https://www.noticiasagricolas.com.br/rss/milho.xml',   tag: 'GRÃOS',    src: 'Notícias Agrícolas' },
-    { url: 'https://www.noticiasagricolas.com.br/rss/cafe.xml',    tag: 'MERCADO',  src: 'Notícias Agrícolas' },
-    { url: 'https://www.noticiasagricolas.com.br/rss/boi.xml',     tag: 'PROTEÍNA', src: 'Notícias Agrícolas' },
-    { url: 'https://www.canalrural.com.br/feed/',                  tag: 'MERCADO',  src: 'Canal Rural' },
-    { url: 'https://www.agrolink.com.br/rss',                      tag: 'MERCADO',  src: 'Agrolink' },
-    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml', tag: 'MERCADO', src: 'NYT' },
-  ];
-
-  const TAG_CLASS = {
-    'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia',
-    'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra'
-  };
-
-  const AGRO_KW = /(soja|milho|trigo|boi|carne|caf|algod|a[cç][uú]|etanol|insumo|safra|usda|conab|cbot|agro|fazenda|gr[aã]o|colheita|fertiliz|commodit)/i;
-
-  let allItems = [];
-
   try {
-    const results = await Promise.allSettled(
-      AGRO_FEEDS.map(async ({url, tag, src}) => {
-        try {
-          const items = await fetchRSS(url, 10);
-          return items
-            .filter(a => AGRO_KW.test(a.title + ' ' + (a.description || '')))
-            .map(a => ({...a, _tag: tag, source: {name: src}}));
-        } catch(e) { return []; }
-      })
+    const raw = await callAI(
+      `Busque AGORA as 6 notícias mais recentes sobre agronegócio e commodities agrícolas: soja, milho, trigo, boi gordo, café, algodão, açúcar, USDA, CONAB, CBOT, safras Brasil.
+Responda APENAS JSON sem markdown:
+[{"title":"título","desc":"resumo pt-BR 1 frase","tag":"GRÃOS|PROTEÍNA|ENERGIA|CLIMA|INSUMO|MERCADO","source":"fonte","url":"url","time":"Xh atrás"}]`
     );
+    const match = raw.match(/\[[\s\S]*\]/);
+    if (!match) throw new Error('no json');
+    const news = JSON.parse(match[0]);
+    if (!news.length) throw new Error('empty');
 
-    results.forEach(r => {
-      if (r.status === 'fulfilled' && r.value.length) {
-        allItems = allItems.concat(r.value);
-      }
-    });
-
-    const seen = new Set();
-    allItems = allItems
-      .filter(a => { if (seen.has(a.title)) return false; seen.add(a.title); return true; })
-      .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
-      .slice(0, 6);
-
-    if (!allItems.length) throw new Error('empty');
-
-    if (statusEl) statusEl.textContent = allItems.length + ' notícias · RSS';
-    grid.innerHTML = allItems.map(n => {
-      const tag      = n._tag || 'MERCADO';
-      const tagClass = TAG_CLASS[tag] || 'ant-soja';
-      const safeUrl  = (n.url || '#').replace(/'/g, "\'");
-      const timeStr  = ago(n.publishedAt);
-      return '<div class="agro-news-card" onclick="window.open('' + safeUrl + '','_blank')">'
-        + '<div class="agro-news-tag ' + tagClass + '">' + tag + '</div>'
-        + '<div class="agro-news-title">' + (n.title || '') + '</div>'
-        + '<div class="agro-news-desc">'  + (n.description || '') + '</div>'
-        + '<div class="agro-news-meta"><span>' + (n.source.name || 'Agro') + '</span><span>' + timeStr + '</span></div>'
-        + '</div>';
+    const TAG_CLASS = {
+      'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia',
+      'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra'
+    };
+    if (statusEl) statusEl.textContent = news.length + ' notícias · IA';
+    grid.innerHTML = news.slice(0,6).map(n => {
+      const tagClass = TAG_CLASS[n.tag] || 'ant-soja';
+      const safeUrl = (n.url||'#').replace(/'/g,"\\'");
+      return `<div class="agro-news-card" onclick="window.open('${safeUrl}','_blank')">
+        <div class="agro-news-tag ${tagClass}">${n.tag||'AGRO'}</div>
+        <div class="agro-news-title">${n.title||''}</div>
+        <div class="agro-news-desc">${n.desc||''}</div>
+        <div class="agro-news-meta"><span>${n.source||'Reuters'}</span><span>${n.time||'agora'}</span></div>
+      </div>`;
     }).join('');
-
   } catch(e) {
-    console.warn('loadAgroNews error:', e);
     if (statusEl) statusEl.textContent = 'Erro · retry em 60s';
-    grid.innerHTML = '<div class="agro-news-card">'
-      + '<div class="agro-news-tag ant-soja">AGRO</div>'
-      + '<div class="agro-news-title">Erro ao carregar notícias</div>'
-      + '<div class="agro-news-desc">Verifique sua conexão. Tentando novamente em 60 segundos.</div>'
-      + '<div class="agro-news-meta"><span>Black Swan News</span></div></div>';
+    grid.innerHTML = `<div class="agro-news-card">
+      <div class="agro-news-tag ant-soja">AGRO</div>
+      <div class="agro-news-title">Erro ao carregar notícias</div>
+      <div class="agro-news-desc">Clique para tentar novamente.</div>
+      <div class="agro-news-meta" style="cursor:pointer;" onclick="loadAgroNews()"><span>↺ Tentar novamente</span></div>
+    </div>`;
     setTimeout(loadAgroNews, 60000);
   }
 }
 
 // ── CHARTS ──
 const CHARTS = {
-  indices: `<div class="chart-grid">
+  indices:`<div class="chart-grid">
     <div class="chart-frame"><div class="chart-label">Nasdaq 100 (NQ1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">S&P 500 (ES1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3AES1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Dow Jones (YM1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3AYM1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
@@ -1723,7 +928,7 @@ const CHARTS = {
     <div class="chart-frame"><div class="chart-label">Nikkei 225</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=INDEX%3ANKY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">DAX</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=INDEX%3ADAX&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
   </div>`,
-  moedas: `<div class="chart-grid">
+  moedas:`<div class="chart-grid">
     <div class="chart-frame"><div class="chart-label">EUR/USD</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AEURUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">USD/BRL</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDBRL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">GBP/USD</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AGBPUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
@@ -1731,7 +936,7 @@ const CHARTS = {
     <div class="chart-frame"><div class="chart-label">DXY</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=TVC%3ADXY&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">USD/CHF</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDCHF&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
   </div>`,
-  commodities: `<div class="chart-grid">
+  commodities:`<div class="chart-grid">
     <div class="chart-frame"><div class="chart-label">Ouro (GC1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3AGC1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Prata (SI1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3ASI1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Petróleo WTI (CL1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ACL1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
@@ -1739,7 +944,7 @@ const CHARTS = {
     <div class="chart-frame"><div class="chart-label">Soja (ZS1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Trigo (ZW1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZW1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
   </div>`,
-  cripto: `<div class="chart-grid">
+  cripto:`<div class="chart-grid">
     <div class="chart-frame"><div class="chart-label">Bitcoin (BTC/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3ABTCUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Ethereum (ETH/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3AETHUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Solana (SOL/USD)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COINBASE%3ASOLUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
@@ -1747,7 +952,7 @@ const CHARTS = {
     <div class="chart-frame"><div class="chart-label">XRP</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP%3AXRPUSD&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Total Cripto Cap</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CRYPTOCAP%3ATOTAL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
   </div>`,
-  brasil: `<div class="chart-grid">
+  brasil:`<div class="chart-grid">
     <div class="chart-frame"><div class="chart-label">IBOVESPA</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AIBOV&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">USD/BRL</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=FX%3AUSDBRL&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Petrobras (PETR4)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3APETR4&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
@@ -1755,10 +960,9 @@ const CHARTS = {
     <div class="chart-frame"><div class="chart-label">Itaú (ITUB4)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3AITUB4&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="chart-frame"><div class="chart-label">Boi Gordo (BGI1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3ABGI1%21&interval=D&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
   </div>`,
-  avancado: `<div class="chart-full"><div class="chart-label">Gráfico Avançado TradingView</div><iframe src="https://www.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=60&theme=dark&style=1&locale=pt&withdateranges=1&hide_side_toolbar=0&allow_symbol_change=1" allowfullscreen style="height:500px;"></iframe></div>`
+  avancado:`<div class="chart-full"><div class="chart-label">Gráfico Avançado TradingView</div><iframe src="https://www.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1%21&interval=60&theme=dark&style=1&locale=pt&withdateranges=1&hide_side_toolbar=0&allow_symbol_change=1" allowfullscreen style="height:500px;"></iframe></div>`
 };
 
-// FIX 6: null-check no evt.target
 function showCharts(evt, tipo) {
   document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
   if (evt && evt.target) evt.target.classList.add('active');
@@ -1767,26 +971,26 @@ function showCharts(evt, tipo) {
 
 // ── AGRO CHARTS ──
 const AGRO_CHARTS = {
-  graos: `
+  graos:`
     <div class="agro-chart-frame"><div class="agro-chart-label">Soja (ZS1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="agro-chart-frame"><div class="agro-chart-label">Milho (ZC1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZC1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="agro-chart-frame"><div class="agro-chart-label">Trigo (ZW1!) · CBOT</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZW1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`,
-  proteinas: `
+  proteinas:`
     <div class="agro-chart-frame"><div class="agro-chart-label">Boi Gordo (BGI1!) · B3</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=BMFBOVESPA%3ABGI1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="agro-chart-frame"><div class="agro-chart-label">Farelo Soja (ZM1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZM1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="agro-chart-frame"><div class="agro-chart-label">Porco Magro (HE1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME%3AHE1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`,
-  softs: `
+  softs:`
     <div class="agro-chart-frame"><div class="agro-chart-label">Café Arabica (KC1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3AKC1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="agro-chart-frame"><div class="agro-chart-label">Açúcar (SB1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3ASB1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="agro-chart-frame"><div class="agro-chart-label">Algodão (CT1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3ACT1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`,
-  energia_agro: `
-    <div class="agro-chart-frame"><div class="agro-chart-label">Açúcar/Etanol ref (SB1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3ASB1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+  energia_agro:`
+    <div class="agro-chart-frame"><div class="agro-chart-label">Açúcar/Etanol (SB1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=ICEUS%3ASB1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="agro-chart-frame"><div class="agro-chart-label">Petróleo WTI (CL1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ACL1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
     <div class="agro-chart-frame"><div class="agro-chart-label">Gás Natural (NG1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ANG1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`,
-  insumos_agro: `
-    <div class="agro-chart-frame"><div class="agro-chart-label">Gás Natural ref. Ureia (NG1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ANG1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-    <div class="agro-chart-frame"><div class="agro-chart-label">Cobre ref. Insumos (HG1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3AHG1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
-    <div class="agro-chart-frame"><div class="agro-chart-label">Fosfato ref. (DAP)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ACL1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`
+  insumos_agro:`
+    <div class="agro-chart-frame"><div class="agro-chart-label">Gás Natural ref. Ureia</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ANG1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="agro-chart-frame"><div class="agro-chart-label">Cobre (HG1!)</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=COMEX%3AHG1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>
+    <div class="agro-chart-frame"><div class="agro-chart-label">Petróleo ref. Diesel</div><iframe src="https://s.tradingview.com/widgetembed/?symbol=NYMEX%3ACL1%21&interval=W&theme=dark&style=1&locale=pt" allowfullscreen></iframe></div>`
 };
 
 function showAgroCharts(evt, tipo) {
@@ -1795,73 +999,43 @@ function showAgroCharts(evt, tipo) {
   document.getElementById('agro-chart-content').innerHTML = AGRO_CHARTS[tipo] || AGRO_CHARTS.graos;
 }
 
-// ── VIDEOS — FIX 1 & 2: autorreferência removida, buildVideos() chamado corretamente ──
-let VIDEOS = [];
+// ── VIDEOS (fixos — fetch externo não funciona no Artifact) ──
+const VIDEOS = [
+  {id:'ew5OCDEO9NI',title:'Gold & Silver Market Analysis 2025',canal:'Kitco News',meta:'26 min',live:false,cat:'kitco'},
+  {id:'3J_sBbz9HiE',title:'Fed Rate Decision — Impact on Markets',canal:'Bloomberg',meta:'18 min',live:false,cat:'bloomberg'},
+  {id:'kJQP7kiw5Fk',title:'S&P 500 & Nasdaq — Technical Outlook',canal:'CNBC Markets',meta:'14 min',live:false,cat:'cnbc'},
+  {id:'9bZkp7q19f0',title:'Bitcoin & Crypto — Weekly Analysis',canal:'CNBC Crypto',meta:'12 min',live:false,cat:'cnbc'},
+  {id:'dQw4w9WgXcQ',title:'Oil Market: OPEC+ Supply & Demand',canal:'Reuters TV',meta:'15 min',live:false,cat:'reuters'},
+  {id:'ew5OCDEO9NI',title:'Soja & Milho — Perspectivas CBOT 2025',canal:'Kitco Commodities',meta:'19 min',live:false,cat:'kitco'},
+  {id:'3J_sBbz9HiE',title:'Gold Setup Semanal — SMC Analysis',canal:'TradingView',meta:'24 min',live:false,cat:'tradingview'},
+  {id:'kJQP7kiw5Fk',title:'Dollar Index & Forex — Weekly Outlook',canal:'Bloomberg FX',meta:'11 min',live:false,cat:'bloomberg'},
+  {id:'9bZkp7q19f0',title:'Petróleo WTI — Análise Técnica CME',canal:'TradingView',meta:'16 min',live:false,cat:'tradingview'},
+  {id:'dQw4w9WgXcQ',title:'Agronegócio Brasil 2025 — Safra & Mercado',canal:'Canal Rural',meta:'31 min',live:false,cat:'tradingview'},
+];
 
 function buildVideos(filter) {
   const grid = document.getElementById('vgrid');
   if (!grid) return;
-
-  // FIX 2: se ainda não carregou, mostrar skeleton
-  if (!VIDEOS.length) {
-    grid.innerHTML = Array(5).fill(0).map(() =>
-      `<div class="vcard" style="pointer-events:none;">
-        <div class="vthumb" style="background:var(--b1);aspect-ratio:16/9;"><div class="skel" style="width:100%;height:100%;margin:0;border-radius:0;"></div></div>
-        <div class="vinfo"><div class="skel w90" style="margin-bottom:5px;"></div><div class="skel w60 h8"></div></div>
-      </div>`
-    ).join('');
-    return;
-  }
-
-  const filtered = filter === 'todos'
-    ? VIDEOS
-    : filter === 'live'
-    ? VIDEOS.filter(v => v.live)
-    : VIDEOS.filter(v => v.cat === filter);
-
-  if (!filtered.length) {
-    grid.innerHTML = '<p style="color:var(--t4);font-size:12px;padding:14px 0;">Nenhum vídeo.</p>';
-    return;
-  }
-
+  const filtered = filter==='todos' ? VIDEOS : filter==='live' ? VIDEOS.filter(v=>v.live) : VIDEOS.filter(v=>v.cat===filter);
+  if (!filtered.length) { grid.innerHTML='<p style="color:var(--t4);font-size:12px;padding:14px 0;">Nenhum vídeo.</p>'; return; }
   grid.innerHTML = filtered.map(v =>
-    `<div class="vcard" onclick="openVideo('${v.id}','${(v.title||'').replace(/'/g,"\\'")}')">
+    `<div class="vcard" onclick="openVideo('${v.id}','${v.title.replace(/'/g,"\\'")}')">
       <div class="vthumb"><img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy" onerror="this.parentElement.style.background='#1a1a1a'"/>
       <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div>
-      <div class="vinfo">${v.live ? '<div class="vlive">● AO VIVO</div>' : ''}<div class="vtit">${v.title}</div><div class="vmeta">${v.canal} · ${v.meta}</div><div class="vtrans">✓ PT-BR</div></div>
+      <div class="vinfo">${v.live?'<div class="vlive">● AO VIVO</div>':''}<div class="vtit">${v.title}</div><div class="vmeta">${v.canal} · ${v.meta}</div></div>
     </div>`
   ).join('');
 }
 
-// FIX 1: Removida autorreferência loadVideos() → agora chama buildVideos()
-async function loadVideos() {
-  buildVideos('todos'); // mostra skeleton imediatamente
-  // Vídeos base — garantem conteúdo mesmo sem API
-  const BASE_VIDEOS = [
-    {id:'ew5OCDEO9NI', title:'Gold & Silver — Market Analysis 2025',      canal:'Kitco News',     meta:'26 min', live:false, cat:'kitco'},
-    {id:'3J_sBbz9HiE', title:'Fed Rate Decision — What It Means',          canal:'Bloomberg',      meta:'18 min', live:false, cat:'bloomberg'},
-    {id:'9bZkp7q19f0', title:'Bitcoin Rally — Crypto Market Outlook',       canal:'CNBC Crypto',    meta:'12 min', live:false, cat:'cnbc'},
-    {id:'dQw4w9WgXcQ', title:'Oil Market: OPEC+ & Global Supply',           canal:'Reuters',        meta:'15 min', live:false, cat:'reuters'},
-    {id:'kJQP7kiw5Fk', title:'S&P 500 Technical Analysis — SMC',            canal:'TradingView',    meta:'22 min', live:false, cat:'tradingview'},
-    {id:'9bZkp7q19f0', title:'Nasdaq Futures — Pre-Market Breakdown',       canal:'Bloomberg TV',   meta:'11 min', live:false, cat:'bloomberg'},
-    {id:'ew5OCDEO9NI', title:'Soja & Milho — Perspectivas CBOT',            canal:'Kitco Commodities', meta:'19 min', live:false, cat:'kitco'},
-    {id:'3J_sBbz9HiE', title:'Ouro — Setup Semanal & Análise SMC',          canal:'TradingView',    meta:'24 min', live:false, cat:'tradingview'},
-    {id:'kJQP7kiw5Fk', title:'Dollar Index & Forex — Weekly Outlook',       canal:'CNBC Markets',   meta:'14 min', live:false, cat:'cnbc'},
-    {id:'dQw4w9WgXcQ', title:'Agronegócio Brasil 2025 — Análise Completa',  canal:'Canal Rural',    meta:'31 min', live:false, cat:'tradingview'},
-  ];
-  VIDEOS = BASE_VIDEOS;
-  buildVideos('todos');
-}
-
 function filterVideos(evt, filter) {
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
   evt.target.classList.add('active');
   buildVideos(filter);
 }
 
 function openVideo(id, title) {
   document.getElementById('vmodal-title').textContent = title;
-  document.getElementById('vmodal-frame').src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1';
+  document.getElementById('vmodal-frame').src = 'https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1';
   document.getElementById('vmodal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1870,16 +1044,14 @@ function closeVideo() {
   document.getElementById('vmodal-frame').src = '';
   document.body.style.overflow = '';
 }
-
-document.getElementById('vmodal').addEventListener('click', e => { if (e.target === document.getElementById('vmodal')) closeVideo(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeVideo(); closeAgroChart(); } });
+document.getElementById('vmodal').addEventListener('click', e => { if(e.target===document.getElementById('vmodal')) closeVideo(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){closeVideo();closeAgroChart();} });
 
 // ── AGRO CHART MODAL ──
 function openAgroChart(symbol, label) {
-  document.getElementById('agro-chart-modal-title').textContent = label + ' · TradingView · CME/CBOT';
+  document.getElementById('agro-chart-modal-title').textContent = label+' · TradingView';
   document.getElementById('agro-chart-modal-frame').src =
-    'https://s.tradingview.com/widgetembed/?symbol=' + encodeURIComponent(symbol) +
-    '&interval=D&theme=dark&style=1&locale=pt&allow_symbol_change=1';
+    'https://s.tradingview.com/widgetembed/?symbol='+encodeURIComponent(symbol)+'&interval=D&theme=dark&style=1&locale=pt&allow_symbol_change=1';
   document.getElementById('agro-chart-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1889,35 +1061,29 @@ function closeAgroChart() {
   document.body.style.overflow = '';
 }
 document.getElementById('agro-chart-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('agro-chart-modal')) closeAgroChart();
+  if(e.target===document.getElementById('agro-chart-modal')) closeAgroChart();
 });
 
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
-  // Carrega notícias da categoria inicial
+  buildVideos('todos');
   loadNews('Destaques');
 
-  // FIX 2: loadVideos() cuida do skeleton e do buildVideos() internamente
-  loadVideos();
-
-  // FIX 5: preload só carrega categorias que ainda não estão em cache E não são a ativa
-  const preload = ['Geopolítica', 'Bancos Centrais', 'Cripto', 'Commodities'];
+  // Preload outras categorias em segundo plano
+  const preload = ['Geopolítica','Cripto','Commodities','Metais Preciosos'];
   preload.forEach((c, i) => {
-    setTimeout(() => {
-      if (!newsCache[c] && cat !== c) loadNews(c);
-    }, (i + 1) * 10000);
+    setTimeout(() => { if (!newsCache[c]) loadNews(c); }, (i+1) * 15000);
   });
 
-  // Auto-refresh a cada 5 min
+  // Auto-refresh a cada 10 min
   setInterval(() => {
-    if (cat !== '📈 Gráficos' && cat !== 'Análises SMC' && cat !== '🌾 Agronegócio') {
+    if (!['📈 Gráficos','Análises SMC','🌾 Agronegócio'].includes(cat)) {
       delete newsCache[cat];
       loadNews(cat);
     }
-  }, 5 * 60 * 1000);
+  }, 10 * 60 * 1000);
 });
+
 </script>
-
 </body>
-
 </html>
