@@ -729,7 +729,9 @@ function selectCat(c) {
     document.getElementById('calsec').style.display = 'none';
     document.getElementById('agrosec').style.display = 'block';
 
-    loadAgroNews();
+    if(typeof loadAgroNews === 'function'){
+      loadAgroNews();
+    }
 
   } else if (c === 'Análises SMC') {
 
