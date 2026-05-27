@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>Black Swan News · Inteligência de Mercado Global</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght=400;600;700&family=Space+Grotesk:wght=300;400;500;600&family=Space+Mono:wght=400;700&display=swap"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -21,6 +21,8 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t1)
 a{text-decoration:none;color:inherit;}
 img{max-width:100%;display:block;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999;mix-blend-mode:overlay;}
+
+/* TOPBAR & TICKER */
 .topbar{background:#050505;border-bottom:1px solid var(--b1);padding:0 12px;height:var(--topbar-h);display:flex;align-items:center;gap:10px;overflow:hidden;position:sticky;top:0;z-index:200;}
 .live-pill{background:var(--red);color:#fff;font-size:8px;font-weight:700;letter-spacing:2px;padding:3px 7px;border-radius:2px;white-space:nowrap;font-family:'Space Mono',monospace;flex-shrink:0;animation:pill-pulse 2s ease-in-out infinite;}
 @keyframes pill-pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.4);}50%{box-shadow:0 0 0 4px rgba(220,38,38,0);}}
@@ -34,20 +36,209 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .tv{color:#f0ece4;font-weight:700;font-size:10px;}
 .up{color:#4ade80;font-weight:700;}
 .dn{color:#f87171;font-weight:700;}
+
+/* HEADER */
 .header{background:var(--bg);padding:14px var(--gutter) 0;border-bottom:1px solid var(--b1);position:sticky;top:var(--topbar-h);z-index:100;}
 .header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:12px;}
 .logo{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;letter-spacing:-1.5px;line-height:1;color:var(--t1);display:flex;align-items:center;gap:10px;}
 .logo svg{width:32px;height:32px;flex-shrink:0;}
 .logo-red{color:var(--red);}
-.logo-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t2);margin-top:3px;padding-left:42px;font-weight:600;}
-.logo-author{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:1.5px;color:var(--t3);margin-top:3px;padding-left:42px;text-transform:uppercase;}
+.logo-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t2);margin-top:3px;padding-left:0px;font-weight:600;}
+.logo-author{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:1.5px;color:var(--t3);margin-top:3px;padding-left:0px;text-transform:uppercase;}
 .logo-author strong{color:var(--t2);font-weight:700;}
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
 .hdate{font-family:'Space Mono',monospace;font-size:10px;color:#c8d4e0;font-weight:700;white-space:nowrap;}
-.hstatus">● Reuters · Bloomberg · AP · Tempo Real</div>
+.hstatus{font-family:'Space Mono',monospace;font-size:8px;color:var(--green);letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:4px;}
+.search-row{display:flex;gap:6px;margin-top:4px;width:100%;max-width:280px;}
+.sinput{background:var(--bg2);border:1px solid var(--b1);color:var(--t1);font-family:inherit;font-size:12px;padding:6px 10px;outline:none;width:100%;transition:border-color .2s;}
+.sinput:focus{border-color:var(--b2);}
+.btn-ai{background:var(--b1);border:1px solid var(--b2);color:var(--t2);font-family:'Space Mono',monospace;font-size:10px;padding:6px 12px;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.btn-ai:hover{background:var(--red);border-color:var(--red);color:#fff;}
+
+/* NAVIGATION */
+.nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;mask-image:linear-gradient(to right,#000 93%,transparent 100%);-webkit-overflow-scrolling:touch;}
+.nav::-webkit-scrollbar{display:none;}
+.nvi{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;}
+.nvi:hover{color:var(--t2);background:var(--bg2);}
+.nvi.active{color:var(--t1);background:var(--bg3);border-color:var(--b1);font-weight:700;}
+
+/* ALERTS & LAYOUT */
+.alert{background:#140505;border-bottom:1px solid #2a0a0a;padding:8px var(--gutter);display:flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:10px;}
+.adot{width:6px;height:6px;background:var(--red);border-radius:50%;animation:pill-pulse 1.5s infinite;}
+.alabel{color:var(--red);font-weight:700;letter-spacing:1px;}
+.atext{color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.layout{max-width:1400px;margin:24px auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr 320px;gap:32px;}
+@media(max-width:1024px){.layout{grid-template-columns:1fr;gap:24px;}}
+
+/* NEWS FEED & CARDS */
+.feed{display:flex;flex-direction:column;gap:0;}
+.slabel{font-family:'Space Mono',monospace;font-size:9px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;border-bottom:1px solid var(--b1);padding-bottom:6px;display:flex;justify-content:between;}
+.mini{padding:20px 0;border-bottom:1px solid var(--b1);cursor:pointer;transition:opacity .2s;}
+.mini:hover{opacity:.85;}
+.mini h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;line-height:1.2;color:var(--t1);margin:6px 0 8px;}
+.mini p{font-size:14px;line-height:1.5;color:var(--t2);font-weight:300;}
+.meta{display:flex;gap:12px;align-items:center;font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);text-transform:uppercase;margin-top:8px;}
+.badge{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1px;padding:2px 5px;border-radius:1px;text-transform:uppercase;display:inline-block;}
+.bc{background:rgba(220,38,38,0.1);color:var(--redp);border:1px solid rgba(220,38,38,0.2);}
+
+/* SKELETON */
+.skel{background:linear-gradient(90deg, var(--bg2) 25%, var(--b1) 50%, var(--bg2) 75%);background-size:200% 100%;animation:loading 1.5s infinite;height:16px;margin-bottom:8px;border-radius:2px;}
+.w90{width:90%;}.w70{width:70%;}.w50{width:50%;}.h8{height:10px;}
+@keyframes loading{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.err-box{border:1px dashed var(--b1);padding:30px;text-align:center;font-family:'Space Mono',monospace;font-size:12px;color:var(--t3);}
+
+/* SIDEBAR WIDGET */
+.sidebar-widget{position:sticky;top:calc(var(--topbar-h) + 110px);height:680px;border:1px solid var(--b1);background:var(--bg2);overflow:hidden;}
+@media(max-width:1024px){.sidebar-widget{display:none;}}
+
+/* CHARTS SECTION */
+.chartsec{max-width:1400px;margin:24px auto;padding:0 var(--gutter);}
+.chart-tabs{display:flex;gap:4px;overflow-x:auto;margin-bottom:16px;border-bottom:1px solid var(--b1);padding-bottom:8px;}
+.chart-tab{background:transparent;border:1px solid transparent;color:var(--t3);font-family:'Space Mono',monospace;font-size:10px;padding:6px 12px;cursor:pointer;text-transform:uppercase;}
+.chart-tab.active{background:var(--b1);border-color:var(--b2);color:var(--t1);font-weight:700;}
+.chart-grid{display:grid;grid-template-columns:1fr;gap:20px;height:600px;}
+.chart-frame{border:1px solid var(--b1);background:var(--bg2);height:100%;}
+.chart-frame iframe{width:100%;height:100%;border:none;}
+
+/* AGRO SECTION */
+.agrosec{max-width:1400px;margin:24px auto;padding:0 var(--gutter);}
+.agro-header{background:#0d1a0d;border:1px solid #1a3a1a;padding:16px var(--gutter);display:flex;justify-content:between;align-items:center;gap:16px;margin-bottom:20px;}
+.agro-title-block{display:flex;align-items:center;gap:14px;}
+.agro-icon{font-size:28px;}
+.agro-label{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#e2f0d9;}
+.agro-sub{font-family:'Space Grotesk',sans-serif;font-size:11px;color:#89a87d;font-weight:400;}
+.agro-live-pill{background:#2e5c2e;color:#fff;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;padding:4px 8px;letter-spacing:1px;animation:pill-pulse 2.5s infinite;}
+.agro-ticker-strip{background:#070f07;border:1px solid #102410;padding:10px 14px;overflow:hidden;}
+.agro-ticker-inner{display:flex;gap:24px;white-space:nowrap;}
+.atick{font-family:'Space Mono',monospace;font-size:11px;display:inline-flex;gap:6px;align-items:center;}
+.atick+.atick{border-left:1px solid #1a3a1a;padding-left:24px;}
+.atn{color:#7fa672;font-size:10px;}
+.atv{color:#f0f5ee;font-weight:700;}
+.agro-news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin:16px 0 24px;}
+.agro-news-card{background:#090f09;border:1px solid #152615;padding:16px;display:flex;flex-direction:column;gap:8px;}
+.agro-news-tag{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;align-self:flex-start;padding:1px 4px;background:rgba(74,154,48,0.15);color:#6ec74d;border:1px solid rgba(74,154,48,0.3);}
+.agro-news-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:#edf5eb;line-height:1.2;}
+.agro-news-desc{font-size:13px;color:#a3b89e;line-height:1.4;font-weight:300;}
+.agro-news-meta{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:8px;color:#52664e;text-transform:uppercase;margin-top:auto;padding-top:4px;}
+.agro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-bottom:24px;}
+.agro-panel{background:var(--bg2);border:1px solid var(--b1);display:flex;flex-direction:column;}
+.agro-panel-head{background:var(--bg3);border-bottom:1px solid var(--b1);padding:10px 14px;display:flex;justify-content:between;align-items:center;}
+.agro-panel-title{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--t2);letter-spacing:1px;text-transform:uppercase;}
+.agro-panel-badge{font-family:'Space Mono',monospace;font-size:8px;padding:2px 5px;font-weight:700;color:#fff;}
+.apb-grain{background:#634832;}.apb-protein{background:#802626;}
+.agro-panel-body{padding:14px;display:flex;flex-direction:column;gap:12px;}
+.agro-stat{display:flex;justify-content:between;align-items:center;padding-bottom:8px;border-bottom:1px dashed var(--b1);}
+.agro-stat:last-child{border-bottom:none;padding-bottom:0;}
+.agro-stat-name{font-size:13px;color:var(--t2);font-weight:400;}
+.agro-stat-val{font-family:'Space Mono',monospace;font-size:12px;color:var(--t1);font-weight:700;}
+.agro-stat-chg{font-family:'Space Mono',monospace;font-size:10px;}
+.agro-climate-block{background:#0a121a;border:1px solid #14283c;padding:16px;display:flex;gap:16px;align-items:start;margin-bottom:24px;}
+.agro-climate-icon{font-size:24px;line-height:1;}
+.agro-climate-content{display:flex;flex-direction:column;gap:4px;}
+.agro-climate-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#d0e2f5;}
+.agro-climate-text{font-size:13px;color:#9cb4cc;line-height:1.5;font-weight:300;}
+.agro-climate-tags{display:flex;gap:6px;margin-top:4px;}
+.agro-ctag{font-family:'Space Mono',monospace;font-size:8px;background:rgba(20,40,60,0.5);color:#70a5d9;border:1px solid #1a3a5c;padding:2px 6px;}
+.agro-charts{margin-top:24px;}
+.agro-chart-tabs{display:flex;gap:4px;margin-bottom:12px;}
+.agro-chart-tab{background:transparent;border:1px solid transparent;color:var(--t3);font-family:'Space Mono',monospace;font-size:10px;padding:4px 10px;cursor:pointer;text-transform:uppercase;}
+.agro-chart-tab.active{background:var(--b1);border-color:var(--b2);color:var(--t1);}
+.agro-chart-grid{height:500px;border:1px solid var(--b1);background:var(--bg2);}
+.agro-chart-frame{width:100%;height:100%;}
+.agro-chart-frame iframe{width:100%;height:100%;border:none;}
+.agro-vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+.vcard{background:var(--bg2);border:1px solid var(--b1);cursor:pointer;transition:border-color .2s;overflow:hidden;}
+.vcard:hover{border-color:var(--b2);}
+.vthumb{position:relative;aspect-ratio:16/9;background:#000;}
+.vthumb img{width:100%;height:100%;object-fit:cover;opacity:.65;}
+.vthumb-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.pbtn{width:36px;height:36px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+.vcard:hover .pbtn{transform:scale(1.1);}
+.ptri{width:0;height:0;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent #fff;margin-left:2px;}
+.vinfo{padding:12px;}
+.vtit{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;line-height:1.2;color:var(--t1);margin-bottom:4px;}
+.vmeta{font-family:'Space Mono',monospace;font-size:8px;color:var(--t4);text-transform:uppercase;}
+
+/* ANALYSES SMC SECTION */
+.asec{max-width:1400px;margin:24px auto;padding:0 var(--gutter);}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;}
+.acard{background:var(--bg2);border:1px solid var(--b1);padding:20px;display:flex;flex-direction:column;gap:12px;}
+.atop{display:flex;justify-content:between;align-items:start;gap:12px;}
+.atit{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--t1);line-height:1.2;}
+.dir{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:2px 6px;letter-spacing:1px;text-transform:uppercase;}
+.dwatch{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2);}
+.dlong{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2);}
+.alevs{font-family:'Space Mono',monospace;font-size:11px;color:var(--t3);background:var(--bg3);padding:10px;border:1px solid var(--b1);display:flex;flex-direction:column;gap:4px;}
+.lv{color:var(--t2);font-weight:700;}
+.anote{font-size:13px;line-height:1.5;color:var(--t2);font-weight:300;}
+.adate{font-family:'Space Mono',monospace;font-size:8px;color:var(--t4);text-transform:uppercase;margin-top:auto;}
+
+/* MODALS */
+.vmodal{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.vmodal.open{display:flex;}
+.vmodal-inner{background:var(--bg2);border:1px solid var(--b1);width:100%;max-width:840px;display:flex;flex-direction:column;}
+.vmodal-header{padding:12px 16px;border-bottom:1px solid var(--b1);display:flex;justify-content:between;align-items:center;background:var(--bg3);}
+.vmodal-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--t1);}
+.vmodal-close{background:none;border:none;color:var(--t3);font-size:22px;cursor:pointer;transition:color .2s;line-height:1;}
+.vmodal-close:hover{color:#fff;}
+.vmodal-frame{position:relative;aspect-ratio:16/9;width:100%;background:#000;}
+.vmodal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+
+/* MOBILE NAVIGATION */
+.mob-bottom-nav{position:fixed;bottom:0;inset-x:0;background:#070707;border-top:1px solid var(--b1);height:56px;display:none;grid-template-columns:repeat(4,1fr);z-index:900;}
+.mob-bn-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--t4);cursor:pointer;transition:all .15s;}
+.mob-bn-item.active{color:var(--redp);}
+.mob-bn-icon{font-size:16px;}
+.mob-bn-label{font-size:9px;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.5px;}
+.mob-search-bar{background:var(--bg2);border-bottom:1px solid var(--b1);padding:8px var(--gutter);position:sticky;top:calc(var(--topbar-h) + 72px);z-index:99;display:none;gap:6px;}
+@media(max-width:768px){
+  .header-top{flex-direction:column;align-items:stretch;}
+  .hright{align-items:flex-start;margin-top:4px;width:100%;}
+  .search-row{max-width:100%;}
+  #desktop-nav{display:none;}
+  .mob-bottom-nav{display:grid;}
+  .mob-search-bar{display:flex;}
+  body{padding-bottom:56px;}
+  .logo{font-size:30px;}
+}
+
+/* FOOTER */
+footer{max-width:1400px;margin:40px auto 20px;padding:20px var(--gutter) 0;border-top:1px solid var(--b1);display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:'Space Mono',monospace;font-size:9px;color:var(--t4);text-transform:uppercase;}
+.fdot{color:var(--red);animation:pill-pulse 2s infinite;font-size:12px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="live-pill">LIVE INDEX</div>
+  <div class="ticker-wrap">
+    <div class="ticker-inner" id="ticker-target">
+      <span class="tick"><span class="tn">USD/BRL</span><span class="tv">5,7820</span><span class="up">▲ +0.35%</span></span>
+      <span class="tick"><span class="tn">EUR/USD</span><span class="tv">1,0842</span><span class="dn">▼ -0.12%</span></span>
+      <span class="tick"><span class="tn">PETRÓLEO BRENT</span><span class="tv">$82,45</span><span class="up">▲ +1.15%</span></span>
+      <span class="tick"><span class="tn">OURO Futuro</span><span class="tv">$2.342,10</span><span class="up">▲ +0.65%</span></span>
+      <span class="tick"><span class="tn">S&P 500 Futuro</span><span class="tv">5.224,25</span><span class="dn">▼ -0.22%</span></span>
+    </div>
+  </div>
+</div>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 22h20L12 2zM12 6l7 13H5l7-13z" fill="var(--red)" stroke="var(--red)"/><path d="M12 10v4M12 16h.01" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>BLACK SWAN <span class="logo-red">NEWS</span></span>
+      </div>
+      <div class="logo-sub">SISTEMA DE INTELIGÊNCIA GLOBAL v8.0</div>
+      <div class="logo-author">Desenvolvido por <strong>José Youssef</strong></div>
+    </div>
+    <div class="hright">
+      <div class="hdate" id="live-clock">27 Mai 2025 · 12:00:00 UTC</div>
+      <div class="hstatus">● AGÊNCIAS GLOBAIS · CONECTADO</div>
       <div class="search-row">
-        <input class="sinput" id="sinput" type="text" placeholder="Fed, ouro, BTC, guerra..."/>
-        <button class="btn-ai" id="btnai">Analisar IA ↗</button>
+        <input class="sinput" id="sinput" type="text" placeholder="Filtrar fluxo ativo..."/>
+        <button class="btn-ai" onclick="alert('IA Integrada ativada para filtragem local.')">Filtro IA ↗</button>
       </div>
     </div>
   </div>
@@ -56,282 +247,23 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="nvi" data-cat="Geopolítica">Geopolítica</div>
     <div class="nvi" data-cat="Bancos Centrais">Bancos Centrais</div>
     <div class="nvi" data-cat="CME · Futuros">CME · Futuros</div>
-    <div class="nvi" data-cat="🌾 Agronegócio" style="color:#4a9a30;">🌾 Agronegócio</div>
+    <div class="nvi" data-cat="🌾 Agronegócio" style="color:#6ec74d;">🌾 Agronegócio</div>
     <div class="nvi" data-cat="Commodities">Commodities</div>
     <div class="nvi" data-cat="Metais Preciosos">Metais Preciosos</div>
     <div class="nvi" data-cat="Cripto">Cripto</div>
-    <div class="nvi" data-cat="Guerras &amp; Conflitos">Guerras &amp; Conflitos</div>
-    <div class="nvi" data-cat="Saúde Global">Saúde Global</div>
     <div class="nvi" data-cat="📈 Gráficos">📈 Gráficos</div>
     <div class="nvi" data-cat="Análises SMC">Análises SMC</div>
   </nav>
 </div>
 
-<div class="mob-search-bar" id="mob-search-bar" style="display:none;">
-  <input class="sinput" id="sinput-mob" type="text" placeholder="Fed, ouro, BTC, guerra..."/>
-  <button class="btn-ai" id="btnai-mob">IA ↗</button>
+<div class="mob-search-bar" id="mob-search-bar">
+  <input class="sinput" id="sinput-mob" type="text" placeholder="Filtrar fluxo activo..."/>
 </div>
 
 <div class="alert">
   <div class="adot"></div>
-  <span class="alabel">CISNE NEGRO</span>
-  <div class="atext">Notícias em tempo real · NYT · BBC · Kitco · OilPrice · Notícias Agrícolas</div>
+  <span class="alabel">ALERTA MACRO</span>
+  <div class="atext">Monitoramento ativo de volatilidade cambial e spreads de commodities agrícolas.</div>
 </div>
 
-<div class="layout" id="main-layout">
-  <main class="feed" id="feed">
-    <div class="slabel">Carregando...</div>
-    <div style="padding-top:6px;">
-      <div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
-      <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
-      <br><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div>
-    </div>
-  </main>
-
-  <aside class="sidebar-widget" id="sidebar-widget">
-    <iframe src="https://s.tradingview.com/embed-widget/market-quotes/?locale=br#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A800%2C%22showSymbolLogo%22%3Atrue%2C%22isTransparent%22%3Afalse%2C%22colorTheme%22%3A%22dark%22%2C%22locale%22%3A%22br%22%2C%22symbolsGroups%22%3A%5B%7B%22name%22%3A%22Moedas%22%2C%22originalName%22%3A%22Forex%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FX_IDC%3AUSDBRL%22%2C%22displayName%22%3A%22D%C3%B3lar%20%2F%20Real%22%7D%2C%7B%22name%22%3A%22FX%3AEURUSD%22%2C%22displayName%22%3A%22Euro%20%2F%20D%C3%B3lar%22%7D%2C%7B%22name%22%3A%22FX%3AUSDCNY%22%2C%22displayName%22%3A%22D%C3%B3lar%20%2F%20Yuan%22%7D%2C%7B%22name%22%3A%22FX%3AUSDJPY%22%2C%22displayName%22%3A%22D%C3%B3lar%20%2F%20Iene%22%7D%5D%7D%2C%7B%22name%22%3A%22%C3%8Dndices%20Globais%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22CME_MINI%3ANQ1!%22%2C%22displayName%22%3A%22Nasdaq%20100%20Futuro%22%7D%2C%7B%22name%22%3A%22CME_MINI%3AES1!%22%2C%22displayName%22%3A%22S%26P%20500%20Futuro%22%7D%2C%7B%22name%22%3A%22CBOT%3AYM1!%22%2C%22displayName%22%3A%22Dow%20Jones%20Futuro%22%7D%2C%7B%22name%22%3A%22BMFBOVESPA%3AIBOV%22%2C%22displayName%22%3A%22Ibovespa%20%C3%8Dndice%22%7D%2C%7B%22name%22%3A%22TVC%3ADXY%22%2C%22displayName%22%3A%22D%C3%B3lar%20Index%20(DXY)%22%7D%5D%7D%2C%7B%22name%22%3A%22Commodities%20%26%20Metais%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22COMEX%3AGC1!%22%2C%22displayName%22%3A%22Ouro%20Futuro%22%7D%2C%7B%22name%22%3A%22NYMEX%3ACL1!%22%2C%22displayName%22%3A%22Petr%C3%B3leo%20WTI%22%7D%2C%7B%22name%22%3A%22ICEUS%22%3A%22BRN1!%22%2C%22displayName%22%3A%22Petr%C3%B3leo%20Brent%22%7D%2C%7B%22name%22%3A%22COMEX%3ASI1!%22%2C%22displayName%22%3A%22Prata%20Futuro%22%7D%2C%7B%22name%22%3A%22NYMEX%3ANG1!%22%2C%22displayName%22%3A%22G%C3%A1s%20Natural%22%7D%5D%7D%5D%7D" style="width:100%;height:100%;border:none;"></iframe>
-  </aside>
-</div>
-
-<section class="chartsec" id="chartsec" style="display:none;">
-  <div class="slabel">Gráficos Avançados · Fluxo Global Interativo</div>
-  <div class="chart-tabs">
-    <button class="chart-tab active" onclick="showCharts(event,'indices')">Índices</button>
-    <button class="chart-tab" onclick="showCharts(event,'commodities')">Commodities</button>
-    <button class="chart-tab" onclick="showCharts(event,'metais')">Metais Preciosos</button>
-    <button class="chart-tab" onclick="showCharts(event,'cripto')">Criptoativos</button>
-    <button class="chart-tab" onclick="showCharts(event,'brasil')">Mercado Brasil</button>
-  </div>
-  <div id="chart-container"></div>
-</section>
-
-<section class="agrosec" id="agrosec" style="display:none;">
-  <div class="agro-header">
-    <div class="agro-title-block">
-      <div class="agro-icon">🌾</div>
-      <div>
-        <div class="agro-label">Black Swan Agro-Intelligence</div>
-        <div class="agro-sub">Macroeconomia do Campo · Chicago &amp; B3 em Tempo Real</div>
-      </div>
-    </div>
-    <div class="agro-live-pill">AGRO LIVE · CBOT</div>
-  </div>
-
-  <div class="agro-ticker-strip">
-    <div class="agro-ticker-inner">
-      <span class="atick"><span class="atn">DÓLAR BRL</span><span class="atv">R$5,78</span><span class="dn">-0.2%</span></span>
-      <span class="atick"><span class="atn">SOJA ZS1!</span><span class="atv">$1.084</span><span class="up">+0.8%</span></span>
-      <span class="atick"><span class="atn">MILHO ZC1!</span><span class="atv">$442</span><span class="dn">-0.3%</span></span>
-      <span class="atick"><span class="atn">TRIGO ZW1!</span><span class="atv">$528</span><span class="up">+0.5%</span></span>
-      <span class="atick"><span class="atn">BOI BGI1!</span><span class="atv">R$285</span><span class="up">+1.2%</span></span>
-      <span class="atick"><span class="atn">CAFÉ KC1!</span><span class="atv">$381</span><span class="up">+2.1%</span></span>
-    </div>
-  </div>
-
-  <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;margin-top:16px;display:flex;align-items:center;gap:6px;">Notícias do Agro · Tempo Real<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span><span id="agro-news-status" style="font-size:7px;color:#3a6a28;">Carregando...</span></div>
-  <div class="agro-news-grid" id="agro-news-grid">
-    <div class="agro-news-card"><div class="agro-news-tag ant-soja">GRÃOS</div><div class="agro-news-title">Carregando notícias do agronegócio...</div><div class="agro-news-desc">Buscando as últimas informações sobre commodities agrícolas.</div><div class="agro-news-meta"><span>Notícias Agrícolas · Canal Rural</span><span>agora</span></div></div>
-  </div>
-
-  <div class="agro-grid">
-    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🌱 Grãos &amp; Oleaginosas</span><span class="agro-panel-badge apb-grain">CBOT</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('CBOT:ZS1!','Soja ZS1!')" style="cursor:pointer;"><span class="agro-stat-name">Soja (ZS1!)</span><span class="agro-stat-val">$1.084/bu</span><span class="agro-stat-chg up">▲ +0.8%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZC1!','Milho ZC1!')" style="cursor:pointer;"><span class="agro-stat-name">Milho (ZC1!)</span><span class="agro-stat-val">$442/bu</span><span class="agro-stat-chg dn">▼ -0.3%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZW1!','Trigo ZW1!')" style="cursor:pointer;"><span class="agro-stat-name">Trigo (ZW1!)</span><span class="agro-stat-val">$528/bu</span><span class="agro-stat-chg up">▲ +0.5%</span></div></div></div>
-    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🥩 Proteína Animal &amp; Softs</span><span class="agro-panel-badge apb-protein">B3 · CME</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('BMFBOVESPA:BGI1!','Boi Gordo BGI1!')" style="cursor:pointer;"><span class="agro-stat-name">Boi Gordo (BGI1!)</span><span class="agro-stat-val">R$285/ç</span><span class="agro-stat-chg up">▲ +1.2%</span></div><div class="agro-stat" onclick="openAgroChart('CME:HE1!','Lean Hogs HE1!')" style="cursor:pointer;"><span class="agro-stat-name">Lean Hogs (CME)</span><span class="agro-stat-val">$81,40</span><span class="agro-stat-chg dn">▼ -0.5%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:SUGAR1!','Açúcar SB1!')" style="cursor:pointer;"><span class="agro-stat-name">Açúcar (SB1!)</span><span class="agro-stat-val">$21,40/lb</span><span class="agro-stat-chg up">▲ +0.3%</span></div></div></div>
-    <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🌍 Fibras &amp; Soft Commodities</span><span class="agro-panel-badge apb-grain">ICE · CBOT</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('ICEUS:CT1!','Algodão CT1!')" style="cursor:pointer;"><span class="agro-stat-name">Algodão (CT1!)</span><span class="agro-stat-val">$67/lb</span><span class="agro-stat-chg dn">▼ -0.4%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:KC1!','Café Arabica KC1!')" style="cursor:pointer;"><span class="agro-stat-name">Café Arabica KC1!</span><span class="agro-stat-val">$381/lb</span><span class="agro-stat-chg up">▲ +2.1%</span></div><div class="agro-stat" onclick="openAgroChart('ICEUS:CC1!','Cacau CC1!')" style="cursor:pointer;"><span class="agro-stat-name">Cacau (CC1!)</span><span class="agro-stat-val">$8.940/t</span><span class="agro-stat-chg up">▲ +3.4%</span></div></div></div>
-  </div>
-
-  <div class="agro-climate-block">
-    <div class="agro-climate-icon">🌡️</div>
-    <div class="agro-climate-content">
-      <div class="agro-climate-title">Monitor Climático Agrícola · NOAA / INMET / CONAB</div>
-      <div class="agro-climate-text">La Niña de intensidade fraca em fase de dissipação. Previsão de transição para neutralidade entre junho e julho. Monitoramento especial para MATOPIBA, Sudeste e Sul do Brasil.</div>
-      <div class="agro-climate-tags"><span class="agro-ctag">La Niña Fraca</span><span class="agro-ctag">Safra 2025/26</span></div>
-    </div>
-  </div>
-
-  <div class="agro-charts">
-    <div class="agro-chart-tabs">
-      <button class="agro-chart-tab active" onclick="showAgroCharts(event,'graos')">Grãos</button>
-      <button class="agro-chart-tab" onclick="showAgroCharts(event,'softs')">Softs &amp; Pecorino</button>
-    </div>
-    <div class="agro-chart-grid" id="agro-chart-container"></div>
-  </div>
-
-  <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;margin-top:20px;">Multimídia Agro · Análises e Relatórios Oficiais</div>
-  <div class="agro-vgrid">
-    <div class="vcard" onclick="openVideo('8L_o7GFZEPE','USDA WASDE Report — Grãos e Oleaginosas')"><div class="vthumb"><img src="https://img.youtube.com/vi/8L_o7GFZEPE/mqdefault.jpg" alt="WASDE"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">WASDE — USDA Grãos</div><div class="vmeta">USDA · Global Supply</div></div></div>
-    <div class="vcard" onclick="openVideo('K4tde9GwUis','Boi Gordo & Proteínas — B3 e CME 2025')"><div class="vthumb"><img src="https://img.youtube.com/vi/K4tde9GwUis/mqdefault.jpg" alt="Boi Gordo"/><div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div><div class="vinfo"><div class="vtit">Boi Gordo &amp; Proteínas — B3</div><div class="vmeta">Agro Insight · B3</div></div></div>
-  </div>
-</section>
-
-<section class="calsec" id="calsec" style="display:none;"></section>
-
-<section class="asec" id="asec" style="display:none;">
-  <div class="slabel">Análises Exclusivas — Black Swan Intelligence · SMC</div>
-  <div class="agrid">
-    <div class="acard"><div class="atop"><div class="atit">Nasdaq (NQ1!) — Estrutura Semanal</div><span class="dir dwatch">AGUARDAR</span></div><div class="alevs"><div>Resistência: <span class="lv">21,940 · 22,200</span></div><div>Suporte: <span class="lv">21,600 · 21,280</span></div></div><div class="anote">Mercado em distribuição no topo da range semanal. Aguardar rejeição no OB ou reclaim acima de 22.200 para bias direcional.</div><div class="adate">27 Mai 2025 · 08:00 BRT</div></div>
-    <div class="acard"><div class="atop"><div class="atit">Ouro (GC1!) — Setup de Alta em Confluência</div><span class="dir dlong">LONG</span></div><div class="alevs"><div>Entrada: <span class="lv">3,285–3,295</span></div><div>Alvo 1: <span class="lv">3,340</span></div><div>Stop: <span class="lv">3,268</span></div></div><div class="anote">OB semanal testado com absorção. Estrutura de alta intacta. R:R 1:3 favorável.</div><div class="adate">27 Mai 2025 · 07:30 BRT</div></div>
-  </div>
-</section>
-
-<div class="vmodal" id="vmodal"><div class="vmodal-inner"><div class="vmodal-header"><div class="vmodal-title" id="vmodal-title"></div><button class="vmodal-close" onclick="closeVideo()">×</button></div><div class="vmodal-frame"><iframe id="vmodal-frame" allowfullscreen></iframe></div></div></div>
-<div class="vmodal" id="agro-chart-modal"><div class="vmodal-inner"><div class="vmodal-header"><div class="vmodal-title" id="agro-chart-modal-title"></div><button class="vmodal-close" onclick="closeAgroChart()">×</button></div><div class="vmodal-frame"><iframe id="agro-chart-modal-frame"></iframe></div></div></div>
-
-<div class="mob-bottom-nav">
-  <div class="mob-bn-item active" onclick="mobNav(this,'feed')"><span class="mob-bn-icon">📰</span><span class="mob-bn-label">Notícias</span></div>
-  <div class="mob-bn-item" onclick="mobNav(this,'charts')"><span class="mob-bn-icon">📈</span><span class="mob-bn-label">Gráficos</span></div>
-  <div class="mob-bn-item" onclick="mobNav(this,'agro')"><span class="mob-bn-icon">🌾</span><span class="mob-bn-label">Agro</span></div>
-  <div class="mob-bn-item" onclick="mobNav(this,'smc')"><span class="mob-bn-icon">🎯</span><span class="mob-bn-label">SMC</span></div>
-</div>
-
-<footer>
-  <span class="fdot">●</span><span>BLACK SWAN NEWS</span><span>·</span>
-  <span>Inteligência de Mercado Global</span><span>·</span>
-  <span>v8.0 · Agro Edition</span><span>·</span>
-  <span>Desenvolvido por <strong style="color:var(--t2);">José Youssef</strong></span>
-</footer>
-
-<script>
-// ══════════════════════════════════════════════════════════
-// BLACK SWAN NEWS v8.0
-// CORREÇÃO PRINCIPAL: callAI usa proxy Anthropic sem API key
-// ══════════════════════════════════════════════════════════
-const newsCache = {};
-let cat = 'Destaques';
-let isLoading = false;
-
-async function callAI(prompt, maxTokens = 900) {
-  const res = await fetch('/api/v1/ai/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-3-5-sonnet',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: maxTokens
-    })
-  });
-  if(!res.ok) throw new Error('Falha HTTP: ' + res.status);
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content || data.content?.[0]?.text || data.text || '';
-}
-
-const CAT_PROMPTS = {
-  'Destaques': 'Busque as 7 notícias mais importantes e críticas dos mercados globais (Fed, inflação, guerras, movimentações abruptas de commodities). Retorne estritamente um array JSON válido sem marcações markdown: [{"title":"título claro","desc":"resumo condensado","source":"Reuters","url":"#","time":"5m atrás","tag":"MERCADO"}]',
-  'Geopolítica': 'Busque 7 notícias geopolíticas de grande impacto global. Responda APENAS JSON.',
-  'Bancos Centrais': 'Busque 7 notícias sobre Fed, BCE, Banco Central do Japão, juros e liquidez global. Responda APENAS JSON.'
-};
-
-function parseJSON(raw) {
-  const match = raw.match(/\[[\s\S]*\]/);
-  if (!match) throw new Error('JSON array não encontrado');
-  return JSON.parse(match[0].replace(/[\u0000-\u001F\u007F-\u009F]/g, ' '));
-}
-
-async function loadNews(q) {
-  if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
-  if (newsCache[q]) { render(newsCache[q], q); return; }
-  showSkeleton(q);
-  try {
-    const raw = await callAI(CAT_PROMPTS[q] || CAT_PROMPTS['Destaques']);
-    const articles = parseJSON(raw);
-    newsCache[q] = articles;
-    if (cat === q) render(articles, q);
-  } catch(e) {
-    document.getElementById('feed').innerHTML = `<div class="err-box">⚠️ Erro: ${e.message}</div>`;
-  }
-}
-
-function render(articles, title) {
-  const feed = document.getElementById('feed');
-  if(!feed) return;
-  let html = `<div class="slabel">${title} · Inteligência Ativa</div>`;
-  articles.forEach(a => {
-    html += `<article class="mini" onclick="window.open('${a.url||'#'}','_blank')">
-      <div>
-        <span class="badge bc">${a.tag||'INFO'}</span>
-        <h2>${a.title}</h2>
-        <p>${a.desc}</p>
-        <div class="meta"><span>${a.source||'Fonte'} · ${a.time||'agora'}</span></div>
-      </div>
-    </article>`;
-  });
-  feed.innerHTML = html;
-}
-
-function showSkeleton(label) {
-  document.getElementById('feed').innerHTML = `<div class="slabel">Carregando · ${label}...</div>`;
-}
-
-function selectCat(c) {
-  cat = c;
-  document.querySelectorAll('.nvi').forEach(i => i.classList.remove('active'));
-  const t = document.querySelector(`.nvi[data-cat="${c}"]`);
-  if(t) t.classList.add('active');
-
-  const layout = document.getElementById('main-layout');
-  const chartsec = document.getElementById('chartsec');
-  const agrosec = document.getElementById('agrosec');
-  const asec = document.getElementById('asec');
-
-  layout.style.display = 'none'; chartsec.style.display = 'none'; agrosec.style.display = 'none'; asec.style.display = 'none';
-
-  if (c === '📈 Gráficos') { chartsec.style.display = 'block'; showCharts(null, 'indices'); }
-  else if (c === '🌾 Agronegócio') { agrosec.style.display = 'block'; loadAgroNews(); }
-  else if (c === 'Análises SMC') { asec.style.display = 'block'; }
-  else { layout.style.display = ''; loadNews(c); }
-}
-
-async function loadAgroNews() {
-  const grid = document.getElementById('agro-news-grid');
-  try {
-    const raw = await callAI('Busque as notícias mais recentes do Agronegócio. Retorne JSON.');
-    const news = parseJSON(raw);
-    grid.innerHTML = news.slice(0,3).map(n => `<div class="agro-news-card"><div class="agro-news-title">${n.title}</div><div class="agro-news-desc">${n.desc}</div></div>`).join('');
-  } catch(e) { console.log(e); }
-}
-
-function showCharts(e, type) {
-  const container = document.getElementById('chart-container');
-  if(type==='indices') {
-    container.innerHTML = `<div class="chart-grid"><div class="chart-frame"><iframe src="https://s.tradingview.com/widgetembed/?symbol=CME_MINI%3ANQ1!&theme=dark"></iframe></div></div>`;
-  }
-}
-
-function showAgroCharts(e, type) {
-  const container = document.getElementById('agro-chart-container');
-  container.innerHTML = `<div class="agro-chart-frame"><iframe src="https://s.tradingview.com/widgetembed/?symbol=CBOT%3AZS1!&theme=dark"></iframe></div>`;
-}
-
-function mobNav(el, section) {
-  document.querySelectorAll('.mob-bn-item').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
-  if (section === 'charts') selectCat('📈 Gráficos');
-  else if (section === 'agro') selectCat('🌾 Agronegócio');
-  else if (section === 'smc') selectCat('Análises SMC');
-  else selectCat('Destaques');
-}
-
-function openVideo(id, title) {
-  document.getElementById('vmodal-title').textContent = title;
-  document.getElementById('vmodal-frame').src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
-  document.getElementById('vmodal').classList.add('open');
-}
-function closeVideo() {
-  document.getElementById('vmodal').classList.remove('open');
-  document.getElementById('vmodal-frame').src = '';
-}
-function openAgroChart(symbol, label) {
-  document.getElementById('agro-chart-modal-title').textContent = label;
-  document.getElementById('agro-chart-modal-frame').src = 'https://s.tradingview.com/widgetembed/?symbol='+encodeURIComponent(symbol)+'&theme=dark';
-  document.getElementById('agro-chart-modal').classList.add('open');
-}
-function closeAgroChart() {
-  document.getElementById('agro-chart-modal').classList.remove('open');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.nvi').forEach(i => i.addEventListener('click', e => selectCat(e.target.getAttribute('data-cat'))));
-  selectCat('Destaques');
-});
-</script>
-</body>
-</html>
+<div class="layout" id="main-
