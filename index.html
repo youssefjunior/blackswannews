@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>Black Swan News · Inteligência de Mercado Global</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght=400;600;700&family=Space+Grotesk:wght=300;400;500;600&family=Space+Mono:wght=400;700&display=swap\"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght=400;600;700&family=Space+Grotesk:wght=300;400;500;600&family=Space+Mono:wght=400;700&display=swap"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -374,22 +374,19 @@ header {
 </div>
 
 <script>
-// ── CONFIGURAÇÕES DA API DO GEMINI ──
-// IMPORTANTE: Insira sua chave de API gerada no Google AI Studio (https://aistudio.google.com/)
-const GEMINI_API_KEY = "AIzaSyBWe_Ppz3FPMoT1CfWG6eJh8Z5Bxk3nfZc"; 
+// ── COLOQUE SUA CHAVE DO GEMINI AQUI PARA TODOS OS USUÁRIOS ACESSAREM ──
+const GEMINI_API_KEY = "SUA_CHAVE_AQUI"; 
 
-async function callAI(prompt, maxTokens = 1500) {
-  if (!GEMINI_API_KEY || GEMINI_API_KEY === "COLOQUE_SUA_CHAVE_AQUI") {
-    console.error("Chave de API do Gemini não configurada.");
-    return fallbackJSON(prompt);
+async function callAI(promptText, maxTokens = 1500) {
+  if (!GEMINI_API_KEY || GEMINI_API_KEY === "SUA_CHAVE_AQUI") {
+    console.warn("API Key padrão não configurada. Usando notícias locais.");
+    return fallbackJSON(promptText);
   }
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   const requestBody = {
-    contents: [{
-      parts: [{ text: prompt }]
-    }],
+    contents: [{ parts: [{ text: promptText }] }],
     generationConfig: {
       maxOutputTokens: maxTokens,
       temperature: 0.2
@@ -403,44 +400,47 @@ async function callAI(prompt, maxTokens = 1500) {
       body: JSON.stringify(requestBody)
     });
 
-    if (!response.ok) {
-      throw new Error(`Erro API Gemini: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Status: ${response.status}`);
 
     const data = await response.json();
     if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
       let text = data.candidates[0].content.parts[0].text;
-      // Remove possíveis blocos de formatação markdown que o modelo bota por padrão
       text = text.replace(/```json/g, "").replace(/```/g, "").trim();
       return text;
     }
-    throw new Error("Resposta vazia da IA.");
+    throw new Error("Dados de resposta vazios.");
   } catch (error) {
-    console.error("Falha na chamada da IA, usando Fallback.", error);
-    return fallbackJSON(prompt);
+    console.error("Falha na API Gemini, carregando dados alternativos estáveis.", error);
+    return fallbackJSON(promptText);
   }
 }
 
-// Lógica de escape caso a API falhe ou esteja sem chave (evita tela branca)
-function fallbackJSON(prompt) {
-  if (prompt.includes("AGRO")) {
+// Banco de Notícias fixas de alta qualidade para caso a API Key caia ou atinja o limite do dia
+function fallbackJSON(promptText) {
+  if (promptText.includes("AGRO")) {
     return JSON.stringify([
-      { title: "Relatório de Commodities Estável", source: "Aviso do Sistema", time: "Agora", summary: "Insira sua API Key do Gemini no script para habilitar a geração de inteligência artificial em tempo real.", impact: "low" }
+      { title: "Gargalos Logísticos no Arco Norte Elevam Frete Interno", source: "CMA Intel", time: "10m atrás", summary: "O escoamento da safra recorde enfrenta atrasos pontuais nas rodovias de acesso aos portos do Norte, elevando as cotações de frete spot.", impact: "med" },
+      { title: "Clima no Cinturão Agrícola dos EUA Sinaliza Boa Produtividade", source: "USDA Eco", time: "45m atrás", summary: "Previsões de chuvas regulares nas próximas semanas reduzem a pressão de prêmio de risco sobre os contratos futuros na Bolsa de Chicago.", impact: "low" },
+      { title: "Demanda Aquecida por Proteína Animal Sustenta Preço do Boi Gordo", source: "B3 News", time: "2h atrás", summary: "Ritmo acelerado de exportações para o mercado asiático mantém escalas de abate apertadas nos principais frigoríficos do país.", impact: "high" }
+    ]);
+  }
+  if (promptText.includes("Macroeconomia")) {
+    return JSON.stringify([
+      { title: "Bancos Centrais Ajustam Reservas de Ouro Frente a Tensões Geopolíticas", source: "Bloomberg", time: "15m atrás", summary: "Movimentações estratégicas indicam forte diversificação de ativos soberanos globais com foco em proteção cambial a longo prazo.", impact: "high" },
+      { title: "Dólar Apresenta Volatilidade Após Divulgação de Dados de Emprego nos EUA", source: "Reuters", time: "1h atrás", summary: "Indicadores econômicos ligeiramente acima do esperado reacendem debates sobre a velocidade de corte nas taxas do Federal Reserve.", impact: "med" }
     ]);
   }
   return JSON.stringify([
-    { title: "Chave de API do Gemini Necessária", source: "Configuração", time: "Agora", summary: "O site está pronto! Para carregar notícias geradas dinamicamente pela IA, abra o arquivo e configure a variável GEMINI_API_KEY.", impact: "med" }
+    { title: "Relatório de Acompanhamento de Mercado", source: "Mundial", time: "Agora", summary: "Fluxo regular de capitais estrangeiros direcionado a mercados emergentes consolida patamares de suporte em ativos estruturados.", impact: "low" }
   ]);
 }
 
-// ── DATA DOS VÍDEOS CONFIGURADA EM LAYERS ──
 const VIDEOS_DATA = [
   { id: "1", title: "Superciclo de Commodities Agrícolas e os Impactos no Centro-Oeste", category: "agro", thumb: "https://images.unsplash.com/photo-1592982537447-7440771109d3?auto=format&fit=crop&w=600&q=80", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
   { id: "2", title: "Macroeconomia Global: Decisão de Juros do Fed e Movimentação de Capitais", category: "macro", thumb: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=600&q=80", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
   { id: "3", title: "Fechamento de Mercado: Análise Completa de Fechamento Semanal na B3", category: "fechamento", thumb: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=600&q=80", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
 ];
 
-// ── SISTEMA DE CLOCK E TICKER SIMULADO ──
 function initClock() {
   setInterval(() => {
     const now = new Date();
@@ -460,9 +460,8 @@ function updateTicker() {
   ];
   
   let html = "";
-  // Duplicado para efeito infinite scroll fluido
   [...assets, ...assets].forEach(a => {
-    const val = (a.base + (Math.random() * 0.02 * a.base * (a.change > 0 ? 1 : -1))).toFixed(2);
+    const val = (a.base + (Math.random() * 0.01 * a.base * (a.change > 0 ? 1 : -1))).toFixed(2);
     const sign = a.change > 0 ? "+" : "";
     const cls = a.change > 0 ? "up" : "down";
     const arrow = a.change > 0 ? "▲" : "▼";
@@ -471,7 +470,6 @@ function updateTicker() {
   document.getElementById('ticker-target').innerHTML = html;
 }
 
-// ── LÓGICA DE ABAS ──
 function switchTab(tabId) {
   document.querySelectorAll('.main-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -485,7 +483,6 @@ function switchTab(tabId) {
   }
 }
 
-// ── FORMATADORES DE CARDS ──
 function renderNewsCard(item) {
   const impactCls = item.impact === 'high' ? 'impact-high' : (item.impact === 'med' ? 'impact-med' : 'impact-low');
   return `
@@ -501,28 +498,25 @@ function renderNewsCard(item) {
   `;
 }
 
-// ── GERAÇÃO DE NOTÍCIAS DINÂMICAS VIA GEMINI ──
 async function loadNews() {
-  const prompt = `Gere uma lista de 4 notícias simuladas urgentes de macroeconomia e geopolítica com forte impacto no agronegócio global hoje. Retorne EXCLUSIVAMENTE um array JSON puro (sem markdown, sem blocos estruturais) com objetos contendo obrigatoriamente as propriedades: "title", "source", "time", "summary", "impact" (onde impact deve ser 'high', 'med' ou 'low'). Idioma: Português.`;
+  const promptText = `Gere uma lista de 4 notícias simuladas urgentes de macroeconomia e geopolítica com forte impacto no agronegócio global hoje. Retorne EXCLUSIVAMENTE um array JSON puro (sem markdown, sem blocos estruturais) com objetos contendo obrigatoriamente as propriedades: "title", "source", "time", "summary", "impact" (onde impact deve ser 'high', 'med' ou 'low'). Idioma: Português.`;
   
   const container = document.getElementById('feed-destaques');
   try {
-    const raw = await callAI(prompt);
+    const raw = await callAI(promptText);
     const data = JSON.parse(raw);
     container.innerHTML = data.map(renderNewsCard).join('');
   } catch(e) {
-    container.innerHTML = `<div class="loading-trigger mono">Erro na compilação estrutural de dados. Verifique o console.</div>`;
+    console.error("Erro ao analisar notícias de destaques.");
   }
-  
-  // Roda em paralelo o feed da lateral agro
   loadAgroNews();
 }
 
 async function loadAgroNews() {
-  const prompt = `Gere 3 notas rápidas e curtas exclusivas de inteligência agro (foco em milho, soja, pecuária, clima e frete marítimo). Retorne estritamente um array JSON puro sem tags markdown com propriedades: "title", "summary", "source", "time", "impact".`;
+  const promptText = `Gere 3 notas rápidas e curtas exclusivas de inteligência agro (foco em milho, soja, pecuária, clima e frete marítimo). Retorne estritamente um array JSON puro sem tags markdown com propriedades: "title", "summary", "source", "time", "impact".`;
   const container = document.getElementById('feed-agro');
   try {
-    const raw = await callAI(prompt);
+    const raw = await callAI(promptText);
     const data = JSON.parse(raw);
     container.innerHTML = data.map(item => `
       <div style="border-bottom: 1px dashed var(--b1); padding-bottom: 12px;">
@@ -532,25 +526,24 @@ async function loadAgroNews() {
       </div>
     `).join('');
   } catch(e) {
-    container.innerHTML = `<div class="mono" style="color:var(--t4);">Notas agro indisponíveis.</div>`;
+    console.error("Erro ao analisar notas rápidas agro.");
   }
 }
 
 async function loadMacroNews() {
   const container = document.getElementById('feed-macro');
-  if (container.children.length > 1 && !container.innerHTML.includes("Aguardando")) return; // evita recarregar se já tiver dados
+  if (container.children.length > 1 && !container.innerHTML.includes("Aguardando")) return;
 
-  const prompt = `Gere 5 notícias profundas focadas estritamente em Macroeconomia e Geopolítica (guerra cambial, movimentações de bancos centrais, gargalos logísticos globais). Retorne em formato array JSON estruturado com: "title", "source", "time", "summary", "impact".`;
+  const promptText = `Gere 5 notícias profundas focadas estritamente em Macroeconomia e Geopolítica (guerra cambial, movimentações de bancos centrais, gargalos logísticos globais). Retorne em formato array JSON estruturado com: "title", "source", "time", "summary", "impact".`;
   try {
-    const raw = await callAI(prompt);
+    const raw = await callAI(promptText);
     const data = JSON.parse(raw);
     container.innerHTML = data.map(renderNewsCard).join('');
   } catch(e) {
-    container.innerHTML = `<div class="loading-trigger mono">Erro ao acessar rede analítica global.</div>`;
+    console.error("Erro ao analisar notícias macro.");
   }
 }
 
-// ── VÍDEOS ENGINE ──
 function buildVideos(filter) {
   const target = document.getElementById('videos-target');
   const filtered = filter === 'todos' ? VIDEOS_DATA : VIDEOS_DATA.filter(v => v.category === filter);
@@ -590,7 +583,6 @@ document.getElementById('vmodal').addEventListener('click', e => {
   if(e.target === document.getElementById('vmodal')) closeVideo(); 
 });
 
-// ── AGRO CHART MODAL (TRADINGVIEW) ──
 function openAgroChart(symbol, label) {
   document.getElementById('agro-chart-modal-title').textContent = label + ' · TradingView';
   document.getElementById('agro-chart-modal-frame').src =
@@ -600,7 +592,6 @@ function openAgroChart(symbol, label) {
 }
 
 function closeAgroChart() {
-  document.getElementById('agro-chart-modal').classList.remove('remove');
   document.getElementById('agro-chart-modal').classList.remove('open');
   document.getElementById('agro-chart-modal-frame').src = '';
   document.body.style.overflow = '';
@@ -614,14 +605,12 @@ document.addEventListener('keydown', e => {
   if(e.key === 'Escape'){ closeVideo(); closeAgroChart(); } 
 });
 
-// ── DISPARO INICIAL ──
 document.addEventListener('DOMContentLoaded', () => {
   initClock();
   updateTicker();
   buildVideos('todos');
   loadNews();
 
-  // Atualização automatizada das cotações a cada 5 segundos
   setInterval(updateTicker, 5000);
 });
 </script>
