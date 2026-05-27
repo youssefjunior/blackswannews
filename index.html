@@ -617,7 +617,36 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 const RSS2JSON_BASE = ''; // não utilizado — usando proxy allorigins
 const newsCache = {};
 let cat = 'Destaques';
+const RSS = {
 
+  'Destaques':
+  'https://feeds.finance.yahoo.com/rss/2.0/headline?s=%5EGSPC,%5EIXIC,%5EDJI&region=US&lang=en-US',
+
+  'Geopolítica':
+  'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
+
+  'Bancos Centrais':
+  'https://feeds.finance.yahoo.com/rss/2.0/headline?s=%5EIRX&region=US&lang=en-US',
+
+  'Commodities':
+  'https://feeds.finance.yahoo.com/rss/2.0/headline?s=GC=F,CL=F,SI=F&region=US&lang=en-US',
+
+  'Metais Preciosos':
+  'https://feeds.finance.yahoo.com/rss/2.0/headline?s=GC=F,SI=F,PL=F&region=US&lang=en-US',
+
+  'CME · Futuros':
+  'https://feeds.finance.yahoo.com/rss/2.0/headline?s=ES=F,NQ=F,YM=F&region=US&lang=en-US',
+
+  'Cripto':
+  'https://www.coindesk.com/arc/outboundfeeds/rss/',
+
+  'Guerras & Conflitos':
+  'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
+
+  'Saúde Global':
+  'https://rss.nytimes.com/services/xml/rss/nyt/Health.xml'
+
+};
 // ── CLOCK ──
 function clock() {
   const n = new Date();
