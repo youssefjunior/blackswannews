@@ -1068,31 +1068,6 @@ async function loadNews(q){
     return;
   }
 
-  try{
-
-    const url = RSS[q];
-
-    if(!url){
-      console.error('RSS não encontrado:', q);
-      return;
-    }
-
-    const articles = await fetchRSS(url);
-
-    newsCache[q] = articles;
-
-    if(typeof render === 'function'){
-      render(articles, q);
-    }else{
-      console.error('render() não existe');
-    }
-
-  }catch(err){
-
-    console.error('Erro loadNews:', err);
-
-  }
-}
   const FEEDS = {
     'Destaques':          ['https://feeds.reuters.com/reuters/businessNews','https://feeds.bbci.co.uk/news/business/rss.xml'],
     'Geopolítica':        ['https://feeds.reuters.com/Reuters/worldNews','https://feeds.bbci.co.uk/news/world/rss.xml'],
