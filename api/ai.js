@@ -21,17 +21,19 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      return res.status(response.status).json({ error: data.error?.message || 'Gemini error' });
-    }
+    // ← Debug: mostra estrutura completa
+    const candidate = data.candidates?.[0];
+    const finishReason = candidate?.finishReason;
+    const text = candidate?.content?.parts?.[0]?.text || '';
 
-    // Extrai o texto e remove markdown ```json``` se existir
-    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/,'').trim();
-
-    // Retorna no formato que o callAI espera
     res.status(200).json({
-      content: [{ type: 'text', text }]
+      content: [{ type: 'text', text }],
+      _debug: {
+        finishReason,
+        hasCandidate: !!candidate,
+        textLength: text.length,
+        promptFeedback: data.promptFeedback || null
+      }
     });
 
   } catch (error) {
