@@ -529,7 +529,7 @@ let cat = 'Destaques';
 let isLoading = false;
 
 // ── CORREÇÃO #1: callAI sem API key — usa proxy do Artifact ──
-async function callAI(prompt, maxTokens = 900) {
+async function callAI(prompt, maxTokens = 2500) {
   const res = await fetch('/api/ai', {
     method: 'POST',
     headers: {
