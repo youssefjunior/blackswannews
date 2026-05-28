@@ -932,16 +932,21 @@ async function loadAgroNews() {
   ).join('');
 
   try {
+    const now = new Date();
+    const ano = now.getFullYear();
+    const mes = now.toLocaleString('pt-BR', { month: 'long' });
+
     const raw = await callAI(
-      `Busque AGORA as 6 notícias mais recentes sobre agronegócio e commodities agrícolas: soja, milho, trigo, boi gordo, café, algodão, açúcar, USDA, CONAB, CBOT, safras Brasil.
+      `Busque AGORA as 6 notícias mais recentes de ${mes} de ${ano} sobre agronegócio e commodities agrícolas: soja, milho, trigo, boi gordo, café, algodão, açúcar, USDA, CONAB, CBOT, safras Brasil ${ano}.
+Priorize notícias de ${ano}. NÃO use notícias de 2024 ou anteriores.
 Responda APENAS JSON sem markdown:
-[{"title":"título","desc":"resumo pt-BR 1 frase","tag":"GRÃOS|PROTEÍNA|ENERGIA|CLIMA|INSUMO|MERCADO","source":"fonte","url":"url","time":"Xh atrás"}]`
+[{"title":"título","desc":"resumo pt-BR 1 frase","tag":"GRÃOS|PROTEÍNA|ENERGIA|CLIMA|INSUMO|MERCADO","source":"fonte","url":"url","time":"Xh atrás ou DD/MM/${ano}"}]`
     );
     const news = parseJSON(raw);
     if (!news.length) throw new Error('empty');
     newsCache['_agro'] = news;
     renderAgroNews(news);
-    if (statusEl) statusEl.textContent = news.length + ' notícias · IA';
+    if (statusEl) statusEl.textContent = news.length + ' notícias · IA · ' + mes + '/' + ano;
   } catch(e) {
     if (statusEl) statusEl.textContent = 'Erro · ' + e.message.slice(0,30);
     grid.innerHTML = `<div class="agro-news-card">
@@ -953,7 +958,7 @@ Responda APENAS JSON sem markdown:
   }
 }
 
-function renderAgroNews(news) {
+  function renderAgroNews(news) {
   const grid = document.getElementById('agro-news-grid');
   if (!grid) return;
   const TAG_CLASS = {
