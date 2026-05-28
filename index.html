@@ -712,15 +712,6 @@ function render(articles, category) {
   feed.innerHTML = html;
 }
 
-function showSkeleton(label) {
-  const feed = document.getElementById('feed');
-  if (!feed) return;
-  feed.innerHTML = `<div class="slabel">Carregando · ${label}... <span style="color:var(--green);">● IA buscando</span></div>`
-    + '<div style="padding-top:6px;">'
-    + Array(5).fill('<div style="margin-bottom:16px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>').join('')
-    + '</div>';
-}
-
 // ── CORREÇÃO #3: parseJSON robusto ──
 function parseJSON(raw) {
   if (!raw) throw new Error('JSON array não encontrado na resposta');
