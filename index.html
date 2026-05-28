@@ -535,37 +535,6 @@ const newsCache = {};
 let cat = 'Destaques';
 let isLoading = false;
 
-// ── CORREÇÃO #1: callAI sem API key — usa proxy do Artifact ──
-async function callAI(prompt, maxTokens = 2500) {
-  const res = await fetch('https://blackswan-proxy.j-ubyfol.workers.dev', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: maxTokens,
-      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-
-  const rawText = await res.text();
-  console.log('STATUS:', res.status);
-  console.log('RAW COMPLETO:', rawText);
-
-  if (!res.ok) throw new Error(`HTTP ${res.status}: ${rawText.slice(0, 300)}`);
-
-  const data = JSON.parse(rawText);
-  if (data.error) throw new Error(data.error.message || 'API error');
-
-  const blocks = data.content || [];
-  const text = blocks
-    .filter(b => b.type === 'text')
-    .map(b => b.text || '')
-    .join('');
-
-  return text.trim();
-}
-
 // ── PROMPTS por categoria ──
 // ── PROMPTS DINÂMICOS — data injetada em tempo real ──
 function buildPrompts() {
