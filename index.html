@@ -878,6 +878,25 @@ async function loadAgroNews() {
     </div>`;
   }
 }
+
+function renderAgroNews(news) {
+  const grid = document.getElementById('agro-news-grid');
+  if (!grid) return;
+  const TAG_CLASS = {
+    'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia',
+    'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra'
+  };
+  grid.innerHTML = news.slice(0,6).map(n => {
+    const tagClass = TAG_CLASS[n.tag] || 'ant-soja';
+    const safeUrl = (n.url||'#').replace(/"/g,'&quot;');
+    return `<div class="agro-news-card" onclick="window.open('${safeUrl}','_blank')">
+      <div class="agro-news-tag ${tagClass}">${n.tag||'AGRO'}</div>
+      <div class="agro-news-title">${n.title||''}</div>
+      <div class="agro-news-desc">${n.desc||''}</div>
+      <div class="agro-news-meta"><span>${n.source||'Reuters'}</span><span>${n.time||'agora'}</span></div>
+    </div>`;
+  }).join('');
+}
   
 // ── CHARTS ──
 const CHARTS = {
