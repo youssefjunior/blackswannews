@@ -865,7 +865,8 @@ async function loadNews(q) {
 
   showSkeleton(q);
 
-  const prompt = CAT_PROMPTS[q] || CAT_PROMPTS['Destaques'];
+const prompts = buildPrompts();
+const prompt = prompts[q] || prompts['Destaques'];
   try {
     const raw = await callAI(prompt);
     console.log('RAW RESPONSE:', raw); // ← adicione AQUI
