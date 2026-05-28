@@ -1136,10 +1136,15 @@ document.addEventListener('DOMContentLoaded', () => {
   loadNews('Destaques');
 
   // Auto-refresh: a cada 30min, só a aba ativa
-  setInterval(() => {
-    if (!['📈 Gráficos','Análises SMC','🌾 Agronegócio'].includes(cat)) {
-      delete newsCache[cat];
-      loadNews(cat);
+setInterval(() => {
+    if (!['📈 Gráficos','Análises SMC'].includes(cat)) {
+      if (cat === '🌾 Agronegócio') {
+        delete newsCache['_agro'];
+        loadAgroNews();
+      } else {
+        delete newsCache[cat];
+        loadNews(cat);
+      }
     }
   }, 30 * 60 * 1000);
 });
