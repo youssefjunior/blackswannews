@@ -736,6 +736,7 @@ async function fetchRSS(category) {
   if (!res.ok) throw new Error(`RSS error ${res.status}`);
 
   const xml = await res.text();
+  console.log('XML recebido:', xml.slice(0, 300));
   const parser = new DOMParser();
   const doc = parser.parseFromString(xml, 'application/xml');
   const items = Array.from(doc.querySelectorAll('item')).slice(0, 8);
