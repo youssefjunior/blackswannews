@@ -770,6 +770,15 @@ function timeAgo(pubDate) {
   } catch { return 'recente'; }
 }
 
+function showSkeleton(label) {
+  const feed = document.getElementById('feed');
+  if (!feed) return;
+  feed.innerHTML = `<div class="slabel">Carregando · ${label}... <span style="color:var(--green);">● RSS buscando</span></div>`
+    + '<div style="padding-top:6px;">'
+    + Array(5).fill('<div style="margin-bottom:16px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>').join('')
+    + '</div>';
+}
+  
 async function loadNews(q) {
   if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
   if (newsCache[q]) { render(newsCache[q], q); return; }
