@@ -813,6 +813,7 @@ async function loadNews(q) {
   try {
     const raw = await callAI(prompt);
     console.log('RAW RESPONSE:', raw); // ← adicione AQUI
+    console.log('FULL DATA:', JSON.stringify(raw)); // ← adicione essa linha também
     const articles = parseJSON(raw);
     if (!Array.isArray(articles) || !articles.length) throw new Error('Array vazio');
     newsCache[q] = articles;
