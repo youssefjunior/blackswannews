@@ -712,6 +712,192 @@ function render(articles, category) {
   feed.innerHTML = html;
 }
 
+// ── RSS FEEDS por categoria ──
+const RSS_FEEDS = {
+  'Destaques':         'https://feeds.reuters.com/reuters/businessNews',
+  'Geopolítica':       'https://feeds.bbci.co.uk/news/world/rss.xml',
+  'Bancos Centrais':   'https://feeds.reuters.com/reuters/financialsNews',
+  'CME · Futuros':     'https://feeds.reuters.com/reuters/businessNews',
+  'Commodities':       'https://oilprice.com/rss/main',
+  'Metais Preciosos':  'https://www.kitco.com/rss/news.xml',
+  'Cripto':            'https://www.coindesk.com/arc/outboundfeeds/rss/',
+  'Guerras & Conflitos':'https://feeds.bbci.co.uk/news/world/rss.xml',
+  'Saúde Global':      'https://www.who.int/rss-feeds/news-releases-en.xml',
+};
+
+const PROXY = 'https://blackswan-proxy.j-ubyfol.workers.dev';
+
+// ── BUSCA RSS via Worker ──
+async function fetchRSS(category) {
+  const feedUrl = RSS_FEEDS[category];
+  if (!feedUrl) return [];
+
+  const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedUrl)}`);
+  if (!res.ok) throw new Error(`RSS error ${res.status}`);
+
+  const xml = await res.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xml, 'application/xml');
+  const items = Array.from(doc.querySelectorAll('item')).slice(0, 8);
+
+  return items.map(item => {
+    const title = item.querySelector('title')?.textContent?.trim() || '';
+    const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,120) || '';
+    const url   = item.querySelector('link')?.textContent?.trim() || '#';
+    const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
+    const time  = pub ? timeAgo(pub) : 'recente';
+    return { title, desc, url, time, source: sourceName(category) };
+  }).filter(a => a.title);
+}
+
+function sourceName(cat) {
+  const map = {
+    'Destaques':'Reuters','Geopolítica':'BBC World','Bancos Centrais':'Reuters',
+    'CME · Futuros':'Reuters','Commodities':'OilPrice','Metais Preciosos':'Kitco',
+    'Cripto':'CoinDesk','Guerras & Conflitos':'BBC World','Saúde Global':'WHO',
+  };
+  return map[cat] || 'Internacional';
+}
+
+function timeAgo(pubDate) {
+  try {
+    const diff = Date.now() - new Date(pubDate).getTime();
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor(diff / 60000);
+    if (m < 60)  return m + 'min atrás';
+    if (h < 24)  return h + 'h atrás';
+    return Math.floor(h/24) + 'd atrás';
+  } catch { return 'recente'; }
+}
+
+async function loadNews(q) {
+  if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
+  if (newsCache[q]) { render(newsCache[q], q); return; }
+
+  showSkeleton(q);
+
+  try {
+    const articles = await fetchRSS(q);
+    if (!articles.length) throw new Error('Nenhuma notícia encontrada');
+    newsCache[q] = articles;
+    if (cat === q) render(articles, q);
+  } catch(e) {
+    console.error('loadNews error:', e.message);
+    const feed = document.getElementById('feed');
+    const safeQ = q.replace(/'/g,"\\'");
+    if (feed && cat === q) feed.innerHTML = `
+      <div class="slabel">${q}</div>
+      <div class="err-box">
+        <div class="err-icon">⚠️</div>
+        <div class="err-msg">Erro ao carregar notícias.<br><small style="color:var(--t4);">${e.message}</small></div>
+        <button onclick="delete newsCache['${safeQ}'];loadNews('${safeQ}')">↺ Tentar novamente</button>
+      </div>`;
+  }
+}
+
+function render(articles, category) {
+  const feed = document.getElementById('feed');
+  if (!feed) return;
+  if (!articles || !articles.length) {
+    feed.innerHTML = `<div class="slabel">${category}</div>
+      <div class="err-box">
+        <div class="err-icon">⚠️</div>
+        <div class="err-msg">Nenhuma notícia encontrada.</div>
+        <button onclick="delete newsCache['${category.replace(/'/g,"\\'")}'];loadNews('${category.replace(/'/g,"\\'")}')">↺ Tentar novamente</button>
+      </div>`;
+    return;
+  }
+  let html = `<div class="slabel">${category} · ${articles.length} notícias · <span style="color:var(--green);">● RSS</span></div>`;
+  articles.forEach(a => {
+    const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
+    html += `
+      <article class="lead" onclick="window.open('${safeUrl}','_blank')">
+        <span class="badge bh">● ${a.source||'Internacional'}</span>
+        <h2>${a.title||'Sem título'}</h2>
+        ${a.desc ? `<p>${a.desc}...</p>` : ''}
+        <div class="meta">
+          <span>${a.source||'Internacional'} · ${a.time||'recente'}</span>
+        </div>
+      </article>`;
+  });
+  feed.innerHTML = html;
+}
+
+async function loadCMENews() {
+  renderCMEPanel();
+  try {
+    const articles = await fetchRSS('CME · Futuros');
+    newsCache['CME · Futuros'] = articles;
+    const body = document.getElementById('cme-news-body');
+    if (!body || !articles.length) throw new Error('Sem notícias');
+    let h = '';
+    articles.forEach(a => {
+      const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
+      h += `<article class="lead" onclick="window.open('${safeUrl}','_blank')">
+        <span class="badge bh">● CME · FUTUROS</span>
+        <h2>${a.title||''}</h2>
+        ${a.desc?`<p>${a.desc}...</p>`:''}
+        <div class="meta"><span>${a.source||'Reuters'} · ${a.time||'recente'}</span></div>
+      </article>`;
+    });
+    body.innerHTML = h;
+  } catch(e) {
+    const body = document.getElementById('cme-news-body');
+    if (body) body.innerHTML = `<div class="err-box"><div class="err-icon">⚠️</div><div class="err-msg">${e.message}</div><button onclick="loadCMENews()">↺ Tentar novamente</button></div>`;
+  }
+}
+
+async function loadAgroNews() {
+  const statusEl = document.getElementById('agro-news-status');
+  const grid = document.getElementById('agro-news-grid');
+  if (!grid) return;
+
+  if (newsCache['_agro']) {
+    renderAgroNews(newsCache['_agro']);
+    if (statusEl) statusEl.textContent = newsCache['_agro'].length + ' notícias · cache';
+    return;
+  }
+
+  if (statusEl) statusEl.textContent = '● Buscando RSS...';
+  grid.innerHTML = Array(4).fill(0).map(() =>
+    `<div class="agro-news-card" style="pointer-events:none;">
+      <div class="skel w50 h8" style="margin-bottom:6px;"></div>
+      <div class="skel w90" style="margin-bottom:5px;"></div>
+      <div class="skel w70 h8"></div>
+    </div>`
+  ).join('');
+
+  try {
+    const res = await fetch(`${PROXY}?rss=${encodeURIComponent('https://feeds.reuters.com/reuters/businessNews')}`);
+    const xml = await res.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, 'application/xml');
+    const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
+
+    const news = items.map(item => ({
+      title: item.querySelector('title')?.textContent?.trim() || '',
+      desc:  item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,100) || '',
+      url:   item.querySelector('link')?.textContent?.trim() || '#',
+      time:  timeAgo(item.querySelector('pubDate')?.textContent || ''),
+      tag:   'MERCADO',
+      source:'Reuters'
+    })).filter(a => a.title);
+
+    if (!news.length) throw new Error('Sem notícias');
+    newsCache['_agro'] = news;
+    renderAgroNews(news);
+    if (statusEl) statusEl.textContent = news.length + ' notícias · RSS · Reuters';
+  } catch(e) {
+    if (statusEl) statusEl.textContent = 'Erro · ' + e.message.slice(0,30);
+    grid.innerHTML = `<div class="agro-news-card">
+      <div class="agro-news-tag ant-soja">AGRO</div>
+      <div class="agro-news-title">Erro ao carregar</div>
+      <div class="agro-news-desc">${e.message}</div>
+      <div class="agro-news-meta" style="cursor:pointer;" onclick="delete newsCache['_agro'];loadAgroNews()">↺ Tentar novamente</div>
+    </div>`;
+  }
+}
+  
 // ── CHARTS ──
 const CHARTS = {
   indices:`<div class="chart-grid">
