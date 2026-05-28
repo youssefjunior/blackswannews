@@ -537,11 +537,13 @@ let isLoading = false;
 
 // ── CORREÇÃO #1: callAI sem API key — usa proxy do Artifact ──
 async function callAI(prompt, maxTokens = 2500) {
-  const res = await fetch('/api/ai', {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
-      // ✅ Sem Authorization header — o proxy do Claude Artifact injeta automaticamente
+      'Content-Type': 'application/json',
+      'x-api-key': 'SUA_API_KEY_AQUI',
+      'anthropic-version': '2023-06-01',
+      'anthropic-beta': 'interleaved-thinking-2025-05-14'
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
@@ -557,10 +559,8 @@ async function callAI(prompt, maxTokens = 2500) {
   }
 
   const data = await res.json();
-
   if (data.error) throw new Error(data.error.message || 'API error');
 
-  // ✅ CORREÇÃO #2: concatenar todos os blocos de texto (inclui tool_use results)
   const blocks = data.content || [];
   const text = blocks
     .filter(b => b.type === 'text')
