@@ -909,7 +909,7 @@ function renderCMEPanel() {
 
 async function loadCMENews() {
   try {
-    const raw = await callAI(CAT_PROMPTS['CME · Futuros']);
+    const raw = await callAI(buildPrompts()['CME · Futuros']);
     const articles = parseJSON(raw);
     newsCache['CME · Futuros'] = articles;
     const body = document.getElementById('cme-news-body');
