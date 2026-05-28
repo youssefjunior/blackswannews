@@ -712,52 +712,6 @@ function render(articles, category) {
   feed.innerHTML = html;
 }
 
-// ── CORREÇÃO #3: parseJSON robusto ──
-function parseJSON(raw) {
-  if (!raw) throw new Error('JSON array não encontrado na resposta');
-
-  // Remove markdown
-  let text = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
-
-  // Tenta match completo primeiro
-  const match = text.match(/\[[\s\S]*\]/);
-  if (match) {
-    try {
-      const cleaned = match[0]
-        .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ')
-        .replace(/,\s*]/g, ']')
-        .replace(/,\s*}/g, '}');
-      return JSON.parse(cleaned);
-    } catch(e) {}
-  }
-
-  // JSON truncado — encontra o início do array
-  const start = text.indexOf('[');
-  if (start === -1) throw new Error('JSON array não encontrado na resposta');
-
-  let str = text.slice(start);
-
-  // Remove último objeto incompleto e fecha o array
-  const lastComplete = str.lastIndexOf('},');
-  if (lastComplete !== -1) {
-    str = str.slice(0, lastComplete + 1) + ']';
-    try {
-      return JSON.parse(str);
-    } catch(e) {}
-  }
-
-  // Tenta fechar com }]
-  const lastBrace = str.lastIndexOf('}');
-  if (lastBrace !== -1) {
-    str = str.slice(0, lastBrace + 1) + ']';
-    try {
-      return JSON.parse(str);
-    } catch(e) {}
-  }
-
-  throw new Error('JSON array não encontrado na resposta');
-}
-
 // ── LOAD NEWS ──
 async function loadNews(q) {
   if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
