@@ -571,27 +571,43 @@ async function callAI(prompt, maxTokens = 2500) {
 }
 
 // ── PROMPTS por categoria ──
-const CAT_PROMPTS = {
-  'Destaques':
-    'Busque as 8 notícias financeiras mais importantes agora: mercados, Fed, dólar, S&P500, ouro, petróleo. Responda APENAS JSON sem markdown:\n[{"title":"...","desc":"resumo pt-BR 1 frase","source":"nome fonte","url":"url","time":"Xh atrás","tag":"MERCADO|CRÍTICO|FED|CRIPTO|COMMODITIES"}]',
-  'Geopolítica':
-    'Busque as 8 notícias geopolíticas mais relevantes agora: guerras, NATO, China, Oriente Médio, sanções, diplomacia. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"CONFLITO|DIPLOMACIA|SANÇÕES|MILITAR"}]',
-  'Bancos Centrais':
-    'Busque 8 notícias sobre bancos centrais: Fed, ECB, Copom, taxas de juros, inflação, política monetária. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"FED|ECB|COPOM|INFLAÇÃO|JUROS"}]',
-  'CME · Futuros':
-    'Busque 8 notícias sobre futuros CME: NQ1!, ES1!, YM1!, contratos futuros, S&P500, Nasdaq, Dow Jones. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"ÍNDICES|FUTUROS|CME|NQ|ES"}]',
-  'Commodities':
-    'Busque 8 notícias sobre commodities: petróleo, gás natural, cobre, OPEC, energia. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"PETRÓLEO|GÁS|COBRE|OPEC|ENERGIA"}]',
-  'Metais Preciosos':
-    'Busque 8 notícias sobre metais preciosos: ouro, prata, platina, paládio, GC1!, SI1!. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"OURO|PRATA|PLATINA|METAIS"}]',
-  'Cripto':
-    'Busque 8 notícias cripto: Bitcoin, Ethereum, Solana, XRP, altcoins, DeFi, ETF cripto. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"BTC|ETH|SOL|XRP|DEFI|ETF"}]',
-  'Guerras & Conflitos':
-    'Busque 8 notícias sobre guerras e conflitos armados ativos: Ucrânia, Gaza, Oriente Médio, Taiwan. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"UCRÂNIA|GAZA|TAIWAN|CONFLITO"}]',
-  'Saúde Global':
-    'Busque 8 notícias de saúde global: epidemias, OMS, vacinas, surtos, pandemias. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"OMS|EPIDEMIA|VACINA|SURTO"}]',
-};
+// ── PROMPTS DINÂMICOS — data injetada em tempo real ──
+function buildPrompts() {
+  const now   = new Date();
+  const ano   = now.getFullYear();
+  const mes   = now.toLocaleString('pt-BR', { month: 'long' });
+  const dia   = now.getDate();
+  const stamp = `${dia} de ${mes} de ${ano}`;
 
+  return {
+    'Destaques':
+      `Busque as 8 notícias financeiras mais importantes de HOJE (${stamp}): mercados, Fed, dólar, S&P500, ouro, petróleo. Use APENAS notícias de ${ano}. Responda APENAS JSON sem markdown:\n[{"title":"...","desc":"resumo pt-BR 1 frase","source":"nome fonte","url":"url","time":"Xh atrás","tag":"MERCADO|CRÍTICO|FED|CRIPTO|COMMODITIES"}]`,
+
+    'Geopolítica':
+      `Busque as 8 notícias geopolíticas mais relevantes de ${mes}/${ano}: guerras, NATO, China, Oriente Médio, sanções, diplomacia. Use APENAS notícias de ${ano}. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"CONFLITO|DIPLOMACIA|SANÇÕES|MILITAR"}]`,
+
+    'Bancos Centrais':
+      `Busque 8 notícias sobre bancos centrais em ${mes}/${ano}: Fed, ECB, Copom, taxas de juros, inflação, política monetária. Use APENAS notícias de ${ano}. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"FED|ECB|COPOM|INFLAÇÃO|JUROS"}]`,
+
+    'CME · Futuros':
+      `Busque 8 notícias sobre futuros CME de ${mes}/${ano}: NQ1!, ES1!, YM1!, contratos futuros, S&P500, Nasdaq, Dow Jones. Use APENAS notícias de ${ano}. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"ÍNDICES|FUTUROS|CME|NQ|ES"}]`,
+
+    'Commodities':
+      `Busque 8 notícias sobre commodities em ${mes}/${ano}: petróleo, gás natural, cobre, OPEC, energia. Use APENAS notícias de ${ano}. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"PETRÓLEO|GÁS|COBRE|OPEC|ENERGIA"}]`,
+
+    'Metais Preciosos':
+      `Busque 8 notícias sobre metais preciosos em ${mes}/${ano}: ouro, prata, platina, paládio, GC1!, SI1!. Use APENAS notícias de ${ano}. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"OURO|PRATA|PLATINA|METAIS"}]`,
+
+    'Cripto':
+      `Busque 8 notícias cripto de ${mes}/${ano}: Bitcoin, Ethereum, Solana, XRP, altcoins, DeFi, ETF cripto. Use APENAS notícias de ${ano}. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"BTC|ETH|SOL|XRP|DEFI|ETF"}]`,
+
+    'Guerras & Conflitos':
+      `Busque 8 notícias sobre guerras e conflitos ativos em ${mes}/${ano}: Ucrânia, Gaza, Oriente Médio, Taiwan. Use APENAS notícias de ${ano}. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"UCRÂNIA|GAZA|TAIWAN|CONFLITO"}]`,
+
+    'Saúde Global':
+      `Busque 8 notícias de saúde global em ${mes}/${ano}: epidemias, OMS, vacinas, surtos, pandemias. Use APENAS notícias de ${ano}. Responda APENAS JSON:\n[{"title":"...","desc":"resumo pt-BR","source":"...","url":"...","time":"...","tag":"OMS|EPIDEMIA|VACINA|SURTO"}]`,
+  };
+}
 const TAG_BADGE = {
   'MERCADO':'bh','CRÍTICO':'bc','FED':'bh','CRIPTO':'bcr','COMMODITIES':'bco',
   'CONFLITO':'bg','DIPLOMACIA':'bg','SANÇÕES':'bg','MILITAR':'bg',
