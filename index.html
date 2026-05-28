@@ -681,37 +681,6 @@ document.getElementById('btnnew').addEventListener('click', () =>
   window.open('https://claude.ai/new?q='+encodeURIComponent('Crie uma análise SMC para o Black Swan News com: ativo, timeframe, OBs, FVGs, direção, entrada, stop e alvos.'),'_blank')
 );
 
-// ── RENDER ──
-function render(articles, category) {
-  const feed = document.getElementById('feed');
-  if (!feed) return;
-  if (!articles || !articles.length) {
-    feed.innerHTML = `<div class="slabel">${category}</div>
-      <div class="err-box">
-        <div class="err-icon">⚠️</div>
-        <div class="err-msg">Nenhuma notícia encontrada para esta categoria.</div>
-        <button onclick="delete newsCache['${category.replace(/'/g,"\\'")}'];loadNews('${category.replace(/'/g,"\\'")}')">↺ Tentar novamente</button>
-      </div>`;
-    return;
-  }
-  let html = `<div class="slabel">${category} · ${articles.length} notícias · <span style="color:var(--green);">● IA</span></div>`;
-  articles.forEach((a) => {
-    const tag = (a.tag||'MERCADO').split('|')[0];
-    const bc  = TAG_BADGE[tag] || 'bh';
-    const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
-    html += `
-      <article class="lead" onclick="window.open('${safeUrl}','_blank')">
-        <span class="badge ${bc}">● ${tag}</span>
-        <h2>${a.title||'Sem título'}</h2>
-        ${a.desc ? `<p>${a.desc}</p>` : ''}
-        <div class="meta">
-          <span>${a.source||'Internacional'} · ${a.time||'recente'}</span>
-        </div>
-      </article>`;
-  });
-  feed.innerHTML = html;
-}
-
 // ── RSS FEEDS por categoria ──
 const RSS_FEEDS = {
   'Destaques':          'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
