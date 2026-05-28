@@ -4,57 +4,30 @@ export default async function handler(req, res) {
   }
 
   try {
-    const body = req.body;
-    let messages = [...body.messages];
-    let finalContent = [];
+    const { messages, max_tokens } = req.body;
+    const prompt = messages.map(m => m.content).join('\n');
 
-    // Loop para lidar com web_search (pode ter múltiplas rodadas)
-    for (let i = 0; i < 5; i++) {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
-          'anthropic-beta': 'interleaved-thinking-2025-05-14'
-        },
-        body: JSON.stringify({ ...body, messages }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        return res.status(response.status).json(data);
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: max_tokens || 900 }
+        }),
       }
+    );
 
-      finalContent = data.content || [];
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-      // Se não há tool_use, chegamos na resposta final
-      const toolUseBlocks = finalContent.filter(b => b.type === 'tool_use');
-      if (toolUseBlocks.length === 0 || data.stop_reason === 'end_turn') {
-        return res.status(200).json(data);
-      }
-
-      // Monta tool_result para continuar o loop
-      const toolResults = toolUseBlocks.map(block => ({
-        type: 'tool_result',
-        tool_use_id: block.id,
-        content: block.input?.query
-          ? `Search results for: ${block.input.query}`
-          : 'No results',
-      }));
-
-      messages = [
-        ...messages,
-        { role: 'assistant', content: finalContent },
-        { role: 'user', content: toolResults },
-      ];
-    }
-
-    // Retorna o que tiver após o loop
-    return res.status(200).json({ content: finalContent });
+    // Retorna no mesmo formato que seu callAI espera
+    res.status(200).json({
+      content: [{ type: 'text', text }]
+    });
 
   } catch (error) {
-    return res.status(500).json({ error: 'Proxy error', detail: error.message });
+    res.status(500).json({ error: 'Proxy error', detail: error.message });
   }
 }
