@@ -447,9 +447,16 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
     </div>
   </div>
   <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;margin-top:16px;display:flex;align-items:center;gap:6px;">Notícias do Agro · Tempo Real<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span><span id="agro-news-status" style="font-size:7px;color:#3a6a28;">Carregando...</span></div>
-  <div class="agro-news-grid" id="agro-news-grid">
-    <div class="agro-news-card"><div class="agro-news-tag ant-soja">GRÃOS</div><div class="agro-news-title">Carregando notícias do agronegócio...</div><div class="agro-news-desc">Buscando as últimas informações sobre commodities agrícolas.</div><div class="agro-news-meta"><span>Notícias Agrícolas · Canal Rural</span><span>agora</span></div></div>
-    <div class="agro-news-card"><div class="agro-news-tag ant-clima">CLIMA</div><div class="agro-news-title">Monitoramento climático global</div><div class="agro-news-desc">NOAA, INMET e CONAB acompanham padrões climáticos para safra 2025/26.</div><div class="agro-news-meta"><span>NOAA · INMET</span><span>agora</span></div></div>
+<div class="agro-news-grid" id="agro-news-grid">
+  <div class="agro-news-card" style="pointer-events:none;">
+    <div class="skel w50 h8" style="margin-bottom:6px;"></div>
+    <div class="skel w90" style="margin-bottom:5px;"></div>
+    <div class="skel w70 h8"></div>
+  </div>
+  <div class="agro-news-card" style="pointer-events:none;">
+    <div class="skel w50 h8" style="margin-bottom:6px;"></div>
+    <div class="skel w90" style="margin-bottom:5px;"></div>
+    <div class="skel w70 h8"></div>
   </div>
   <div class="agro-grid">
     <div class="agro-panel"><div class="agro-panel-head"><span class="agro-panel-title">🌱 Grãos &amp; Oleaginosas</span><span class="agro-panel-badge apb-grain">CBOT</span></div><div class="agro-panel-body"><div class="agro-stat" onclick="openAgroChart('CBOT:ZS1!','Soja ZS1!')" style="cursor:pointer;"><span class="agro-stat-name">Soja (ZS1!)</span><span class="agro-stat-val">$1.084/bu</span><span class="agro-stat-chg up">▲ +0.8%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZC1!','Milho ZC1!')" style="cursor:pointer;"><span class="agro-stat-name">Milho (ZC1!)</span><span class="agro-stat-val">$442/bu</span><span class="agro-stat-chg dn">▼ -0.3%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZW1!','Trigo ZW1!')" style="cursor:pointer;"><span class="agro-stat-name">Trigo (ZW1!)</span><span class="agro-stat-val">$528/bu</span><span class="agro-stat-chg up">▲ +0.5%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZR1!','Arroz ZR1!')" style="cursor:pointer;"><span class="agro-stat-name">Arroz (ZR1!)</span><span class="agro-stat-val">$15.2/cwt</span><span class="agro-stat-chg up">▲ +0.2%</span></div><div class="agro-stat" onclick="openAgroChart('CBOT:ZM1!','Farelo Soja ZM1!')" style="cursor:pointer;"><span class="agro-stat-name">Farelo Soja</span><span class="agro-stat-val">$310/t</span><span class="agro-stat-chg up">▲ +1.1%</span></div></div></div>
