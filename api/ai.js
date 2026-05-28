@@ -21,19 +21,10 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // ← Debug: mostra estrutura completa
-    const candidate = data.candidates?.[0];
-    const finishReason = candidate?.finishReason;
-    const text = candidate?.content?.parts?.[0]?.text || '';
-
-    res.status(200).json({
-      content: [{ type: 'text', text }],
-      _debug: {
-        finishReason,
-        hasCandidate: !!candidate,
-        textLength: text.length,
-        promptFeedback: data.promptFeedback || null
-      }
+    // ← Retorna tudo para debug
+    return res.status(200).json({
+      content: [{ type: 'text', text: '' }],
+      _geminiRaw: data  // ← mostra resposta completa do Gemini
     });
 
   } catch (error) {
