@@ -548,12 +548,13 @@ async function callAI(prompt, maxTokens = 2500) {
     })
   });
 
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`HTTP ${res.status}: ${err.slice(0, 200)}`);
-  }
+  const rawText = await res.text();
+  console.log('STATUS:', res.status);
+  console.log('RAW COMPLETO:', rawText);
 
-  const data = await res.json();
+  if (!res.ok) throw new Error(`HTTP ${res.status}: ${rawText.slice(0, 300)}`);
+
+  const data = JSON.parse(rawText);
   if (data.error) throw new Error(data.error.message || 'API error');
 
   const blocks = data.content || [];
