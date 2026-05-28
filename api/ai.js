@@ -7,24 +7,25 @@ export default async function handler(req, res) {
     const { messages, max_tokens } = req.body;
     const prompt = messages.map(m => m.content).join('\n');
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { maxOutputTokens: max_tokens || 900 }
-        }),
-      }
-    );
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'llama3-8b-8192',
+        max_tokens: max_tokens || 900,
+        messages: [{ role: 'user', content: prompt }]
+      }),
+    });
 
     const data = await response.json();
+    let text = data.choices?.[0]?.message?.content || '';
+    text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
 
-    // ← Retorna tudo para debug
-    return res.status(200).json({
-      content: [{ type: 'text', text: '' }],
-      _geminiRaw: data  // ← mostra resposta completa do Gemini
+    res.status(200).json({
+      content: [{ type: 'text', text }]
     });
 
   } catch (error) {
