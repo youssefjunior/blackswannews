@@ -748,6 +748,34 @@ function showSkeleton(label) {
     + Array(5).fill('<div style="margin-bottom:16px;"><div class="skel w90"></div><div class="skel w70 h8"></div><div class="skel w50 h8"></div></div>').join('')
     + '</div>';
 }
+
+function render(articles, category) {
+  const feed = document.getElementById('feed');
+  if (!feed) return;
+  if (!articles || !articles.length) {
+    feed.innerHTML = `<div class="slabel">${category}</div>
+      <div class="err-box">
+        <div class="err-icon">⚠️</div>
+        <div class="err-msg">Nenhuma notícia encontrada.</div>
+        <button onclick="delete newsCache['${category.replace(/'/g,"\\'")}'];loadNews('${category.replace(/'/g,"\\'")}')">↺ Tentar novamente</button>
+      </div>`;
+    return;
+  }
+  let html = `<div class="slabel">${category} · ${articles.length} notícias · <span style="color:var(--green);">● RSS</span></div>`;
+  articles.forEach(a => {
+    const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
+    html += `
+      <article class="lead" onclick="window.open('${safeUrl}','_blank')">
+        <span class="badge bh">● ${a.source||'Internacional'}</span>
+        <h2>${a.title||'Sem título'}</h2>
+        ${a.desc ? `<p>${a.desc}...</p>` : ''}
+        <div class="meta">
+          <span>${a.source||'Internacional'} · ${a.time||'recente'}</span>
+        </div>
+      </article>`;
+  });
+  feed.innerHTML = html;
+}
   
 async function loadNews(q) {
   if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
