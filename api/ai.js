@@ -20,14 +20,9 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
-    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-    // ✅ Remove markdown ```json ... ``` se existir
-    text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
-
-    res.status(200).json({
-      content: [{ type: 'text', text }]
-    });
+    // ← retorna o JSON completo do Gemini para debug
+    return res.status(200).json(data);
 
   } catch (error) {
     res.status(500).json({ error: 'Proxy error', detail: error.message });
