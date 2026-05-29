@@ -881,7 +881,7 @@ try {
     ];
 
     const allAgro = await Promise.allSettled(
-      agroFeeds.map(f => fetch(`${PROXY}?rss=${encodeURIComponent(f)}`).then(r => r.arrayBuffer()).then(b => new TextDecoder('utf-8').decode(b))
+      agroFeeds.map(f => fetch(`${PROXY}?rss=${encodeURIComponent(f)}`).then(r => r.arrayBuffer()).then(b => new TextDecoder('utf-8').decode(b)))
     );
 
     const news = [];
