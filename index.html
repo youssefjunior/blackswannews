@@ -716,45 +716,46 @@ async function fetchRSS(category) {
 
   const PT_DOMAINS = [
     'infomoney','folha','bbc.com/portuguese','canalrural',
-    'portaldobitcoin','livecoins','g1.globo','valor.globo'
+    'portaldobitcoin','livecoins'
   ];
 
   function isPT(url) {
     return PT_DOMAINS.some(d => url.includes(d));
   }
 
-  // Busca todos os feeds em paralelo
-  const allResults = await Promise.allSettled(
-    feedList.map(async feedUrl => {
-      const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedUrl)}`);
-      if (!res.ok) throw new Error(`RSS error ${res.status}`);
-      const xml = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(xml, 'application/xml');
-      const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
-      const lang = isPT(feedUrl) ? 'pt' : 'en';
-      return items.map(item => {
-        const title = item.querySelector('title')?.textContent?.trim() || '';
-        const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,120) || '';
-        const url   = item.querySelector('link')?.textContent?.trim() || '#';
-        const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
-        const time  = pub ? timeAgo(pub) : 'recente';
-        return { title, desc, url, time, source: sourceName(feedUrl), lang };
-      }).filter(a => a.title);
-    })
-  );
-
-  // Separa PT e EN, depois junta PT primeiro
   const ptItems = [];
   const enItems = [];
-  allResults.forEach((r, i) => {
-    if (r.status === 'fulfilled') {
-      const lang = isPT(feedList[i]) ? 'pt' : 'en';
-      if (lang === 'pt') ptItems.push(...r.value);
-      else enItems.push(...r.value);
-    }
-  });
 
+  // Tenta cada feed individualmente — se falhar, ignora e continua
+  for (const feedUrl of feedList) {
+    try {
+      const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedUrl)}`);
+      if (!res.ok) continue;
+      const xml = await res.text();
+      // Checa se retornou XML válido
+      if (!xml.includes('<item>') && !xml.includes('<entry>')) continue;
+      const doc = new DOMParser().parseFromString(xml, 'application/xml');
+      const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
+      if (!items.length) continue;
+      const parsed = items.map(item => ({
+        title:  item.querySelector('title')?.textContent?.trim() || '',
+        desc:   item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,120) || '',
+        url:    item.querySelector('link')?.textContent?.trim() || '#',
+        time:   timeAgo(item.querySelector('pubDate')?.textContent?.trim() || ''),
+        source: sourceName(feedUrl),
+        lang:   isPT(feedUrl) ? 'pt' : 'en'
+      })).filter(a => a.title);
+
+      if (isPT(feedUrl)) ptItems.push(...parsed);
+      else enItems.push(...parsed);
+
+    } catch(e) {
+      console.warn('Feed falhou:', feedUrl, e.message);
+      // Continua para o próximo feed
+    }
+  }
+
+  // PT primeiro, EN depois — garante pelo menos os ingleses se PT falhar
   return [...ptItems, ...enItems].slice(0, 12);
 }
 function sourceName(url) {
