@@ -962,18 +962,56 @@ function showAgroCharts(evt, tipo) {
 }
 
 // ── VIDEOS ──
-const VIDEOS = [
-  {id:'PGdNL3FzZBo', title:'Gold & Silver Market Update — Kitco News', canal:'Kitco News', meta:'2026', live:false, cat:'kitco'},
-  {id:'XxVg_s8xAms', title:'Gold Price Today — Mike McGlone Analysis', canal:'Kitco News', meta:'2026', live:false, cat:'kitco'},
-  {id:'2-vg5BSHF0k', title:'Federal Reserve & Interest Rates — Bloomberg', canal:'Bloomberg', meta:'2026', live:false, cat:'bloomberg'},
-  {id:'K4ZZoVBm9x8', title:'Stock Market Outlook 2026 — Bloomberg', canal:'Bloomberg', meta:'2026', live:false, cat:'bloomberg'},
-  {id:'oFSG7PTxSvk', title:'Bitcoin ETF & Crypto 2026 — CNBC', canal:'CNBC', meta:'2026', live:false, cat:'cnbc'},
-  {id:'PPM7RTDIL7I', title:'S&P 500 & Nasdaq Outlook — CNBC', canal:'CNBC', meta:'2026', live:false, cat:'cnbc'},
-  {id:'_rT5IYPCIiA', title:'Bitcoin Price Analysis 2026', canal:'CNBC Crypto', meta:'2026', live:false, cat:'cnbc'},
-  {id:'EFp6GOJQ6NU', title:'Oil Markets & OPEC Update — Reuters', canal:'Reuters', meta:'2026', live:false, cat:'reuters'},
-  {id:'MGmUZOUmBSk', title:'TradingView Market Overview', canal:'TradingView', meta:'2026', live:false, cat:'tradingview'},
-  {id:'ySMpCKDa_WU', title:'Technical Analysis — TradingView', canal:'TradingView', meta:'2026', live:false, cat:'tradingview'},
+// ── VÍDEOS — carregados via RSS do YouTube automaticamente ──
+const YT_CHANNELS = [
+  { id:'UCkyLJh6hQS1TlhUZxOMjTFg', name:'Kitco News',    cat:'kitco'      },
+  { id:'UCIALMKvObZNtJ6AmdCLP_xA', name:'Bloomberg',      cat:'bloomberg'  },
+  { id:'UCvJJ_dzjViJCoLf5uKUTwoA', name:'CNBC',           cat:'cnbc'       },
+  { id:'UC9-y-6csu5WGm29I7JiwpnA', name:'Computerphile',  cat:'cnbc'       },
+  { id:'UCHnyfMqiRRG1u-2MsSQLbXA', name:'Veritasium',     cat:'tradingview'},
+  { id:'UCbmNph6atAoGfqLoCL_duAg', name:'TradingView',    cat:'tradingview'},
+  { id:'UCIRiWCPZoUyZDbydIqitHtQ', name:'Reuters',        cat:'reuters'    },
 ];
+
+let ALL_VIDEOS = [];
+let videosLoaded = false;
+
+async function loadYouTubeVideos() {
+  if (videosLoaded) return;
+  const vgrid = document.getElementById('vgrid');
+  if (vgrid) vgrid.innerHTML = '<p style="color:var(--t4);font-size:12px;padding:14px 0;">Carregando vídeos...</p>';
+
+  const results = [];
+
+  await Promise.allSettled(
+    YT_CHANNELS.map(async ch => {
+      try {
+        const url = `https://www.youtube.com/feeds/videos.xml?channel_id=${ch.id}`;
+        const res = await fetch(`${PROXY}?rss=${encodeURIComponent(url)}`);
+        const xml = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xml, 'application/xml');
+        const entries = Array.from(doc.querySelectorAll('entry')).slice(0, 3);
+        entries.forEach(entry => {
+          const title = entry.querySelector('title')?.textContent?.trim() || '';
+          const videoId = entry.querySelector('videoId')?.textContent?.trim()
+            || entry.querySelector('id')?.textContent?.split(':').pop()?.trim() || '';
+          const published = entry.querySelector('published')?.textContent || '';
+          const date = published ? new Date(published).toLocaleDateString('pt-BR', {month:'short', year:'numeric'}) : '2026';
+          if (title && videoId) {
+            results.push({ id: videoId, title, canal: ch.name, meta: date, live: false, cat: ch.cat });
+          }
+        });
+      } catch(e) {
+        console.warn('Canal falhou:', ch.name, e.message);
+      }
+    })
+  );
+
+  ALL_VIDEOS = results;
+  videosLoaded = true;
+  buildVideos('todos');
+}
 
 function buildVideos(filter) {
   const grid = document.getElementById('vgrid');
