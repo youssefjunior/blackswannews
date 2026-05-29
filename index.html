@@ -711,27 +711,52 @@ const PROXY = 'https://blackswan-proxy.j-ubyfol.workers.dev';
 
 // ── BUSCA RSS via Worker ──
 async function fetchRSS(category) {
-  const feedUrl = RSS_FEEDS[category];
-  if (!feedUrl) return [];
+  const feedList = RSS_FEEDS[category];
+  if (!feedList || !feedList.length) return [];
 
-  const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedUrl)}`);
-  if (!res.ok) throw new Error(`RSS error ${res.status}`);
+  const PT_DOMAINS = [
+    'infomoney','folha','bbc.com/portuguese','canalrural',
+    'portaldobitcoin','livecoins','g1.globo','valor.globo'
+  ];
 
-  const xml = await res.text();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(xml, 'application/xml');
-  const items = Array.from(doc.querySelectorAll('item')).slice(0, 8);
+  function isPT(url) {
+    return PT_DOMAINS.some(d => url.includes(d));
+  }
 
-  return items.map(item => {
-    const title = item.querySelector('title')?.textContent?.trim() || '';
-    const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,120) || '';
-    const url   = item.querySelector('link')?.textContent?.trim() || '#';
-    const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
-    const time  = pub ? timeAgo(pub) : 'recente';
-    return { title, desc, url, time, source: sourceName(category) };
-  }).filter(a => a.title);
+  // Busca todos os feeds em paralelo
+  const allResults = await Promise.allSettled(
+    feedList.map(async feedUrl => {
+      const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedUrl)}`);
+      if (!res.ok) throw new Error(`RSS error ${res.status}`);
+      const xml = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, 'application/xml');
+      const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
+      const lang = isPT(feedUrl) ? 'pt' : 'en';
+      return items.map(item => {
+        const title = item.querySelector('title')?.textContent?.trim() || '';
+        const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,120) || '';
+        const url   = item.querySelector('link')?.textContent?.trim() || '#';
+        const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
+        const time  = pub ? timeAgo(pub) : 'recente';
+        return { title, desc, url, time, source: sourceName(feedUrl), lang };
+      }).filter(a => a.title);
+    })
+  );
+
+  // Separa PT e EN, depois junta PT primeiro
+  const ptItems = [];
+  const enItems = [];
+  allResults.forEach((r, i) => {
+    if (r.status === 'fulfilled') {
+      const lang = isPT(feedList[i]) ? 'pt' : 'en';
+      if (lang === 'pt') ptItems.push(...r.value);
+      else enItems.push(...r.value);
+    }
+  });
+
+  return [...ptItems, ...enItems].slice(0, 12);
 }
-
 function sourceName(cat) {
   const map = {
     'Destaques':'Reuters','Geopolítica':'BBC World','Bancos Centrais':'Reuters',
