@@ -840,7 +840,7 @@ async function loadAgroNews() {
   ).join('');
 
   try {
-    const res = await fetch(`${PROXY}?rss=${encodeURIComponent('https://feeds.reuters.com/reuters/businessNews')}`);
+    const res = await fetch(`${PROXY}?rss=${encodeURIComponent('https://rss.nytimes.com/services/xml/rss/nyt/Business.xml')}`);
     const xml = await res.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(xml, 'application/xml');
