@@ -757,13 +757,18 @@ async function fetchRSS(category) {
 
   return [...ptItems, ...enItems].slice(0, 12);
 }
-function sourceName(cat) {
-  const map = {
-    'Destaques':'Reuters','Geopolítica':'BBC World','Bancos Centrais':'Reuters',
-    'CME · Futuros':'Reuters','Commodities':'OilPrice','Metais Preciosos':'Kitco',
-    'Cripto':'CoinDesk','Guerras & Conflitos':'BBC World','Saúde Global':'WHO',
-  };
-  return map[cat] || 'Internacional';
+function sourceName(url) {
+  if (url.includes('infomoney'))       return 'InfoMoney';
+  if (url.includes('folha'))           return 'Folha de S.Paulo';
+  if (url.includes('bbc.com/portug'))  return 'BBC Brasil';
+  if (url.includes('canalrural'))      return 'Canal Rural';
+  if (url.includes('portaldobitcoin')) return 'Portal do Bitcoin';
+  if (url.includes('livecoins'))       return 'LiveCoins';
+  if (url.includes('oilprice'))        return 'OilPrice';
+  if (url.includes('coindesk'))        return 'CoinDesk';
+  if (url.includes('nytimes'))         return 'Reuters/NYT';
+  if (url.includes('bbci.co.uk'))      return 'BBC World';
+  return 'Internacional';
 }
 
 function timeAgo(pubDate) {
