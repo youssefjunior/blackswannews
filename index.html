@@ -876,6 +876,56 @@ function renderAgroNews(news) {
     </div>`;
   }).join('');
 }
+
+async function loadAgroVideos() {
+  const grid = document.getElementById('agro-vgrid');
+  if (!grid) return;
+
+  const agroChannels = [
+    { id:'UCkyLJh6hQS1TlhUZxOMjTFg', name:'Kitco News'   },
+    { id:'UCIRiWCPZoUyZDbydIqitHtQ', name:'Reuters'       },
+    { id:'UCbmNph6atAoGfqLoCL_duAg', name:'TradingView'   },
+    { id:'UCIALMKvObZNtJ6AmdCLP_xA', name:'Bloomberg'     },
+  ];
+
+  const results = [];
+  await Promise.allSettled(
+    agroChannels.map(async ch => {
+      try {
+        const url = `https://www.youtube.com/feeds/videos.xml?channel_id=${ch.id}`;
+        const res = await fetch(`${PROXY}?rss=${encodeURIComponent(url)}`);
+        const xml = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xml, 'application/xml');
+        const entry = doc.querySelector('entry');
+        if (!entry) return;
+        const title = entry.querySelector('title')?.textContent?.trim() || '';
+        const videoId = entry.querySelector('videoId')?.textContent?.trim()
+          || entry.querySelector('id')?.textContent?.split(':').pop()?.trim() || '';
+        if (title && videoId) results.push({ id: videoId, title, canal: ch.name });
+      } catch(e) {}
+    })
+  );
+
+  if (!results.length) {
+    grid.innerHTML = '<p style="color:var(--t4);font-size:12px;padding:14px 0;grid-column:1/-1;">Não foi possível carregar vídeos.</p>';
+    return;
+  }
+
+  grid.innerHTML = results.map(v =>
+    `<div class="vcard" onclick="openVideo('${v.id}','${v.title.replace(/'/g,"\\'")}')">
+      <div class="vthumb">
+        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy"
+          onerror="this.parentElement.style.background='#0a1507'"/>
+        <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>
+      </div>
+      <div class="vinfo">
+        <div class="vtit">${v.title}</div>
+        <div class="vmeta">${v.canal} · ao vivo</div>
+      </div>
+    </div>`
+  ).join('');
+}
   
 // ── CHARTS ──
 const CHARTS = {
