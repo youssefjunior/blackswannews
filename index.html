@@ -665,15 +665,46 @@ document.getElementById('btnnew').addEventListener('click', () =>
 
 // ── RSS FEEDS por categoria ──
 const RSS_FEEDS = {
-  'Destaques':          'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-  'Geopolítica':        'https://feeds.bbci.co.uk/news/world/rss.xml',
-  'Bancos Centrais':    'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',
-  'CME · Futuros':      'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-  'Commodities':        'https://feeds.feedburner.com/oilprice/breaking-news',
-  'Metais Preciosos':   'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-  'Cripto':             'https://feeds.feedburner.com/CoinDesk',
-  'Guerras & Conflitos':'https://feeds.bbci.co.uk/news/world/rss.xml',
-  'Saúde Global':       'https://feeds.bbci.co.uk/news/health/rss.xml',
+  'Destaques': [
+    'https://www.infomoney.com.br/feed/',
+    'https://feeds.folha.uol.com.br/mercado/rss091.xml',
+    'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
+  ],
+  'Geopolítica': [
+    'https://www.bbc.com/portuguese/brasil/index.xml',
+    'https://www.bbc.com/portuguese/topicos/brasil/index.xml',
+    'https://feeds.bbci.co.uk/news/world/rss.xml',
+  ],
+  'Bancos Centrais': [
+    'https://feeds.folha.uol.com.br/mercado/rss091.xml',
+    'https://www.infomoney.com.br/feed/',
+    'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',
+  ],
+  'CME · Futuros': [
+    'https://www.infomoney.com.br/feed/',
+    'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
+  ],
+  'Commodities': [
+    'https://www.canalrural.com.br/feed/',
+    'https://feeds.feedburner.com/oilprice/breaking-news',
+  ],
+  'Metais Preciosos': [
+    'https://www.infomoney.com.br/feed/',
+    'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
+  ],
+  'Cripto': [
+    'https://portaldobitcoin.uol.com.br/feed/',
+    'https://livecoins.com.br/feed/',
+    'https://feeds.feedburner.com/CoinDesk',
+  ],
+  'Guerras & Conflitos': [
+    'https://www.bbc.com/portuguese/brasil/index.xml',
+    'https://feeds.bbci.co.uk/news/world/rss.xml',
+  ],
+  'Saúde Global': [
+    'https://feeds.folha.uol.com.br/equilibrioesaude/rss091.xml',
+    'https://feeds.bbci.co.uk/news/health/rss.xml',
+  ],
 };
   
 const PROXY = 'https://blackswan-proxy.j-ubyfol.workers.dev';
