@@ -847,6 +847,11 @@ async function loadAgroNews() {
     newsCache['_agro'] = news;
     renderAgroNews(news);
     if (statusEl) statusEl.textContent = news.length + ' notícias · RSS · Reuters';
+ if (!news.length) throw new Error('Sem notícias');
+    newsCache['_agro'] = news;
+    renderAgroNews(news);
+    if (statusEl) statusEl.textContent = news.length + ' notícias · RSS · Reuters';
+    loadAgroVideos();   // ← DEVE FICAR AQUI, após sucesso
   } catch(e) {
     if (statusEl) statusEl.textContent = 'Erro · ' + e.message.slice(0,30);
     grid.innerHTML = `<div class="agro-news-card">
@@ -855,7 +860,6 @@ async function loadAgroNews() {
       <div class="agro-news-desc">${e.message}</div>
       <div class="agro-news-meta" style="cursor:pointer;" onclick="delete newsCache['_agro'];loadAgroNews()">↺ Tentar novamente</div>
     </div>`;
-loadAgroVideos(); 
   }
 }
 
