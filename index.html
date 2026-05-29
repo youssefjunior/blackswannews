@@ -785,6 +785,7 @@ function render(articles, category) {
 }
   
 async function loadNews(q) {
+  if (q === 'CME · Futuros') { loadCMENews(); return; }
   if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
   if (newsCache[q]) { render(newsCache[q], q); return; }
 
