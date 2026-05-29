@@ -68,6 +68,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .slabel{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#a0b0c0;padding-bottom:10px;border-bottom:1px solid var(--b2);margin-bottom:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-bottom:7px;}
 .bc{background:#3f0000;color:#fca5a5;}.bh{background:#2a1a00;color:#fbbf24;}.bg{background:#1a0030;color:#c4b5fd;}.bco{background:#001a0a;color:#86efac;}.bcr{background:#1a0a00;color:#fdba74;}.bm{background:#001520;color:#7dd3fc;}
+/* badge verde para fontes BR */
+.bbr{background:#002a00;color:#86efac;}
 .lead{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--b1);cursor:pointer;transition:opacity .15s;}
 .lead:hover{opacity:.82;}
 .lead h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;line-height:1.3;color:#f5f0e8;margin-bottom:6px;}
@@ -212,14 +214,14 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 .mob-bn-icon{font-size:16px;line-height:1;}
 .mob-bn-label{font-family:'Space Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.5px;text-transform:uppercase;transition:color .15s;}
 .mob-bn-item.active .mob-bn-label{color:var(--red);}
-
-/* ── Error / retry box ── */
 .err-box{padding:28px 20px;text-align:center;color:var(--t3);}
 .err-box .err-icon{font-size:28px;margin-bottom:10px;}
 .err-box .err-msg{font-size:12px;margin-bottom:14px;color:var(--t4);}
 .err-box button{background:var(--red);color:#fff;border:none;padding:9px 20px;border-radius:3px;cursor:pointer;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.5px;}
 .err-box button:hover{background:var(--red-dark);}
-
+/* separador visual entre fontes BR e EN no feed */
+.feed-divider{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--t4);text-transform:uppercase;padding:8px 0 10px;margin-bottom:10px;border-bottom:.5px dashed var(--b2);display:flex;align-items:center;gap:8px;}
+.feed-divider::before{content:'';flex:1;height:.5px;background:var(--b2);}
 @media(max-width:1024px){.layout{grid-template-columns:1fr 300px;}.vgrid{grid-template-columns:repeat(4,1fr);}.agrid{grid-template-columns:repeat(2,1fr);}.chart-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){
   :root{--gutter:14px;--topbar-h:32px;}
@@ -283,7 +285,7 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
     </div>
     <div class="hright" id="hright-desktop">
       <div class="hdate" id="hdate">Carregando...</div>
-      <div class="hstatus">● Reuters · Bloomberg · AP · Tempo Real</div>
+      <div class="hstatus">● Reuters · BBC · G1 · InfoMoney · Tempo Real</div>
       <div class="search-row">
         <input class="sinput" id="sinput" type="text" placeholder="Fed, ouro, BTC, guerra..."/>
         <button class="btn-ai" id="btnai">Analisar IA ↗</button>
@@ -314,7 +316,7 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 <div class="alert">
   <div class="adot"></div>
   <span class="alabel">CISNE NEGRO</span>
-  <div class="atext">Notícias em tempo real · NYT · BBC · Kitco · OilPrice · Notícias Agrícolas</div>
+  <div class="atext">Notícias em tempo real · G1 · InfoMoney · BBC Brasil · Livecoins · Reuters · OilPrice</div>
 </div>
 
 <div class="layout" id="main-layout">
@@ -327,7 +329,7 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
     </div>
   </main>
   <aside class="sidebar-widget" id="sidebar-widget">
-    <iframe src="https://s.tradingview.com/embed-widget/market-quotes/?locale=br#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A800%2C%22showSymbolLogo%22%3Atrue%2C%22isTransparent%22%3Afalse%2C%22colorTheme%22%3A%22dark%22%2C%22locale%22%3A%22br%22%2C%22symbolsGroups%22%3A%5B%7B%22name%22%3A%22Indices%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3ASPXUSD%22%2C%22displayName%22%3A%22S%26P%20500%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ANSXUSD%22%2C%22displayName%22%3A%22Nasdaq%20100%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ADJI%22%2C%22displayName%22%3A%22Dow%20Jones%22%7D%2C%7B%22name%22%3A%22INDEX%3ANKY%22%2C%22displayName%22%3A%22Nikkei%22%7D%2C%7B%22name%22%3A%22INDEX%3ADAX%22%2C%22displayName%22%3A%22DAX%22%7D%2C%7B%22name%22%3A%22INDEX%3AFTSE%22%2C%22displayName%22%3A%22FTSE%22%7D%2C%7B%22name%22%3A%22BMFBOVESPA%3AIBOV%22%2C%22displayName%22%3A%22IBOV%22%7D%2C%7B%22name%22%3A%22TVC%3AVIX%22%2C%22displayName%22%3A%22VIX%22%7D%5D%7D%2C%7B%22name%22%3A%22Commodities%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3AXAUUSD%22%2C%22displayName%22%3A%22Ouro%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AXAGUSD%22%2C%22displayName%22%3A%22Prata%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AOILUSD%22%2C%22displayName%22%3A%22Petr%C3%B3leo%22%7D%2C%7B%22name%22%3A%22AMEX%3ASOYB%22%2C%22displayName%22%3A%22Soja%22%7D%2C%7B%22name%22%3A%22AMEX%3AWEAT%22%2C%22displayName%22%3A%22Trigo%22%7D%2C%7B%22name%22%3A%22AMEX%3ACORN%22%2C%22displayName%22%3A%22Milho%22%7D%5D%7D%2C%7B%22name%22%3A%22Forex%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FX%3AEURUSD%22%2C%22displayName%22%3A%22EUR%2FUSD%22%7D%2C%7B%22name%22%3A%22FX%3AUSDBRL%22%2C%22displayName%22%3A%22USD%2FBRL%22%7D%2C%7B%22name%22%3A%22FX%3AGBPUSD%22%2C%22displayName%22%3A%22GBP%2FUSD%22%7D%2C%7B%22name%22%3A%22FX%3AUSDJPY%22%2C%22displayName%22%3A%22USD%2FJPY%22%7D%2C%7B%22name%22%3A%22TVC%3ADXY%22%2C%22displayName%22%3A%22DXY%22%7D%5D%7D%2C%7B%22name%22%3A%22Cripto%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22displayName%22%3A%22Bitcoin%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3AETHUSD%22%2C%22displayName%22%3A%22Ethereum%22%7D%2C%7B%22name%22%3A%22COINBASE%3ASOLUSD%22%2C%22displayName%22%3A%22Solana%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3AXRPUSD%22%2C%22displayName%22%3A%22XRP%22%7D%5D%7D%5D%7D" width="100%" height="800" frameborder="0" scrolling="no" style="display:block;"></iframe>
+    <iframe src="https://s.tradingview.com/embed-widget/market-quotes/?locale=br#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A800%2C%22showSymbolLogo%22%3Atrue%2C%22isTransparent%22%3Afalse%2C%22colorTheme%22%3A%22dark%22%2C%22locale%22%3A%22br%22%2C%22symbolsGroups%22%3A%5B%7B%22name%22%3A%22%C3%8Dndices%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3ASPXUSD%22%2C%22displayName%22%3A%22S%26P%20500%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ANSXUSD%22%2C%22displayName%22%3A%22Nasdaq%20100%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3ADJI%22%2C%22displayName%22%3A%22Dow%20Jones%22%7D%2C%7B%22name%22%3A%22INDEX%3AFTSE%22%2C%22displayName%22%3A%22FTSE%20100%22%7D%2C%7B%22name%22%3A%22INDEX%3ANKY%22%2C%22displayName%22%3A%22Nikkei%22%7D%2C%7B%22name%22%3A%22INDEX%3ADAX%22%2C%22displayName%22%3A%22DAX%22%7D%2C%7B%22name%22%3A%22BMFBOVESPA%3AIBOV%22%2C%22displayName%22%3A%22IBOV%22%7D%2C%7B%22name%22%3A%22TVC%3AVIX%22%2C%22displayName%22%3A%22VIX%22%7D%5D%7D%2C%7B%22name%22%3A%22Commodities%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FOREXCOM%3AXAUUSD%22%2C%22displayName%22%3A%22Ouro%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AXAGUSD%22%2C%22displayName%22%3A%22Prata%22%7D%2C%7B%22name%22%3A%22FOREXCOM%3AOILUSD%22%2C%22displayName%22%3A%22Petr%C3%B3leo%22%7D%2C%7B%22name%22%3A%22NYMEX%3ANG1%21%22%2C%22displayName%22%3A%22G%C3%A1s%20Natural%22%7D%2C%7B%22name%22%3A%22AMEX%3ASOYB%22%2C%22displayName%22%3A%22Soja%22%7D%2C%7B%22name%22%3A%22AMEX%3AWEAT%22%2C%22displayName%22%3A%22Trigo%22%7D%2C%7B%22name%22%3A%22AMEX%3ACORN%22%2C%22displayName%22%3A%22Milho%22%7D%5D%7D%2C%7B%22name%22%3A%22Forex%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22FX%3AEURUSD%22%2C%22displayName%22%3A%22EUR%2FUSD%22%7D%2C%7B%22name%22%3A%22FX%3AUSDBRL%22%2C%22displayName%22%3A%22USD%2FBRL%22%7D%2C%7B%22name%22%3A%22FX%3AGBPUSD%22%2C%22displayName%22%3A%22GBP%2FUSD%22%7D%2C%7B%22name%22%3A%22FX%3AUSDJPY%22%2C%22displayName%22%3A%22USD%2FJPY%22%7D%2C%7B%22name%22%3A%22TVC%3ADXY%22%2C%22displayName%22%3A%22DXY%22%7D%5D%7D%2C%7B%22name%22%3A%22Cripto%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22displayName%22%3A%22Bitcoin%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3AETHUSD%22%2C%22displayName%22%3A%22Ethereum%22%7D%2C%7B%22name%22%3A%22COINBASE%3ASOLUSD%22%2C%22displayName%22%3A%22Solana%22%7D%2C%7B%22name%22%3A%22BITSTAMP%3AXRPUSD%22%2C%22displayName%22%3A%22XRP%22%7D%5D%7D%5D%7D" width="100%" height="800" frameborder="0" scrolling="no" style="display:block;"></iframe>
   </aside>
 </div>
 
@@ -497,17 +499,17 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
   </div>
   <div class="agro-videos">
     <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6a9a58;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;">Vídeos &amp; Análises Agrícolas<span style="flex:1;height:.5px;background:#1a3a0a;display:block;"></span></div>
- <div class="agro-vgrid" id="agro-vgrid">
-  <div style="color:var(--t4);font-size:12px;padding:14px 0;grid-column:1/-1;">Carregando vídeos agrícolas...</div>
-</div>
+    <div class="agro-vgrid" id="agro-vgrid">
+      <div style="color:var(--t4);font-size:12px;padding:14px 0;grid-column:1/-1;">Carregando vídeos agrícolas...</div>
+    </div>
   </div>
 </section>
 
 <footer>
   <span class="fdot">●</span><span>BLACK SWAN NEWS</span><span>·</span>
   <span>Inteligência de Mercado Global</span><span>·</span>
-  <span>NYT · BBC · Kitco · OilPrice · Notícias Agrícolas</span><span>·</span>
-  <span>v9.0 · RSS Edition · 2026</span>
+  <span>G1 · InfoMoney · BBC Brasil · Livecoins · Reuters · OilPrice</span><span>·</span>
+  <span>v9.1 · RSS Edition · 2026</span>
   <span>Desenvolvido por <strong style="color:var(--t2);">José Youssef</strong></span>
 </footer>
 
@@ -515,7 +517,6 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 
 const newsCache = {};
 let cat = 'Destaques';
-let isLoading = false;
 
 // ── CLOCK ──
 function clock() {
@@ -529,29 +530,30 @@ clock(); setInterval(clock, 30000);
 
 // ── TICKER ──
 const TKS = [
-  {s:'NQ1!', v:'21,847',  c:'+0.34%', u:true },
-  {s:'ES1!', v:'5,912',   c:'+0.21%', u:true },
-  {s:'YM1!', v:'42,160',  c:'+0.18%', u:true },
-  {s:'GC1!', v:'3,312',   c:'+1.14%', u:true },
-  {s:'SI1!', v:'31.88',   c:'+0.66%', u:true },
-  {s:'CL1!', v:'82.40',   c:'-0.87%', u:false},
-  {s:'ZS1!', v:'1,142',   c:'+0.88%', u:true },
-  {s:'BTC',  v:'93,210',  c:'+2.31%', u:true },
-  {s:'ETH',  v:'3,440',   c:'+1.77%', u:true },
-  {s:'SOL',  v:'172.40',  c:'+3.12%', u:true },
-  {s:'USD/BRL', v:'5.14', c:'-0.41%', u:false},
-  {s:'IBOV', v:'128,770', c:'-0.22%', u:false},
-  {s:'EUR/USD', v:'1.0731',c:'-0.18%',u:false},
-  {s:'KC1!', v:'214.50',  c:'+1.22%', u:true },
-  {s:'VIX',  v:'18.42',   c:'-2.10%', u:false},
-  {s:'6L1!', v:'0.1842',  c:'+0.54%', u:true },
-  {s:'EWZ',  v:'28.90',   c:'+1.20%', u:true },
-  {s:'XLK',  v:'221.30',  c:'+0.88%', u:true },
-  {s:'XLS',  v:'54.70',   c:'+0.33%', u:true },
-  {s:'DXY',  v:'104.21',  c:'-0.32%', u:false},
-  {s:'DJI',  v:'42,160',  c:'+0.18%', u:true }
+  {s:'NQ1!',    v:'21,847',  c:'+0.34%', u:true },
+  {s:'ES1!',    v:'5,912',   c:'+0.21%', u:true },
+  {s:'DOW',     v:'42,160',  c:'+0.18%', u:true },
+  {s:'FTSE',    v:'8,420',   c:'+0.31%', u:true },
+  {s:'DAX',     v:'18,540',  c:'+0.25%', u:true },
+  {s:'NIKKEI',  v:'38,920',  c:'+0.42%', u:true },
+  {s:'IBOV',    v:'128,770', c:'-0.22%', u:false},
+  {s:'VIX',     v:'18.42',   c:'-2.10%', u:false},
+  {s:'GC1!',    v:'3,312',   c:'+1.14%', u:true },
+  {s:'SI1!',    v:'31.88',   c:'+0.66%', u:true },
+  {s:'PETRÓLEO',v:'82.40',   c:'-0.87%', u:false},
+  {s:'GÁS NAT.',v:'2.84',    c:'+1.20%', u:true },
+  {s:'ZS1!',    v:'1,142',   c:'+0.88%', u:true },
+  {s:'ZC1!',    v:'442',     c:'-0.30%', u:false},
+  {s:'ZW1!',    v:'528',     c:'+0.50%', u:true },
+  {s:'KC1!',    v:'214.50',  c:'+1.22%', u:true },
+  {s:'BTC',     v:'93,210',  c:'+2.31%', u:true },
+  {s:'ETH',     v:'3,440',   c:'+1.77%', u:true },
+  {s:'SOL',     v:'172.40',  c:'+3.12%', u:true },
+  {s:'USD/BRL', v:'5.14',    c:'-0.41%', u:false},
+  {s:'EUR/USD', v:'1.0731',  c:'-0.18%', u:false},
+  {s:'DXY',     v:'104.21',  c:'-0.32%', u:false},
+  {s:'US10Y',   v:'4.41%',   c:'-0.04',  u:false}
 ];
- 
 function buildTicker() {
   const el = document.getElementById('ticker');
   if (!el) return;
@@ -677,80 +679,99 @@ document.getElementById('btnnew').addEventListener('click', () =>
   window.open('https://claude.ai/new?q='+encodeURIComponent('Crie uma análise SMC para o Black Swan News com: ativo, timeframe, OBs, FVGs, direção, entrada, stop e alvos.'),'_blank')
 );
 
-// ── RSS FEEDS por categoria ──
+// ────────────────────────────────────────────────
+// RSS FEEDS — PT-BR primeiro, EN como complemento
+// ────────────────────────────────────────────────
 const RSS_FEEDS = {
-  'Destaques':           ['https://www.infomoney.com.br/feed/', 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml'],
-  'Geopolítica':         ['https://www.bbc.com/portuguese/brasil/index.xml', 'https://feeds.bbci.co.uk/news/world/rss.xml'],
-  'Bancos Centrais':     ['https://www.infomoney.com.br/feed/', 'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml'],
-  'CME · Futuros':       ['https://www.infomoney.com.br/feed/', 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml'],
-  'Commodities':         ['https://www.infomoney.com.br/feed/', 'https://feeds.feedburner.com/oilprice/breaking-news'],
-  'Metais Preciosos':    ['https://www.infomoney.com.br/feed/', 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml'],
-  'Cripto':              ['https://portaldobitcoin.uol.com.br/feed/', 'https://feeds.feedburner.com/CoinDesk'],
-  'Guerras & Conflitos': ['https://www.bbc.com/portuguese/brasil/index.xml', 'https://feeds.bbci.co.uk/news/world/rss.xml'],
-  'Saúde Global':        ['https://feeds.folha.uol.com.br/equilibrioesaude/rss091.xml', 'https://feeds.bbci.co.uk/news/health/rss.xml'],
+  'Destaques': [
+    { url: 'https://g1.globo.com/rss/g1/economia/',                         source: 'G1 Economia',   lang: 'BR' },
+    { url: 'https://www.infomoney.com.br/feed/',                             source: 'InfoMoney',     lang: 'BR' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',     source: 'Reuters',       lang: 'EN' },
+  ],
+  'Geopolítica': [
+    { url: 'https://www.bbc.com/portuguese/index.xml',                       source: 'BBC Brasil',    lang: 'BR' },
+    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',                   source: 'BBC World',     lang: 'EN' },
+  ],
+  'Bancos Centrais': [
+    { url: 'https://www.infomoney.com.br/feed/',                             source: 'InfoMoney',     lang: 'BR' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',      source: 'NYT Economy',   lang: 'EN' },
+  ],
+  'CME · Futuros': [
+    { url: 'https://www.infomoney.com.br/feed/',                             source: 'InfoMoney',     lang: 'BR' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',     source: 'Reuters',       lang: 'EN' },
+  ],
+  'Commodities': [
+    { url: 'https://www.infomoney.com.br/feed/',                             source: 'InfoMoney',     lang: 'BR' },
+    { url: 'https://feeds.feedburner.com/oilprice/breaking-news',           source: 'OilPrice',      lang: 'EN' },
+  ],
+  'Metais Preciosos': [
+    { url: 'https://www.infomoney.com.br/feed/',                             source: 'InfoMoney',     lang: 'BR' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',     source: 'Reuters',       lang: 'EN' },
+  ],
+  'Cripto': [
+    { url: 'https://www.livecoins.com.br/feed/',                             source: 'Livecoins',     lang: 'BR' },
+    { url: 'https://feeds.feedburner.com/CoinDesk',                         source: 'CoinDesk',      lang: 'EN' },
+  ],
+  'Guerras & Conflitos': [
+    { url: 'https://www.bbc.com/portuguese/index.xml',                       source: 'BBC Brasil',    lang: 'BR' },
+    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',                   source: 'BBC World',     lang: 'EN' },
+  ],
+  'Saúde Global': [
+    { url: 'https://g1.globo.com/rss/g1/ciencia-e-saude/',                  source: 'G1 Saúde',      lang: 'BR' },
+    { url: 'https://feeds.bbci.co.uk/news/health/rss.xml',                  source: 'BBC Health',    lang: 'EN' },
+  ],
 };
 
-// ── Identifica se URL é PT-BR ──
-const PT_DOMAINS = ['infomoney','folha','bbc.com/portuguese','canalrural','portaldobitcoin','livecoins'];
-function isPT(url) { return PT_DOMAINS.some(d => url.includes(d)); }
-
-// ── Nome da fonte pela URL ──
-function sourceName(url) {
-  if (!url) return 'Internacional';
-  if (url.includes('infomoney'))        return 'InfoMoney';
-  if (url.includes('folha'))            return 'Folha de S.Paulo';
-  if (url.includes('bbc.com/portug'))   return 'BBC Brasil';
-  if (url.includes('canalrural'))       return 'Canal Rural';
-  if (url.includes('portaldobitcoin'))  return 'Portal do Bitcoin';
-  if (url.includes('livecoins'))        return 'LiveCoins';
-  if (url.includes('oilprice'))         return 'OilPrice';
-  if (url.includes('coindesk'))         return 'CoinDesk';
-  if (url.includes('nytimes'))          return 'Reuters/NYT';
-  if (url.includes('bbci.co.uk'))       return 'BBC World';
-  return 'Internacional';
-}
-  
 const PROXY = 'https://blackswan-proxy.j-ubyfol.workers.dev';
 
-// ── Busca RSS com PT primeiro, EN depois ──
-async function fetchRSS(category) {
-  const feedList = RSS_FEEDS[category];
-  if (!feedList || !feedList.length) return [];
-
-  const ptItems = [];
-  const enItems = [];
-
-  for (const feedUrl of feedList) {
-    try {
-      const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedUrl)}`);
-      if (!res.ok) continue;
-      const buffer = await res.arrayBuffer();
-      const xml = new TextDecoder('utf-8').decode(buffer);
-      if (!xml.includes('<item>')) continue;
-      const doc = new DOMParser().parseFromString(xml, 'application/xml');
-      const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
-      if (!items.length) continue;
-
-      const parsed = items.map(item => ({
-        title:  item.querySelector('title')?.textContent?.trim() || '',
-        desc:   item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,120) || '',
-        url:    item.querySelector('link')?.textContent?.trim() || '#',
-        time:   timeAgo(item.querySelector('pubDate')?.textContent?.trim() || ''),
-        source: sourceName(feedUrl),
-        lang:   isPT(feedUrl) ? 'pt' : 'en'
-      })).filter(a => a.title);
-
-      if (isPT(feedUrl)) ptItems.push(...parsed);
-      else enItems.push(...parsed);
-
-    } catch(e) {
-      console.warn('Feed falhou:', feedUrl, e.message);
-    }
-  }
-
-  return [...ptItems, ...enItems].slice(0, 12);
+// Busca um único feed RSS
+async function fetchOneFeed(feedObj) {
+  const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedObj.url)}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const xml = await res.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xml, 'application/xml');
+  const items = Array.from(doc.querySelectorAll('item')).slice(0, 5);
+  return items.map(item => {
+    const title = item.querySelector('title')?.textContent?.trim() || '';
+    const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,130) || '';
+    const url   = item.querySelector('link')?.textContent?.trim() || '#';
+    const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
+    return { title, desc, url, time: pub ? timeAgo(pub) : 'recente', source: feedObj.source, lang: feedObj.lang };
+  }).filter(a => a.title);
 }
-  
+
+// Busca todos os feeds de uma categoria em paralelo
+async function fetchAllFeeds(category) {
+  const feeds = RSS_FEEDS[category];
+  if (!feeds) return [];
+
+  const results = await Promise.allSettled(feeds.map(f => fetchOneFeed(f)));
+
+  // BR primeiro, EN depois — dentro de cada grupo ordenado por feed
+  const brArticles = [];
+  const enArticles = [];
+
+  results.forEach((r, i) => {
+    if (r.status === 'fulfilled') {
+      const lang = feeds[i].lang;
+      if (lang === 'BR') brArticles.push(...r.value);
+      else               enArticles.push(...r.value);
+    }
+  });
+
+  // Remove duplicatas por título (primeiras palavras)
+  const seen = new Set();
+  const dedup = (arr) => arr.filter(a => {
+    const key = a.title.slice(0, 40).toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  return [...dedup(brArticles), ...dedup(enArticles)];
+}
+
 function timeAgo(pubDate) {
   try {
     const diff = Date.now() - new Date(pubDate).getTime();
@@ -783,12 +804,26 @@ function render(articles, category) {
       </div>`;
     return;
   }
-  let html = `<div class="slabel">${category} · ${articles.length} notícias · <span style="color:var(--green);">● RSS</span></div>`;
+
+  const brCount = articles.filter(a => a.lang === 'BR').length;
+  const enCount = articles.filter(a => a.lang === 'EN').length;
+  const sourceLabel = `${brCount} BR · ${enCount} EN · ${articles.length} total`;
+
+  let html = `<div class="slabel">${category} · <span style="color:var(--green);">● ${sourceLabel}</span></div>`;
+
+  let shownDivider = false;
   articles.forEach(a => {
+    // Divisor visual entre notícias BR e EN
+    if (!shownDivider && a.lang === 'EN' && brCount > 0) {
+      html += `<div class="feed-divider">Internacional · Inglês →</div>`;
+      shownDivider = true;
+    }
     const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
+    const badgeClass = a.lang === 'BR' ? 'bbr' : 'bh';
+    const flagIcon = a.lang === 'BR' ? '🇧🇷 ' : '🌐 ';
     html += `
       <article class="lead" onclick="window.open('${safeUrl}','_blank')">
-        <span class="badge bh">● ${a.source||'Internacional'}</span>
+        <span class="badge ${badgeClass}">${flagIcon}${a.source||'Internacional'}</span>
         <h2>${a.title||'Sem título'}</h2>
         ${a.desc ? `<p>${a.desc}...</p>` : ''}
         <div class="meta">
@@ -798,16 +833,15 @@ function render(articles, category) {
   });
   feed.innerHTML = html;
 }
-  
+
 async function loadNews(q) {
-  if (q === 'CME · Futuros') { loadCMENews(); return; }
   if (q==='📈 Gráficos' || q==='🌾 Agronegócio' || q==='Análises SMC') return;
   if (newsCache[q]) { render(newsCache[q], q); return; }
 
   showSkeleton(q);
 
   try {
-    const articles = await fetchRSS(q);
+    const articles = await fetchAllFeeds(q);
     if (!articles.length) throw new Error('Nenhuma notícia encontrada');
     newsCache[q] = articles;
     if (cat === q) render(articles, q);
@@ -825,6 +859,7 @@ async function loadNews(q) {
   }
 }
 
+// ── CME Panel ──
 function renderCMEPanel() {
   const feed = document.getElementById('feed');
   if (!feed) return;
@@ -842,22 +877,30 @@ function renderCMEPanel() {
       ${Array(4).fill('<div class="skel w90"></div><div class="skel w70 h8" style="margin-top:6px;margin-bottom:14px;"></div>').join('')}
     </div>`;
 }
-  
+
 async function loadCMENews() {
   renderCMEPanel();
   try {
-    const articles = await fetchRSS('CME · Futuros');
+    const articles = await fetchAllFeeds('CME · Futuros');
     newsCache['CME · Futuros'] = articles;
     const body = document.getElementById('cme-news-body');
     if (!body || !articles.length) throw new Error('Sem notícias');
     let h = '';
+    let shownDivider = false;
+    const brCount = articles.filter(a => a.lang === 'BR').length;
     articles.forEach(a => {
+      if (!shownDivider && a.lang === 'EN' && brCount > 0) {
+        h += `<div class="feed-divider">Internacional · Inglês →</div>`;
+        shownDivider = true;
+      }
       const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
+      const badgeClass = a.lang === 'BR' ? 'bbr' : 'bh';
+      const flagIcon = a.lang === 'BR' ? '🇧🇷 ' : '🌐 ';
       h += `<article class="lead" onclick="window.open('${safeUrl}','_blank')">
-        <span class="badge bh">● CME · FUTUROS</span>
+        <span class="badge ${badgeClass}">${flagIcon}${a.source}</span>
         <h2>${a.title||''}</h2>
         ${a.desc?`<p>${a.desc}...</p>`:''}
-        <div class="meta"><span>${a.source||'Reuters'} · ${a.time||'recente'}</span></div>
+        <div class="meta"><span>${a.source} · ${a.time||'recente'}</span></div>
       </article>`;
     });
     body.innerHTML = h;
@@ -867,6 +910,7 @@ async function loadCMENews() {
   }
 }
 
+// ── AGRO NEWS ──
 async function loadAgroNews() {
   const statusEl = document.getElementById('agro-news-status');
   const grid = document.getElementById('agro-news-grid');
@@ -887,42 +931,30 @@ async function loadAgroNews() {
     </div>`
   ).join('');
 
-try {
-    const agroFeeds = [
-      'https://www.canalrural.com.br/feed/',
-      'https://www.grupocultivar.com.br/feed/',
-      'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-    ];
+  // Tenta fontes agro BR primeiro, depois fallback EN
+  const agroFeeds = [
+    { url: 'https://g1.globo.com/rss/g1/economia/',     source: 'G1 Economia', lang: 'BR', tag: 'MERCADO' },
+    { url: 'https://www.infomoney.com.br/feed/',         source: 'InfoMoney',   lang: 'BR', tag: 'MERCADO' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml', source: 'Reuters', lang: 'EN', tag: 'GLOBAL' },
+  ];
 
-    const allAgro = await Promise.allSettled(
-      agroFeeds.map(f => fetch(`${PROXY}?rss=${encodeURIComponent(f)}`).then(r => r.arrayBuffer()).then(b => new TextDecoder('utf-8').decode(b)))
-    );
-
+  try {
+    const allResults = await Promise.allSettled(agroFeeds.map(f => fetchOneFeed(f)));
     const news = [];
-    allAgro.forEach((r, i) => {
-      if (r.status !== 'fulfilled') return;
-      const doc = new DOMParser().parseFromString(r.value, 'application/xml');
-      const items = Array.from(doc.querySelectorAll('item')).slice(0, 4);
-      const isPT = agroFeeds[i].includes('canalrural') || agroFeeds[i].includes('cultivar');
-      items.forEach(item => {
-        const title = item.querySelector('title')?.textContent?.trim() || '';
-        const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,100) || '';
-        const url   = item.querySelector('link')?.textContent?.trim() || '#';
-        const time  = timeAgo(item.querySelector('pubDate')?.textContent || '');
-        if (title) news.push({
-          title, desc, url, time,
-          tag:    isPT ? 'GRÃOS' : 'MERCADO',
-          source: isPT ? (agroFeeds[i].includes('canalrural') ? 'Canal Rural' : 'Cultivar') : 'Reuters'
+    allResults.forEach((r, i) => {
+      if (r.status === 'fulfilled') {
+        r.value.slice(0, 3).forEach(a => {
+          news.push({ ...a, tag: agroFeeds[i].tag });
         });
-      });
+      }
     });
 
     if (!news.length) throw new Error('Sem notícias');
     newsCache['_agro'] = news;
     renderAgroNews(news);
-    if (statusEl) statusEl.textContent = news.length + ' notícias · Canal Rural · Reuters';
+    if (statusEl) statusEl.textContent = news.length + ' notícias · G1 · InfoMoney · Reuters';
     loadAgroVideos();
-} catch(e) {
+  } catch(e) {
     if (statusEl) statusEl.textContent = 'Erro · ' + e.message.slice(0,30);
     grid.innerHTML = `<div class="agro-news-card">
       <div class="agro-news-tag ant-soja">AGRO</div>
@@ -938,13 +970,14 @@ function renderAgroNews(news) {
   if (!grid) return;
   const TAG_CLASS = {
     'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia',
-    'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra'
+    'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra','GLOBAL':'ant-carne'
   };
   grid.innerHTML = news.slice(0,6).map(n => {
     const tagClass = TAG_CLASS[n.tag] || 'ant-soja';
     const safeUrl = (n.url||'#').replace(/"/g,'&quot;');
+    const flag = n.lang === 'BR' ? '🇧🇷 ' : '🌐 ';
     return `<div class="agro-news-card" onclick="window.open('${safeUrl}','_blank')">
-      <div class="agro-news-tag ${tagClass}">${n.tag||'AGRO'}</div>
+      <div class="agro-news-tag ${tagClass}">${flag}${n.tag||'AGRO'}</div>
       <div class="agro-news-title">${n.title||''}</div>
       <div class="agro-news-desc">${n.desc||''}</div>
       <div class="agro-news-meta"><span>${n.source||'Reuters'}</span><span>${n.time||'agora'}</span></div>
@@ -952,6 +985,7 @@ function renderAgroNews(news) {
   }).join('');
 }
 
+// ── AGRO VIDEOS ──
 async function loadAgroVideos() {
   const grid = document.getElementById('agro-vgrid');
   if (!grid) return;
@@ -1001,7 +1035,7 @@ async function loadAgroVideos() {
     </div>`
   ).join('');
 }
-  
+
 // ── CHARTS ──
 const CHARTS = {
   indices:`<div class="chart-grid">
@@ -1084,7 +1118,6 @@ function showAgroCharts(evt, tipo) {
 }
 
 // ── VIDEOS ──
-// ── VÍDEOS — carregados via RSS do YouTube automaticamente ──
 const YT_CHANNELS = [
   { id:'UCkyLJh6hQS1TlhUZxOMjTFg', name:'Kitco News',   cat:'kitco'      },
   { id:'UCIALMKvObZNtJ6AmdCLP_xA', name:'Bloomberg',     cat:'bloomberg'  },
@@ -1104,7 +1137,6 @@ async function loadYouTubeVideos() {
   if (vgrid) vgrid.innerHTML = '<p style="color:var(--t4);font-size:12px;padding:14px 0;">Carregando vídeos...</p>';
 
   const results = [];
-
   await Promise.allSettled(
     YT_CHANNELS.map(async ch => {
       try {
@@ -1138,23 +1170,18 @@ async function loadYouTubeVideos() {
 function buildVideos(filter) {
   const grid = document.getElementById('vgrid');
   if (!grid) return;
-
   const source = ALL_VIDEOS.length ? ALL_VIDEOS : [];
-
   if (!source.length) {
     grid.innerHTML = '<p style="color:var(--t4);font-size:12px;padding:14px 0;">Carregando vídeos... aguarde.</p>';
     return;
   }
-
   const filtered = filter === 'todos' ? source
     : filter === 'live' ? source.filter(v => v.live)
     : source.filter(v => v.cat === filter);
-
   if (!filtered.length) {
     grid.innerHTML = '<p style="color:var(--t4);font-size:12px;padding:14px 0;">Nenhum vídeo nesta categoria.</p>';
     return;
   }
-
   grid.innerHTML = filtered.map(v =>
     `<div class="vcard" onclick="openVideo('${v.id}','${v.title.replace(/'/g,"\\'")}')">
       <div class="vthumb">
@@ -1213,8 +1240,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadYouTubeVideos();
   loadNews('Destaques');
 
-  // Auto-refresh: a cada 30min, só a aba ativa
-setInterval(() => {
+  setInterval(() => {
     if (!['📈 Gráficos','Análises SMC'].includes(cat)) {
       if (cat === '🌾 Agronegócio') {
         delete newsCache['_agro'];
