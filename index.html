@@ -710,7 +710,8 @@ async function fetchRSS(category) {
     try {
       const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedUrl)}`);
       if (!res.ok) continue;
-      const xml = await res.text();
+      const buffer = await res.arrayBuffer();
+      const xml = new TextDecoder('utf-8').decode(buffer);
       if (!xml.includes('<item>')) continue;
       const doc = new DOMParser().parseFromString(xml, 'application/xml');
       const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
