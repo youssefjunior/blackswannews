@@ -920,7 +920,6 @@ try {
     renderAgroNews(news);
     if (statusEl) statusEl.textContent = news.length + ' notícias · Canal Rural · Reuters';
     loadAgroVideos();
-  } 
 } catch(e) {
     if (statusEl) statusEl.textContent = 'Erro · ' + e.message.slice(0,30);
     grid.innerHTML = `<div class="agro-news-card">
