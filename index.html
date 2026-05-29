@@ -665,78 +665,57 @@ document.getElementById('btnnew').addEventListener('click', () =>
 
 // ── RSS FEEDS por categoria ──
 const RSS_FEEDS = {
-  'Destaques': [
-    'https://www.infomoney.com.br/feed/',
-    'https://feeds.folha.uol.com.br/mercado/rss091.xml',
-    'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-  ],
-  'Geopolítica': [
-    'https://www.bbc.com/portuguese/brasil/index.xml',
-    'https://www.bbc.com/portuguese/topicos/brasil/index.xml',
-    'https://feeds.bbci.co.uk/news/world/rss.xml',
-  ],
-  'Bancos Centrais': [
-    'https://feeds.folha.uol.com.br/mercado/rss091.xml',
-    'https://www.infomoney.com.br/feed/',
-    'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',
-  ],
-  'CME · Futuros': [
-    'https://www.infomoney.com.br/feed/',
-    'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-  ],
-  'Commodities': [
-    'https://www.canalrural.com.br/feed/',
-    'https://feeds.feedburner.com/oilprice/breaking-news',
-  ],
-  'Metais Preciosos': [
-    'https://www.infomoney.com.br/feed/',
-    'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
-  ],
-  'Cripto': [
-    'https://portaldobitcoin.uol.com.br/feed/',
-    'https://livecoins.com.br/feed/',
-    'https://feeds.feedburner.com/CoinDesk',
-  ],
-  'Guerras & Conflitos': [
-    'https://www.bbc.com/portuguese/brasil/index.xml',
-    'https://feeds.bbci.co.uk/news/world/rss.xml',
-  ],
-  'Saúde Global': [
-    'https://feeds.folha.uol.com.br/equilibrioesaude/rss091.xml',
-    'https://feeds.bbci.co.uk/news/health/rss.xml',
-  ],
+  'Destaques':           ['https://www.infomoney.com.br/feed/', 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml'],
+  'Geopolítica':         ['https://www.bbc.com/portuguese/brasil/index.xml', 'https://feeds.bbci.co.uk/news/world/rss.xml'],
+  'Bancos Centrais':     ['https://www.infomoney.com.br/feed/', 'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml'],
+  'CME · Futuros':       ['https://www.infomoney.com.br/feed/', 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml'],
+  'Commodities':         ['https://www.infomoney.com.br/feed/', 'https://feeds.feedburner.com/oilprice/breaking-news'],
+  'Metais Preciosos':    ['https://www.infomoney.com.br/feed/', 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml'],
+  'Cripto':              ['https://portaldobitcoin.uol.com.br/feed/', 'https://feeds.feedburner.com/CoinDesk'],
+  'Guerras & Conflitos': ['https://www.bbc.com/portuguese/brasil/index.xml', 'https://feeds.bbci.co.uk/news/world/rss.xml'],
+  'Saúde Global':        ['https://feeds.folha.uol.com.br/equilibrioesaude/rss091.xml', 'https://feeds.bbci.co.uk/news/health/rss.xml'],
 };
+
+// ── Identifica se URL é PT-BR ──
+const PT_DOMAINS = ['infomoney','folha','bbc.com/portuguese','canalrural','portaldobitcoin','livecoins'];
+function isPT(url) { return PT_DOMAINS.some(d => url.includes(d)); }
+
+// ── Nome da fonte pela URL ──
+function sourceName(url) {
+  if (!url) return 'Internacional';
+  if (url.includes('infomoney'))        return 'InfoMoney';
+  if (url.includes('folha'))            return 'Folha de S.Paulo';
+  if (url.includes('bbc.com/portug'))   return 'BBC Brasil';
+  if (url.includes('canalrural'))       return 'Canal Rural';
+  if (url.includes('portaldobitcoin'))  return 'Portal do Bitcoin';
+  if (url.includes('livecoins'))        return 'LiveCoins';
+  if (url.includes('oilprice'))         return 'OilPrice';
+  if (url.includes('coindesk'))         return 'CoinDesk';
+  if (url.includes('nytimes'))          return 'Reuters/NYT';
+  if (url.includes('bbci.co.uk'))       return 'BBC World';
+  return 'Internacional';
+}
   
 const PROXY = 'https://blackswan-proxy.j-ubyfol.workers.dev';
 
-// ── BUSCA RSS via Worker ──
+// ── Busca RSS com PT primeiro, EN depois ──
 async function fetchRSS(category) {
   const feedList = RSS_FEEDS[category];
   if (!feedList || !feedList.length) return [];
 
-  const PT_DOMAINS = [
-    'infomoney','folha','bbc.com/portuguese','canalrural',
-    'portaldobitcoin','livecoins'
-  ];
-
-  function isPT(url) {
-    return PT_DOMAINS.some(d => url.includes(d));
-  }
-
   const ptItems = [];
   const enItems = [];
 
-  // Tenta cada feed individualmente — se falhar, ignora e continua
   for (const feedUrl of feedList) {
     try {
       const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedUrl)}`);
       if (!res.ok) continue;
       const xml = await res.text();
-      // Checa se retornou XML válido
-      if (!xml.includes('<item>') && !xml.includes('<entry>')) continue;
+      if (!xml.includes('<item>')) continue;
       const doc = new DOMParser().parseFromString(xml, 'application/xml');
       const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
       if (!items.length) continue;
+
       const parsed = items.map(item => ({
         title:  item.querySelector('title')?.textContent?.trim() || '',
         desc:   item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,120) || '',
@@ -751,13 +730,12 @@ async function fetchRSS(category) {
 
     } catch(e) {
       console.warn('Feed falhou:', feedUrl, e.message);
-      // Continua para o próximo feed
     }
   }
 
-  // PT primeiro, EN depois — garante pelo menos os ingleses se PT falhar
   return [...ptItems, ...enItems].slice(0, 12);
 }
+  
 function sourceName(url) {
   if (url.includes('infomoney'))       return 'InfoMoney';
   if (url.includes('folha'))           return 'Folha de S.Paulo';
