@@ -906,32 +906,43 @@ async function loadAgroNews() {
     </div>`
   ).join('');
 
-  try {
-    const res = await fetch(`${PROXY}?rss=${encodeURIComponent('https://rss.nytimes.com/services/xml/rss/nyt/Business.xml')}`);
-    const xml = await res.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xml, 'application/xml');
-    const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
+try {
+    const agroFeeds = [
+      'https://www.canalrural.com.br/feed/',
+      'https://www.grupocultivar.com.br/feed/',
+      'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',
+    ];
 
-    const news = items.map(item => ({
-      title: item.querySelector('title')?.textContent?.trim() || '',
-      desc:  item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,100) || '',
-      url:   item.querySelector('link')?.textContent?.trim() || '#',
-      time:  timeAgo(item.querySelector('pubDate')?.textContent || ''),
-      tag:   'MERCADO',
-      source:'Reuters'
-    })).filter(a => a.title);
+    const allAgro = await Promise.allSettled(
+      agroFeeds.map(f => fetch(`${PROXY}?rss=${encodeURIComponent(f)}`).then(r => r.text()))
+    );
+
+    const news = [];
+    allAgro.forEach((r, i) => {
+      if (r.status !== 'fulfilled') return;
+      const doc = new DOMParser().parseFromString(r.value, 'application/xml');
+      const items = Array.from(doc.querySelectorAll('item')).slice(0, 4);
+      const isPT = agroFeeds[i].includes('canalrural') || agroFeeds[i].includes('cultivar');
+      items.forEach(item => {
+        const title = item.querySelector('title')?.textContent?.trim() || '';
+        const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,100) || '';
+        const url   = item.querySelector('link')?.textContent?.trim() || '#';
+        const time  = timeAgo(item.querySelector('pubDate')?.textContent || '');
+        if (title) news.push({
+          title, desc, url, time,
+          tag:    isPT ? 'GRÃOS' : 'MERCADO',
+          source: isPT ? (agroFeeds[i].includes('canalrural') ? 'Canal Rural' : 'Cultivar') : 'Reuters'
+        });
+      });
+    });
 
     if (!news.length) throw new Error('Sem notícias');
     newsCache['_agro'] = news;
     renderAgroNews(news);
-    if (statusEl) statusEl.textContent = news.length + ' notícias · RSS · Reuters';
- if (!news.length) throw new Error('Sem notícias');
-    newsCache['_agro'] = news;
-    renderAgroNews(news);
-    if (statusEl) statusEl.textContent = news.length + ' notícias · RSS · Reuters';
-    loadAgroVideos();   // ← DEVE FICAR AQUI, após sucesso
-  } catch(e) {
+    if (statusEl) statusEl.textContent = news.length + ' notícias · Canal Rural · Reuters';
+    loadAgroVideos();
+  } 
+} catch(e) {
     if (statusEl) statusEl.textContent = 'Erro · ' + e.message.slice(0,30);
     grid.innerHTML = `<div class="agro-news-card">
       <div class="agro-news-tag ant-soja">AGRO</div>
