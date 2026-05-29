@@ -783,6 +783,24 @@ async function loadNews(q) {
   }
 }
 
+function renderCMEPanel() {
+  const feed = document.getElementById('feed');
+  if (!feed) return;
+  feed.innerHTML = `
+    <div class="slabel">CME · Futuros · <span style="color:var(--green);">● RSS buscando...</span></div>
+    <div style="background:#1a0a00;border:.5px solid #3a1a00;border-radius:4px;padding:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-family:'Space Mono',monospace;margin-bottom:3px;">● CME GROUP</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--t1);">CME Group — Futuros &amp; Notícias</div>
+        <div style="font-size:10px;color:var(--t3);">NQ1! · ES1! · YM1! · GC1! · CL1!</div>
+      </div>
+      <a href="https://www.cmegroup.com" target="_blank" style="background:var(--red);color:#fff;padding:9px 14px;border-radius:3px;font-size:9px;font-weight:700;text-decoration:none;white-space:nowrap;font-family:'Space Mono',monospace;">CME.com ↗</a>
+    </div>
+    <div id="cme-news-body">
+      ${Array(4).fill('<div class="skel w90"></div><div class="skel w70 h8" style="margin-top:6px;margin-bottom:14px;"></div>').join('')}
+    </div>`;
+}
+  
 async function loadCMENews() {
   renderCMEPanel();
   try {
