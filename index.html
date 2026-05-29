@@ -1016,13 +1016,35 @@ async function loadYouTubeVideos() {
 function buildVideos(filter) {
   const grid = document.getElementById('vgrid');
   if (!grid) return;
-  const filtered = filter==='todos' ? VIDEOS : filter==='live' ? VIDEOS.filter(v=>v.live) : VIDEOS.filter(v=>v.cat===filter);
-  if (!filtered.length) { grid.innerHTML='<p style="color:var(--t4);font-size:12px;padding:14px 0;">Nenhum vídeo.</p>'; return; }
+
+  const source = ALL_VIDEOS.length ? ALL_VIDEOS : [];
+
+  if (!source.length) {
+    grid.innerHTML = '<p style="color:var(--t4);font-size:12px;padding:14px 0;">Carregando vídeos... aguarde.</p>';
+    return;
+  }
+
+  const filtered = filter === 'todos' ? source
+    : filter === 'live' ? source.filter(v => v.live)
+    : source.filter(v => v.cat === filter);
+
+  if (!filtered.length) {
+    grid.innerHTML = '<p style="color:var(--t4);font-size:12px;padding:14px 0;">Nenhum vídeo nesta categoria.</p>';
+    return;
+  }
+
   grid.innerHTML = filtered.map(v =>
     `<div class="vcard" onclick="openVideo('${v.id}','${v.title.replace(/'/g,"\\'")}')">
-      <div class="vthumb"><img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy" onerror="this.parentElement.style.background='#1a1a1a'"/>
-      <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div></div>
-      <div class="vinfo">${v.live?'<div class="vlive">● AO VIVO</div>':''}<div class="vtit">${v.title}</div><div class="vmeta">${v.canal} · ${v.meta}</div></div>
+      <div class="vthumb">
+        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy"
+          onerror="this.parentElement.style.background='#1a1a1a'"/>
+        <div class="vthumb-overlay"><div class="pbtn"><div class="ptri"></div></div></div>
+      </div>
+      <div class="vinfo">
+        ${v.live ? '<div class="vlive">● AO VIVO</div>' : ''}
+        <div class="vtit">${v.title}</div>
+        <div class="vmeta">${v.canal} · ${v.meta}</div>
+      </div>
     </div>`
   ).join('');
 }
