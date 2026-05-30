@@ -1056,8 +1056,8 @@ async function loadAgroNews() {
     if (!news.length) throw new Error('Sem notícias');
     newsCache['_agro'] = news;
     renderAgroNews(news);
-    if (statusEl) statusEl.textContent = news.length + ' notícias · G1 · InfoMoney · Reuters';
-    loadAgroVideos();
+   if (statusEl) statusEl.textContent = news.length + ' notícias · Canal Rural · Not. Agrícolas · Reuters';
+   loadAgroVideos();
   } catch(e) {
     if (statusEl) statusEl.textContent = 'Erro · ' + e.message.slice(0,30);
     grid.innerHTML = `<div class="agro-news-card">
