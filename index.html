@@ -1034,12 +1034,13 @@ async function loadAgroNews() {
     </div>`
   ).join('');
 
-  // Tenta fontes agro BR primeiro, depois fallback EN
   const agroFeeds = [
-    { url: 'https://g1.globo.com/rss/g1/economia/',     source: 'G1 Economia', lang: 'BR', tag: 'MERCADO' },
-    { url: 'https://www.infomoney.com.br/feed/',         source: 'InfoMoney',   lang: 'BR', tag: 'MERCADO' },
-    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml', source: 'Reuters', lang: 'EN', tag: 'GLOBAL' },
-  ];
+  { url: 'https://www.canalrural.com.br/feed/',                                        source: 'Canal Rural',   lang: 'BR', tag: 'GRÃOS'   },
+  { url: 'https://www.noticiasagricolas.com.br/rss/noticias.rss',                      source: 'Not. Agrícolas',lang: 'BR', tag: 'GRÃOS'   },
+  { url: 'https://www.scotconsultoria.com.br/rss/noticias.rss',                        source: 'Scot Consult.', lang: 'BR', tag: 'PROTEÍNA' },
+  { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                        source: 'OilPrice',      lang: 'EN', tag: 'ENERGIA'  },
+  { url: 'https://www.reuters.com/rssFeed/commoditiesNews',                            source: 'Reuters Agro',  lang: 'EN', tag: 'GLOBAL'   },
+];
 
   try {
     const allResults = await Promise.allSettled(agroFeeds.map(f => fetchOneFeed(f)));
