@@ -141,11 +141,11 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .agro-panel-badge{font-size:7px;padding:2px 5px;border-radius:2px;font-family:'Space Mono',monospace;font-weight:700;letter-spacing:1px;}
 .apb-grain{background:#1a2a08;color:#86efac;}.apb-protein{background:#1a1a0a;color:#fbbf24;}.apb-energy{background:#0a0a1a;color:#7dd3fc;}.apb-insumo{background:#1a0a1a;color:#e879f9;}.apb-clima{background:#0a1520;color:#93c5fd;}
 .agro-panel-body{padding:10px 11px;}
-.agro-stat{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:.5px solid #111a08;}
+.agro-stat{display:flex;align-items:center;padding:5px 0;border-bottom:.5px solid #111a08;gap:4px;}
 .agro-stat:last-child{border-bottom:none;}
-.agro-stat-name{font-size:10px;color:#8aaa78;font-weight:500;}
-.agro-stat-val{font-family:'Space Mono',monospace;font-size:10px;color:#c8e8b0;font-weight:700;}
-.agro-stat-chg{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;}
+.agro-stat-name{font-size:10px;color:#8aaa78;font-weight:500;flex:1;min-width:0;}
+.agro-stat-val{font-family:'Space Mono',monospace;font-size:10px;color:#c8e8b0;font-weight:700;width:90px;text-align:right;flex-shrink:0;}
+.agro-stat-chg{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;width:68px;text-align:right;flex-shrink:0;}
 .agro-stat-chg.up{color:#4ade80;}
 .agro-stat-chg.dn{color:#f87171;}
 .agro-charts{margin-bottom:14px;}
