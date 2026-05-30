@@ -1086,7 +1086,7 @@ function renderAgroNews(news) {
   const grid = document.getElementById('agro-news-grid');
   if (!grid) return;
   const TAG_CLASS = {
-    'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia',
+    'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia','FEIJÃO':'ant-feijao'
     'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra','GLOBAL':'ant-carne'
   };
   grid.innerHTML = news.slice(0,6).map(n => {
