@@ -566,8 +566,8 @@ const FINNHUB_MAP = [
   { s:'NQ1!',     sym:'QQQ',              type:'stock'  }, // Nasdaq 100 ETF
   { s:'ES1!',     sym:'SPY',              type:'stock'  }, // S&P 500 ETF
   { s:'DOW',      sym:'DIA',              type:'stock'  }, // Dow Jones ETF
-  { s:'FTSE',     sym:'ISF.L',            type:'stock'  }, // FTSE ETF (London)
-  { s:'DAX',      sym:'EXS1.DE',          type:'stock'  }, // DAX ETF
+  { s:'FTSE',    sym:'EWU',           type:'stock' }, // ETF iShares UK
+  { s:'DAX',     sym:'EWG',           type:'stock' }, // ETF iShares Germany
   { s:'NIKKEI',   sym:'EWJ',              type:'stock'  }, // Nikkei ETF
   { s:'IBOV',     sym:'EWZ',              type:'stock'  }, // Brasil ETF
   { s:'VIX',      sym:'CBOE:VIX',         type:'stock'  }, // VIX real
@@ -582,8 +582,8 @@ const FINNHUB_MAP = [
   { s:'BTC',      sym:'BINANCE:BTCUSDT',  type:'crypto' }, // Bitcoin
   { s:'ETH',      sym:'BINANCE:ETHUSDT',  type:'crypto' }, // Ethereum
   { s:'SOL',      sym:'BINANCE:SOLUSDT',  type:'crypto' }, // Solana
-  { s:'USD/BRL',  sym:'OANDA:USD_BRL',    type:'forex'  }, // Dólar/Real
-  { s:'EUR/USD',  sym:'OANDA:EUR_USD',    type:'forex'  }, // Euro/Dólar
+  { s:'USD/BRL', sym:'BRL=X',         type:'forex' }, // Yahoo-style via Finnhub
+  { s:'EUR/USD', sym:'EUR=X',         type:'forex' }, // Yahoo-style via Finnhub
   { s:'DXY',      sym:'UUP',              type:'stock'  }, // DXY proxy ETF
   { s:'US10Y',    sym:'TNX',              type:'stock'  }, // Treasury 10Y
 ];
