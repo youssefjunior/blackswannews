@@ -528,41 +528,146 @@ function clock() {
 }
 clock(); setInterval(clock, 30000);
 
-// ── TICKER ──
-const TKS = [
-  {s:'NQ1!',    v:'21,847',  c:'+0.34%', u:true },
-  {s:'ES1!',    v:'5,912',   c:'+0.21%', u:true },
-  {s:'DOW',     v:'42,160',  c:'+0.18%', u:true },
-  {s:'FTSE',    v:'8,420',   c:'+0.31%', u:true },
-  {s:'DAX',     v:'18,540',  c:'+0.25%', u:true },
-  {s:'NIKKEI',  v:'38,920',  c:'+0.42%', u:true },
-  {s:'IBOV',    v:'128,770', c:'-0.22%', u:false},
-  {s:'VIX',     v:'18.42',   c:'-2.10%', u:false},
-  {s:'GC1!',    v:'3,312',   c:'+1.14%', u:true },
-  {s:'SI1!',    v:'31.88',   c:'+0.66%', u:true },
-  {s:'PETRÓLEO',v:'82.40',   c:'-0.87%', u:false},
-  {s:'GÁS NAT.',v:'2.84',    c:'+1.20%', u:true },
-  {s:'ZS1!',    v:'1,142',   c:'+0.88%', u:true },
-  {s:'ZC1!',    v:'442',     c:'-0.30%', u:false},
-  {s:'ZW1!',    v:'528',     c:'+0.50%', u:true },
-  {s:'KC1!',    v:'214.50',  c:'+1.22%', u:true },
-  {s:'BTC',     v:'93,210',  c:'+2.31%', u:true },
-  {s:'ETH',     v:'3,440',   c:'+1.77%', u:true },
-  {s:'SOL',     v:'172.40',  c:'+3.12%', u:true },
-  {s:'USD/BRL', v:'5.14',    c:'-0.41%', u:false},
-  {s:'EUR/USD', v:'1.0731',  c:'-0.18%', u:false},
-  {s:'DXY',     v:'104.21',  c:'-0.32%', u:false},
-  {s:'US10Y',   v:'4.41%',   c:'-0.04',  u:false}
+// ── TICKER ── (substitua o bloco original por este completo)
+// Finnhub API Key — cadastre-se GRÁTIS em https://finnhub.io
+const FINNHUB_KEY = 'd8dclkpr01qub2q06sm0d8dclkpr01qub2q06smg'; // ← troque aqui
+
+// Fallback estático (exibido enquanto API carrega ou sem key)
+const TKS_STATIC = [
+  {s:'NQ1!',     v:'21,847',  c:'+0.34%', u:true },
+  {s:'ES1!',     v:'5,912',   c:'+0.21%', u:true },
+  {s:'DOW',      v:'42,160',  c:'+0.18%', u:true },
+  {s:'FTSE',     v:'8,420',   c:'+0.31%', u:true },
+  {s:'DAX',      v:'18,540',  c:'+0.25%', u:true },
+  {s:'NIKKEI',   v:'38,920',  c:'+0.42%', u:true },
+  {s:'IBOV',     v:'128,770', c:'-0.22%', u:false},
+  {s:'VIX',      v:'18.42',   c:'-2.10%', u:false},
+  {s:'GC1!',     v:'3,312',   c:'+1.14%', u:true },
+  {s:'SI1!',     v:'31.88',   c:'+0.66%', u:true },
+  {s:'PETRÓLEO', v:'82.40',   c:'-0.87%', u:false},
+  {s:'GÁS NAT.', v:'2.84',    c:'+1.20%', u:true },
+  {s:'ZS1!',     v:'1,142',   c:'+0.88%', u:true },
+  {s:'ZC1!',     v:'442',     c:'-0.30%', u:false},
+  {s:'ZW1!',     v:'528',     c:'+0.50%', u:true },
+  {s:'KC1!',     v:'214.50',  c:'+1.22%', u:true },
+  {s:'BTC',      v:'93,210',  c:'+2.31%', u:true },
+  {s:'ETH',      v:'3,440',   c:'+1.77%', u:true },
+  {s:'SOL',      v:'172.40',  c:'+3.12%', u:true },
+  {s:'USD/BRL',  v:'5.14',    c:'-0.41%', u:false},
+  {s:'EUR/USD',  v:'1.0731',  c:'-0.18%', u:false},
+  {s:'DXY',      v:'104.21',  c:'-0.32%', u:false},
+  {s:'US10Y',    v:'4.41%',   c:'-0.04',  u:false},
 ];
-function buildTicker() {
+
+// Mapeamento label → símbolo Finnhub
+// Futuros CME (NQ1!, ES1!, ZS1!...) não existem no free tier
+// → usamos ETFs e proxies equivalentes
+const FINNHUB_MAP = [
+  { s:'NQ1!',     sym:'QQQ',              type:'stock'  }, // Nasdaq 100 ETF
+  { s:'ES1!',     sym:'SPY',              type:'stock'  }, // S&P 500 ETF
+  { s:'DOW',      sym:'DIA',              type:'stock'  }, // Dow Jones ETF
+  { s:'FTSE',     sym:'ISF.L',            type:'stock'  }, // FTSE ETF (London)
+  { s:'DAX',      sym:'EXS1.DE',          type:'stock'  }, // DAX ETF
+  { s:'NIKKEI',   sym:'EWJ',              type:'stock'  }, // Nikkei ETF
+  { s:'IBOV',     sym:'EWZ',              type:'stock'  }, // Brasil ETF
+  { s:'VIX',      sym:'CBOE:VIX',         type:'stock'  }, // VIX real
+  { s:'GC1!',     sym:'GLD',              type:'stock'  }, // Ouro ETF
+  { s:'SI1!',     sym:'SLV',              type:'stock'  }, // Prata ETF
+  { s:'PETRÓLEO', sym:'USO',              type:'stock'  }, // Petróleo ETF
+  { s:'GÁS NAT.', sym:'UNG',              type:'stock'  }, // Gás Natural ETF
+  { s:'ZS1!',     sym:'SOYB',             type:'stock'  }, // Soja ETF
+  { s:'ZC1!',     sym:'CORN',             type:'stock'  }, // Milho ETF
+  { s:'ZW1!',     sym:'WEAT',             type:'stock'  }, // Trigo ETF
+  { s:'KC1!',     sym:'JO',               type:'stock'  }, // Café ETF
+  { s:'BTC',      sym:'BINANCE:BTCUSDT',  type:'crypto' }, // Bitcoin
+  { s:'ETH',      sym:'BINANCE:ETHUSDT',  type:'crypto' }, // Ethereum
+  { s:'SOL',      sym:'BINANCE:SOLUSDT',  type:'crypto' }, // Solana
+  { s:'USD/BRL',  sym:'OANDA:USD_BRL',    type:'forex'  }, // Dólar/Real
+  { s:'EUR/USD',  sym:'OANDA:EUR_USD',    type:'forex'  }, // Euro/Dólar
+  { s:'DXY',      sym:'UUP',              type:'stock'  }, // DXY proxy ETF
+  { s:'US10Y',    sym:'TNX',              type:'stock'  }, // Treasury 10Y
+];
+
+// Cache de cotações ao vivo
+const liveQuotes = {};
+
+// Formata preço
+function fmtPrice(p, type, label) {
+  if (label === 'US10Y') return p.toFixed(2) + '%';
+  if (type === 'forex')  return p.toFixed(4);
+  if (p >= 10000) return p.toLocaleString('en-US', {maximumFractionDigits:0});
+  if (p >= 100)   return p.toFixed(2);
+  return p.toFixed(2);
+}
+
+// Busca cotação individual
+async function fetchOne(item) {
+  try {
+    const url = `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(item.sym)}&token=${FINNHUB_KEY}`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const d = await res.json();
+    if (!d || !d.c || d.c === 0) return null;
+    const up = d.dp >= 0;
+    return {
+      s: item.s,
+      v: fmtPrice(d.c, item.type, item.s),
+      c: (up ? '+' : '') + d.dp.toFixed(2) + '%',
+      u: up,
+    };
+  } catch { return null; }
+}
+
+// Renderiza o ticker no DOM
+function buildTicker(list) {
   const el = document.getElementById('ticker');
   if (!el) return;
-  el.innerHTML = [...TKS,...TKS].map(t =>
+  el.innerHTML = [...list, ...list].map(t =>
     `<span class="tick"><span class="tn">${t.s}</span><span class="tv">${t.v}</span><span class="${t.u?'up':'dn'}">${t.c}</span></span>`
   ).join('');
 }
-buildTicker();
 
+// Busca todas as cotações em lotes (respeita 60 req/min)
+async function refreshTicker() {
+  const BATCH = 8;
+  const DELAY = 1000;
+  const updated = [...TKS_STATIC.map(t => ({...t}))]; // cópia do estático
+
+  for (let i = 0; i < FINNHUB_MAP.length; i += BATCH) {
+    const batch = FINNHUB_MAP.slice(i, i + BATCH);
+    const results = await Promise.allSettled(batch.map(fetchOne));
+
+    results.forEach((r, idx) => {
+      if (r.status === 'fulfilled' && r.value) {
+        liveQuotes[batch[idx].s] = r.value;
+      }
+    });
+
+    // Atualiza com dados ao vivo disponíveis até agora
+    const merged = updated.map(t => liveQuotes[t.s] || t);
+    buildTicker(merged);
+
+    if (i + BATCH < FINNHUB_MAP.length) {
+      await new Promise(res => setTimeout(res, DELAY));
+    }
+  }
+}
+
+// Inicializa ticker
+function buildTicker_init() {
+  buildTicker(TKS_STATIC); // mostra estático imediatamente
+
+  if (FINNHUB_KEY === 'd8dclkpr01qub2q06sm0d8dclkpr01qub2q06smg') {
+    console.warn('[BlackSwan] Adicione sua Finnhub API Key para cotações em tempo real.');
+    return;
+  }
+
+  refreshTicker(); // carrega dados reais
+  setInterval(refreshTicker, 30_000); // atualiza a cada 30s
+}
+
+buildTicker_init();
+  
 // ── MOBILE ──
 const isMobile = () => window.innerWidth <= 768;
 function setupMobSearch() {
