@@ -1052,6 +1052,20 @@ async function loadAgroNews() {
       }
     });
 
+// ── Ibrafe fixo ──
+    news.unshift({
+      title: '📋 Boletim Sô Feijão — Ibrafe',
+      desc:  'Acesse o boletim completo do mercado de feijão no Brasil',
+      url:   'https://www.ibrafe.org/boletim-so-feijao',
+      time:  'atualizado',
+      source:'Ibrafe',
+      lang:  'BR',
+      tag:   'FEIJÃO'
+    });
+
+    if (!news.length) throw new Error('Sem notícias');
+    newsCache['_agro'] = news;
+    
     if (!news.length) throw new Error('Sem notícias');
     newsCache['_agro'] = news;
     renderAgroNews(news);
