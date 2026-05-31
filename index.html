@@ -1103,7 +1103,7 @@ const agroFeeds = [
     const news = [];
     allResults.forEach((r, i) => {
       if (r.status === 'fulfilled') {
-        r.value.slice(0, 3).forEach(a => {
+        r.value.slice(0, 5).forEach(a => {
           news.push({ ...a, tag: agroFeeds[i].tag });
         });
       }
