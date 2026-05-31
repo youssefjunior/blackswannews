@@ -1083,12 +1083,19 @@ async function loadAgroNews() {
     </div>`
   ).join('');
 
-  const agroFeeds = [
-  { url: 'https://www.canalrural.com.br/feed/',                                        source: 'Canal Rural',   lang: 'BR', tag: 'GRÃOS'   },
-  { url: 'https://www.noticiasagricolas.com.br/rss/noticias.rss',                      source: 'Not. Agrícolas',lang: 'BR', tag: 'GRÃOS'   },
-  { url: 'https://www.scotconsultoria.com.br/rss/noticias.rss',                        source: 'Scot Consult.', lang: 'BR', tag: 'PROTEÍNA' },
-  { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                        source: 'OilPrice',      lang: 'EN', tag: 'ENERGIA'  },
-  { url: 'https://www.reuters.com/rssFeed/commoditiesNews',                            source: 'Reuters Agro',  lang: 'EN', tag: 'GLOBAL'   },
+const agroFeeds = [
+  { url: 'https://www.canalrural.com.br/feed/',                                        source: 'Canal Rural',         lang: 'BR', tag: 'GRÃOS'   },
+  { url: 'https://www.canalrural.com.br/feed/noticias/',                               source: 'Canal Rural News',    lang: 'BR', tag: 'MERCADO' },
+  { url: 'https://www.canalrural.com.br/feed/pecuaria/',                               source: 'Canal Rural Pecuária',lang: 'BR', tag: 'PROTEÍNA'},
+  { url: 'https://www.noticiasagricolas.com.br/rss/noticias.rss',                      source: 'Not. Agrícolas',      lang: 'BR', tag: 'GRÃOS'   },
+  { url: 'https://www.noticiasagricolas.com.br/rss/soja.rss',                          source: 'Not. Agrícolas Soja', lang: 'BR', tag: 'GRÃOS'   },
+  { url: 'https://www.noticiasagricolas.com.br/rss/milho.rss',                         source: 'Not. Agrícolas Milho',lang: 'BR', tag: 'GRÃOS'   },
+  { url: 'https://www.noticiasagricolas.com.br/rss/boi-gordo.rss',                     source: 'Not. Agrícolas Boi',  lang: 'BR', tag: 'PROTEÍNA'},
+  { url: 'https://www.agrolink.com.br/rss/noticias',                                   source: 'Agrolink',            lang: 'BR', tag: 'GRÃOS'   },
+  { url: 'https://www.agrolink.com.br/rss/cotacoes',                                   source: 'Agrolink Cotações',   lang: 'BR', tag: 'MERCADO' },
+  { url: 'https://www.scotconsultoria.com.br/rss/noticias.rss',                        source: 'Scot Consult.',       lang: 'BR', tag: 'PROTEÍNA'},
+  { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                        source: 'OilPrice',            lang: 'EN', tag: 'ENERGIA' },
+  { url: 'https://www.reuters.com/rssFeed/commoditiesNews',                            source: 'Reuters Agro',        lang: 'EN', tag: 'GLOBAL'  },
 ];
 
   try {
