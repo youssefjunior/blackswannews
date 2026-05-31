@@ -996,7 +996,7 @@ async function loadCMENews() {
     const brCount = articles.filter(a => a.lang === 'BR').length;
     articles.forEach(a => {
       if (!shownDivider && a.lang === 'EN' && brCount > 0) {
-        h += `<div class="feed-divider">Internacional · Inglês →</div>`;
+        html += `<div class="feed-divider">Notícias Internacionais</div>`;
         shownDivider = true;
       }
       const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
