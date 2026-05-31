@@ -786,48 +786,91 @@ document.getElementById('btnnew').addEventListener('click', () =>
 // ────────────────────────────────────────────────
 const RSS_FEEDS = {
   'Destaques': [
-    { url: 'https://g1.globo.com/rss/g1/economia/',                         source: 'G1 Economia',   lang: 'BR' },
-    { url: 'https://www.infomoney.com.br/feed/',                             source: 'InfoMoney',     lang: 'BR' },
-    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',     source: 'Reuters',       lang: 'EN' },
+    { url: 'https://g1.globo.com/rss/g1/economia/',                                    source: 'G1 Economia',      lang: 'BR' },
+    { url: 'https://www.infomoney.com.br/feed/',                                        source: 'InfoMoney',        lang: 'BR' },
+    { url: 'https://valor.globo.com/rss/',                                              source: 'Valor Econômico',  lang: 'BR' },
+    { url: 'https://moneytimes.com.br/feed/',                                           source: 'MoneyTimes',       lang: 'BR' },
+    { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
+    { url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',                            source: 'WSJ Markets',      lang: 'EN' },
+    { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069', source: 'CNBC', lang: 'EN' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',                source: 'NYT Business',     lang: 'EN' },
   ],
+
   'Geopolítica': [
-    { url: 'https://www.bbc.com/portuguese/index.xml',                       source: 'BBC Brasil',    lang: 'BR' },
-    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',                   source: 'BBC World',     lang: 'EN' },
+    { url: 'https://www.bbc.com/portuguese/index.xml',                                  source: 'BBC Brasil',       lang: 'BR' },
+    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',                              source: 'BBC World',        lang: 'EN' },
+    { url: 'https://foreignpolicy.com/feed/',                                           source: 'Foreign Policy',   lang: 'EN' },
+    { url: 'https://www.aljazeera.com/xml/rss/all.xml',                                source: 'Al Jazeera',       lang: 'EN' },
+    { url: 'https://www.scmp.com/rss/91/feed',                                         source: 'S. China Morning', lang: 'EN' },
+    { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
   ],
- 'Bancos Centrais': [
-  { url: 'https://www.infomoney.com.br/economia/feed/',                             source: 'InfoMoney',     lang: 'BR' },
-  { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines',      source: 'MarketWatch',   lang: 'EN' },
-  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',               source: 'NYT Economy',   lang: 'EN' },
-],
- 'CME · Futuros': [
-  { url: 'https://www.infomoney.com.br/mercados/feed/',                             source: 'InfoMoney',     lang: 'BR' },
-  { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                    source: 'OilPrice',      lang: 'EN' },
-  { url: 'https://feeds.bbci.co.uk/news/business/rss.xml',                         source: 'BBC Business',  lang: 'EN' },
-],
- 'Commodities': [
-  { url: 'https://www.canalrural.com.br/feed/',                                    source: 'Canal Rural',   lang: 'BR' },
-  { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                    source: 'OilPrice',      lang: 'EN' },
-  { url: 'https://feeds.bbci.co.uk/news/business/rss.xml',                         source: 'BBC Business',  lang: 'EN' },
-],
- 'Metais Preciosos': [
-  { url: 'https://www.infomoney.com.br/onde-investir/feed/',                        source: 'InfoMoney',     lang: 'BR' },
-  { url: 'https://www.kitco.com/rss/KitcoNews.xml',                                source: 'Kitco',         lang: 'EN' },
-  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',              source: 'Reuters',       lang: 'EN' },
-],
+
+  'Bancos Centrais': [
+    { url: 'https://www.infomoney.com.br/economia/feed/',                               source: 'InfoMoney',        lang: 'BR' },
+    { url: 'https://valor.globo.com/rss/',                                              source: 'Valor Econômico',  lang: 'BR' },
+    { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
+    { url: 'https://www.centralbanking.com/rss',                                        source: 'Central Banking',  lang: 'EN' },
+    { url: 'https://www.imf.org/external/rss/feeds.aspx?category=News',               source: 'IMF News',         lang: 'EN' },
+    { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines',        source: 'MarketWatch',      lang: 'EN' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',                 source: 'NYT Economy',      lang: 'EN' },
+    { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
+  ],
+
+  'CME · Futuros': [
+    { url: 'https://www.infomoney.com.br/mercados/feed/',                               source: 'InfoMoney',        lang: 'BR' },
+    { url: 'https://valor.globo.com/rss/',                                              source: 'Valor Econômico',  lang: 'BR' },
+    { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
+    { url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',                            source: 'WSJ Markets',      lang: 'EN' },
+    { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069', source: 'CNBC', lang: 'EN' },
+    { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                      source: 'OilPrice',         lang: 'EN' },
+    { url: 'https://feeds.bbci.co.uk/news/business/rss.xml',                           source: 'BBC Business',     lang: 'EN' },
+  ],
+
+  'Commodities': [
+    { url: 'https://www.canalrural.com.br/feed/',                                       source: 'Canal Rural',      lang: 'BR' },
+    { url: 'https://valor.globo.com/rss/',                                              source: 'Valor Econômico',  lang: 'BR' },
+    { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                      source: 'OilPrice',         lang: 'EN' },
+    { url: 'https://www.spglobal.com/commodityinsights/en/rss-feed',                   source: 'S&P Commodities',  lang: 'EN' },
+    { url: 'https://www.hellenicshippingnews.com/feed/',                               source: 'Hellenic Shipping',lang: 'EN' },
+    { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
+    { url: 'https://feeds.bbci.co.uk/news/business/rss.xml',                           source: 'BBC Business',     lang: 'EN' },
+  ],
+
+  'Metais Preciosos': [
+    { url: 'https://www.infomoney.com.br/onde-investir/feed/',                          source: 'InfoMoney',        lang: 'BR' },
+    { url: 'https://www.kitco.com/rss/KitcoNews.xml',                                  source: 'Kitco',            lang: 'EN' },
+    { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
+    { url: 'https://www.spglobal.com/commodityinsights/en/rss-feed',                   source: 'S&P Commodities',  lang: 'EN' },
+    { url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',                            source: 'WSJ Markets',      lang: 'EN' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',                source: 'NYT Business',     lang: 'EN' },
+  ],
+
   'Cripto': [
-    { url: 'https://www.livecoins.com.br/feed/',                             source: 'Livecoins',     lang: 'BR' },
-    { url: 'https://feeds.feedburner.com/CoinDesk',                         source: 'CoinDesk',      lang: 'EN' },
+    { url: 'https://www.livecoins.com.br/feed/',                                        source: 'Livecoins',        lang: 'BR' },
+    { url: 'https://portaldobitcoin.uol.com.br/feed/',                                 source: 'Portal do Bitcoin', lang: 'BR' },
+    { url: 'https://cointelegraph.com/rss',                                             source: 'CoinTelegraph',    lang: 'EN' },
+    { url: 'https://www.theblock.co/rss.xml',                                           source: 'The Block',        lang: 'EN' },
+    { url: 'https://decrypt.co/feed',                                                   source: 'Decrypt',          lang: 'EN' },
+    { url: 'https://feeds.feedburner.com/CoinDesk',                                    source: 'CoinDesk',         lang: 'EN' },
   ],
+
   'Guerras & Conflitos': [
-    { url: 'https://www.bbc.com/portuguese/index.xml',                       source: 'BBC Brasil',    lang: 'BR' },
-    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',                   source: 'BBC World',     lang: 'EN' },
+    { url: 'https://www.bbc.com/portuguese/index.xml',                                  source: 'BBC Brasil',       lang: 'BR' },
+    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',                              source: 'BBC World',        lang: 'EN' },
+    { url: 'https://foreignpolicy.com/feed/',                                           source: 'Foreign Policy',   lang: 'EN' },
+    { url: 'https://www.aljazeera.com/xml/rss/all.xml',                                source: 'Al Jazeera',       lang: 'EN' },
+    { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
+    { url: 'https://www.scmp.com/rss/91/feed',                                         source: 'S. China Morning', lang: 'EN' },
   ],
+
   'Saúde Global': [
-    { url: 'https://g1.globo.com/rss/g1/ciencia-e-saude/',                  source: 'G1 Saúde',      lang: 'BR' },
-    { url: 'https://feeds.bbci.co.uk/news/health/rss.xml',                  source: 'BBC Health',    lang: 'EN' },
+    { url: 'https://g1.globo.com/rss/g1/ciencia-e-saude/',                             source: 'G1 Saúde',         lang: 'BR' },
+    { url: 'https://feeds.bbci.co.uk/news/health/rss.xml',                             source: 'BBC Health',       lang: 'EN' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Health.xml',                  source: 'NYT Health',       lang: 'EN' },
+    { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
   ],
 };
-
+  
 const PROXY = 'https://blackswan-proxy.j-ubyfol.workers.dev';
 
 // Busca um único feed RSS
