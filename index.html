@@ -1146,7 +1146,7 @@ function renderAgroNews(news) {
     'GRÃOS':'ant-soja','PROTEÍNA':'ant-carne','ENERGIA':'ant-energia','FEIJÃO':'ant-feijao',
     'CLIMA':'ant-clima','INSUMO':'ant-insumo','MERCADO':'ant-terra','GLOBAL':'ant-carne'
   };
-  grid.innerHTML = news.slice(0,6).map(n => {
+  grid.innerHTML = news.slice(0,12).map(n => {
     const tagClass = TAG_CLASS[n.tag] || 'ant-soja';
     const safeUrl = (n.url||'#').replace(/"/g,'&quot;');
     const flag = n.lang === 'BR' ? '🇧🇷 ' : '🌐 ';
