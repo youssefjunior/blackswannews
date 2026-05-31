@@ -921,7 +921,7 @@ function render(articles, category) {
   articles.forEach(a => {
     // Divisor visual entre notícias BR e EN
     if (!shownDivider && a.lang === 'EN' && brCount > 0) {
-      html += `<div class="feed-divider">Internacional · Inglês →</div>`;
+      html += `<div class="feed-divider">Notícias Internacionais</div>`;
       shownDivider = true;
     }
     const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
