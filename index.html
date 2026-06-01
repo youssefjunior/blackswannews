@@ -520,6 +520,8 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 
 const newsCache = {};
 let cat = 'Destaques';
+  
+const PROXY = 'https://blackswan-proxy.j-ubyfol.workers.dev';
 
 // ── CLOCK ──
 function clock() {
@@ -845,7 +847,6 @@ const RSS_FEEDS = {
   ],
 };
   
-const PROXY = 'https://blackswan-proxy.j-ubyfol.workers.dev';
 
 // Busca um único feed RSS
 async function fetchOneFeed(feedObj) {
