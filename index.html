@@ -1020,7 +1020,7 @@ async function loadCMENews() {
     const brCount = articles.filter(a => a.lang === 'BR').length;
     articles.forEach(a => {
       if (!shownDivider && a.lang === 'EN' && brCount > 0) {
-        html += `<div class="feed-divider">Notícias Internacionais</div>`;
+        h += `<div class="feed-divider">Notícias Internacionais</div>`;
         shownDivider = true;
       }
       const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
@@ -1039,7 +1039,7 @@ async function loadCMENews() {
     if (body) body.innerHTML = `<div class="err-box"><div class="err-icon">⚠️</div><div class="err-msg">${e.message}</div><button onclick="loadCMENews()">↺ Tentar novamente</button></div>`;
   }
 }
-
+  
 // ── AGRO NEWS ──
 async function loadAgroNews() {
   const statusEl = document.getElementById('agro-news-status');
