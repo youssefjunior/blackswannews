@@ -1082,14 +1082,24 @@ const agroFeeds = [
 
 // ── Ibrafe fixo ──
     news.unshift({
-      title: '📋 Boletim Só Feijão — Ibrafe',
-      desc:  'Acesse o boletim completo do mercado de feijão no Brasil',
-      url:   'https://www.ibrafe.org/boletim-so-feijao',
-      time:  'atualizado',
-      source:'Ibrafe',
-      lang:  'BR',
-      tag:   'FEIJÃO'
-    });
+  title: '📋 Boletim Só Feijão — Ibrafe',
+  desc:  'Acesse o boletim completo do mercado de feijão no Brasil',
+  url:   'https://www.ibrafe.org/boletim-so-feijao',
+  time:  'atualizado',
+  source:'Ibrafe',
+  lang:  'BR',
+  tag:   'FEIJÃO'
+});
+
+news.unshift({
+  title: '🫘 Cotações de Feijão — Bolsinha.com.br',
+  desc:  'Cotações diárias de feijão carioca, preto e caupi em tempo real. Referência nacional de preços para o mercado de feijão.',
+  url:   'https://www.bolsinha.com.br',
+  time:  'tempo real',
+  source:'Bolsinha',
+  lang:  'BR',
+  tag:   'FEIJÃO'
+});
 
     if (!news.length) throw new Error('Sem notícias');
     newsCache['_agro'] = news;
