@@ -944,10 +944,10 @@ function render(articles, category) {
   let shownDivider = false;
   articles.forEach(a => {
     // Divisor visual entre notícias BR e EN
-    if (!shownDivider && a.lang === 'EN' && brCount > 0) {
-  h += `<div class="feed-divider">Notícias Internacionais</div>`;
-      shownDivider = true;
-    }
+   if (!shownDivider && a.lang === 'EN' && brCount > 0) {
+  html += `<div class="feed-divider">Notícias Internacionais</div>`;
+  shownDivider = true;
+}
     const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
     const badgeClass = a.lang === 'BR' ? 'bbr' : 'bh';
     const flagIcon = a.lang === 'BR' ? '🇧🇷 ' : '🌐 ';
@@ -1019,10 +1019,10 @@ async function loadCMENews() {
     let shownDivider = false;
     const brCount = articles.filter(a => a.lang === 'BR').length;
     articles.forEach(a => {
-      if (!shownDivider && a.lang === 'EN' && brCount > 0) {
-        h += `<div class="feed-divider">Notícias Internacionais</div>`;
-        shownDivider = true;
-      }
+ if (!shownDivider && a.lang === 'EN' && brCount > 0) {
+  html += `<div class="feed-divider">Notícias Internacionais</div>`;
+  shownDivider = true;
+}
       const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
       const badgeClass = a.lang === 'BR' ? 'bbr' : 'bh';
       const flagIcon = a.lang === 'BR' ? '🇧🇷 ' : '🌐 ';
