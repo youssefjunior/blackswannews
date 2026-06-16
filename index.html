@@ -782,12 +782,12 @@ const RSS_FEEDS = {
 
   'Geopolítica': [
     { url: 'https://www.bbc.com/portuguese/index.xml',                                  source: 'BBC Brasil',       lang: 'BR' },
+    { url: 'https://agenciabrasil.ebc.com.br/rss/internacional/feed.xml',               source: 'Agência Brasil',   lang: 'BR' },
     { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',                              source: 'BBC World',        lang: 'EN' },
+    { url: 'https://feeds.reuters.com/Reuters/worldNews',                               source: 'Reuters World',    lang: 'EN' },
     { url: 'https://foreignpolicy.com/feed/',                                           source: 'Foreign Policy',   lang: 'EN' },
     { url: 'https://www.aljazeera.com/xml/rss/all.xml',                                source: 'Al Jazeera',       lang: 'EN' },
-    { url: 'https://www.scmp.com/rss/91/feed',                                         source: 'S. China Morning', lang: 'EN' },
-    { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
-    { url: 'https://feeds.reuters.com/Reuters/worldNews',                               source: 'Reuters World',    lang: 'EN' },
+    { url: 'https://theintercept.com/feed/?lang=en',                                    source: 'The Intercept',    lang: 'EN' },
   ],
 
   'Bancos Centrais': [
@@ -844,12 +844,12 @@ const RSS_FEEDS = {
 
   'Guerras & Conflitos': [
     { url: 'https://www.bbc.com/portuguese/index.xml',                                  source: 'BBC Brasil',       lang: 'BR' },
+    { url: 'https://agenciabrasil.ebc.com.br/rss/internacional/feed.xml',               source: 'Agência Brasil',   lang: 'BR' },
     { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',                              source: 'BBC World',        lang: 'EN' },
-    { url: 'https://foreignpolicy.com/feed/',                                           source: 'Foreign Policy',   lang: 'EN' },
-    { url: 'https://www.aljazeera.com/xml/rss/all.xml',                                source: 'Al Jazeera',       lang: 'EN' },
-    { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
-    { url: 'https://www.scmp.com/rss/91/feed',                                         source: 'S. China Morning', lang: 'EN' },
     { url: 'https://feeds.reuters.com/Reuters/worldNews',                               source: 'Reuters World',    lang: 'EN' },
+    { url: 'https://www.aljazeera.com/xml/rss/all.xml',                                source: 'Al Jazeera',       lang: 'EN' },
+    { url: 'https://foreignpolicy.com/feed/',                                           source: 'Foreign Policy',   lang: 'EN' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',                   source: 'NYT World',        lang: 'EN' },
   ],
 
   'Saúde Global': [
@@ -863,24 +863,47 @@ const RSS_FEEDS = {
 };
   
 
+// Palavras-chave para filtrar artigos fora do tema por categoria
+const CATEGORY_KEYWORDS = {
+  'Geopolítica':      ['guerra', 'conflito', 'diplomacia', 'sanção', 'otan', 'nato', 'geopolít', 'eleição', 'crise', 'tratado', 'embargo', 'fronteira', 'governo', 'política', 'war', 'conflict', 'sanction', 'election', 'treaty', 'border', 'government', 'military', 'president', 'minister', 'nato', 'un ', 'united nations', 'coup', 'protest', 'nuclear'],
+  'Guerras & Conflitos': ['guerra', 'conflito', 'ataque', 'bombardeio', 'míssil', 'tropas', 'ucrânia', 'gaza', 'israel', 'rússia', 'otan', 'nato', 'milícia', 'exército', 'war', 'attack', 'strike', 'troops', 'missile', 'military', 'battle', 'combat', 'ceasefire', 'offensive', 'drone', 'weapon', 'soldier', 'bomb', 'artillery', 'siege', 'invasion'],
+};
+
 // Busca um único feed RSS
-async function fetchOneFeed(feedObj) {
+async function fetchOneFeed(feedObj, category) {
   const res = await fetch(`${PROXY}?rss=${encodeURIComponent(feedObj.url)}`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const xml = await res.text();
   const parser = new DOMParser();
   const doc = parser.parseFromString(xml, 'application/xml');
-  const items = Array.from(doc.querySelectorAll('item')).slice(0, 10); // pega mais para compensar filtragem
+
+  // Detecta erro de parse XML
+  if (doc.querySelector('parsererror')) {
+    throw new Error(`XML inválido: ${feedObj.source}`);
+  }
+
+  const items = Array.from(doc.querySelectorAll('item')).slice(0, 10);
   const MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
   const now = Date.now();
+  const keywords = category ? CATEGORY_KEYWORDS[category] : null;
+
   return items.map(item => {
     const title = item.querySelector('title')?.textContent?.trim() || '';
     const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,130) || '';
     const url   = item.querySelector('link')?.textContent?.trim() || '#';
     const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
     const pubMs = pub ? new Date(pub).getTime() : null;
-    // Descarta artigos sem data ou com mais de 30 dias
+
+    // Descarta artigos com mais de 30 dias
     if (pubMs && (now - pubMs) > MAX_AGE_MS) return null;
+
+    // Filtra por relevância temática (só para categorias com keywords definidas)
+    if (keywords) {
+      const haystack = (title + ' ' + desc).toLowerCase();
+      const relevant = keywords.some(kw => haystack.includes(kw));
+      if (!relevant) return null;
+    }
+
     return { title, desc, url, time: pub ? timeAgo(pub) : 'recente', source: feedObj.source, lang: feedObj.lang, pubMs: pubMs || 0 };
   }).filter(a => a && a.title);
 }
@@ -890,7 +913,7 @@ async function fetchAllFeeds(category) {
   const feeds = RSS_FEEDS[category];
   if (!feeds) return [];
 
-  const results = await Promise.allSettled(feeds.map(f => fetchOneFeed(f)));
+  const results = await Promise.allSettled(feeds.map(f => fetchOneFeed(f, category)));
 
   // BR primeiro, EN depois — dentro de cada grupo ordenado por feed
   const brArticles = [];
