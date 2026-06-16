@@ -854,10 +854,11 @@ const RSS_FEEDS = {
 
   'Saúde Global': [
     { url: 'https://g1.globo.com/rss/g1/ciencia-e-saude/',                             source: 'G1 Saúde',         lang: 'BR' },
+    { url: 'https://agenciabrasil.ebc.com.br/rss/saude/feed.xml',                      source: 'Agência Brasil',   lang: 'BR' },
     { url: 'https://feeds.bbci.co.uk/news/health/rss.xml',                             source: 'BBC Health',       lang: 'EN' },
-    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Health.xml',                  source: 'NYT Health',       lang: 'EN' },
-    { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
     { url: 'https://feeds.reuters.com/reuters/healthNews',                              source: 'Reuters Health',   lang: 'EN' },
+    { url: 'https://www.who.int/rss-feeds/news-english.xml',                           source: 'WHO',              lang: 'EN' },
+    { url: 'https://www.statnews.com/feed/',                                            source: 'STAT News',        lang: 'EN' },
   ],
 };
   
@@ -869,14 +870,19 @@ async function fetchOneFeed(feedObj) {
   const xml = await res.text();
   const parser = new DOMParser();
   const doc = parser.parseFromString(xml, 'application/xml');
-  const items = Array.from(doc.querySelectorAll('item')).slice(0, 5);
+  const items = Array.from(doc.querySelectorAll('item')).slice(0, 10); // pega mais para compensar filtragem
+  const MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
+  const now = Date.now();
   return items.map(item => {
     const title = item.querySelector('title')?.textContent?.trim() || '';
     const desc  = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,130) || '';
     const url   = item.querySelector('link')?.textContent?.trim() || '#';
     const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
-    return { title, desc, url, time: pub ? timeAgo(pub) : 'recente', source: feedObj.source, lang: feedObj.lang };
-  }).filter(a => a.title);
+    const pubMs = pub ? new Date(pub).getTime() : null;
+    // Descarta artigos sem data ou com mais de 30 dias
+    if (pubMs && (now - pubMs) > MAX_AGE_MS) return null;
+    return { title, desc, url, time: pub ? timeAgo(pub) : 'recente', source: feedObj.source, lang: feedObj.lang, pubMs: pubMs || 0 };
+  }).filter(a => a && a.title);
 }
 
 // Busca todos os feeds de uma categoria em paralelo
@@ -907,7 +913,10 @@ async function fetchAllFeeds(category) {
     return true;
   });
 
-  return [...dedup(brArticles), ...dedup(enArticles)];
+  // Ordena do mais recente para o mais antigo dentro de cada grupo
+  const sortByDate = (arr) => arr.sort((a, b) => (b.pubMs || 0) - (a.pubMs || 0));
+
+  return [...dedup(sortByDate(brArticles)), ...dedup(sortByDate(enArticles))];
 }
 
 function timeAgo(pubDate) {
