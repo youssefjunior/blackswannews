@@ -518,8 +518,8 @@ footer{background:#050505;border-top:1px solid var(--b1);padding:10px var(--gutt
 <footer>
   <span class="fdot">●</span><span>BLACK SWAN NEWS</span><span>·</span>
   <span>Inteligência de Mercado Global</span><span>·</span>
-  <span>G1 · InfoMoney · BBC Brasil · Livecoins · Reuters · OilPrice</span><span>·</span>
-  <span>v9.1 · RSS Edition · 2026</span>
+  <span>G1 · InfoMoney · BBC Brasil · Livecoins · Reuters · OilPrice · Bloomberg · Al Jazeera</span><span>·</span>
+  <span>v9.2 · RSS Edition · 2026</span>
   <span style="flex-basis:100%;margin-top:6px;font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--t4);font-style:italic;border-top:1px solid var(--b1);padding-top:6px;">"O raro e o improvável definem o mundo — e os mercados não são exceção." — <strong style="color:var(--red);font-style:normal;">Nassim Nicholas Taleb</strong> · <em>The Black Swan, 2007</em></span>
 </footer>
 
@@ -777,6 +777,7 @@ const RSS_FEEDS = {
     { url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',                            source: 'WSJ Markets',      lang: 'EN' },
     { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069', source: 'CNBC', lang: 'EN' },
     { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',                source: 'NYT Business',     lang: 'EN' },
+    { url: 'https://feeds.reuters.com/reuters/businessNews',                            source: 'Reuters Business', lang: 'EN' },
   ],
 
   'Geopolítica': [
@@ -786,6 +787,7 @@ const RSS_FEEDS = {
     { url: 'https://www.aljazeera.com/xml/rss/all.xml',                                source: 'Al Jazeera',       lang: 'EN' },
     { url: 'https://www.scmp.com/rss/91/feed',                                         source: 'S. China Morning', lang: 'EN' },
     { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
+    { url: 'https://feeds.reuters.com/Reuters/worldNews',                               source: 'Reuters World',    lang: 'EN' },
   ],
 
   'Bancos Centrais': [
@@ -797,6 +799,7 @@ const RSS_FEEDS = {
     { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines',        source: 'MarketWatch',      lang: 'EN' },
     { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',                 source: 'NYT Economy',      lang: 'EN' },
     { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
+    { url: 'https://feeds.reuters.com/reuters/businessNews',                            source: 'Reuters Finance',  lang: 'EN' },
   ],
 
   'CME · Futuros': [
@@ -807,6 +810,7 @@ const RSS_FEEDS = {
     { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069', source: 'CNBC', lang: 'EN' },
     { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                      source: 'OilPrice',         lang: 'EN' },
     { url: 'https://feeds.bbci.co.uk/news/business/rss.xml',                           source: 'BBC Business',     lang: 'EN' },
+    { url: 'https://feeds.reuters.com/reuters/marketsNews',                             source: 'Reuters Markets',  lang: 'EN' },
   ],
 
   'Commodities': [
@@ -816,6 +820,7 @@ const RSS_FEEDS = {
     { url: 'https://www.hellenicshippingnews.com/feed/',                               source: 'Hellenic Shipping',lang: 'EN' },
     { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
     { url: 'https://feeds.bbci.co.uk/news/business/rss.xml',                           source: 'BBC Business',     lang: 'EN' },
+    { url: 'https://feeds.reuters.com/reuters/commoditiesNews',                         source: 'Reuters Commodities', lang: 'EN' },
   ],
 
   'Metais Preciosos': [
@@ -825,6 +830,7 @@ const RSS_FEEDS = {
     { url: 'https://www.spglobal.com/commodityinsights/en/rss-feed',                   source: 'S&P Commodities',  lang: 'EN' },
     { url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',                            source: 'WSJ Markets',      lang: 'EN' },
     { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',                source: 'NYT Business',     lang: 'EN' },
+    { url: 'https://feeds.reuters.com/reuters/commoditiesNews',                         source: 'Reuters Commodities', lang: 'EN' },
   ],
 
   'Cripto': [
@@ -843,6 +849,7 @@ const RSS_FEEDS = {
     { url: 'https://www.aljazeera.com/xml/rss/all.xml',                                source: 'Al Jazeera',       lang: 'EN' },
     { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
     { url: 'https://www.scmp.com/rss/91/feed',                                         source: 'S. China Morning', lang: 'EN' },
+    { url: 'https://feeds.reuters.com/Reuters/worldNews',                               source: 'Reuters World',    lang: 'EN' },
   ],
 
   'Saúde Global': [
@@ -850,6 +857,7 @@ const RSS_FEEDS = {
     { url: 'https://feeds.bbci.co.uk/news/health/rss.xml',                             source: 'BBC Health',       lang: 'EN' },
     { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Health.xml',                  source: 'NYT Health',       lang: 'EN' },
     { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
+    { url: 'https://feeds.reuters.com/reuters/healthNews',                              source: 'Reuters Health',   lang: 'EN' },
   ],
 };
   
@@ -1019,10 +1027,10 @@ async function loadCMENews() {
     let shownDivider = false;
     const brCount = articles.filter(a => a.lang === 'BR').length;
     articles.forEach(a => {
- if (!shownDivider && a.lang === 'EN' && brCount > 0) {
-  html += `<div class="feed-divider">Notícias Internacionais</div>`;
-  shownDivider = true;
-}
+      if (!shownDivider && a.lang === 'EN' && brCount > 0) {
+        h += `<div class="feed-divider">Notícias Internacionais</div>`;
+        shownDivider = true;
+      }
       const safeUrl = (a.url||'#').replace(/"/g,'&quot;');
       const badgeClass = a.lang === 'BR' ? 'bbr' : 'bh';
       const flagIcon = a.lang === 'BR' ? '🇧🇷 ' : '🌐 ';
