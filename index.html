@@ -791,26 +791,25 @@ const RSS_FEEDS = {
   ],
 
   'Bancos Centrais': [
-    { url: 'https://www.infomoney.com.br/economia/feed/',                               source: 'InfoMoney',        lang: 'BR' },
-    { url: 'https://valor.globo.com/rss/',                                              source: 'Valor Econômico',  lang: 'BR' },
-    { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
-    { url: 'https://www.centralbanking.com/rss',                                        source: 'Central Banking',  lang: 'EN' },
-    { url: 'https://www.imf.org/external/rss/feeds.aspx?category=News',               source: 'IMF News',         lang: 'EN' },
-    { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines',        source: 'MarketWatch',      lang: 'EN' },
-    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',                 source: 'NYT Economy',      lang: 'EN' },
-    { url: 'https://www.ft.com/rss/home',                                              source: 'Financial Times',  lang: 'EN' },
-    { url: 'https://feeds.reuters.com/reuters/businessNews',                            source: 'Reuters Finance',  lang: 'EN' },
+    { url: 'https://www.infomoney.com.br/economia/feed/',                               source: 'InfoMoney Economia', lang: 'BR' },
+    { url: 'https://agenciabrasil.ebc.com.br/rss/economia/feed.xml',                   source: 'Agência Brasil',     lang: 'BR' },
+    { url: 'https://www.centralbanking.com/rss',                                        source: 'Central Banking',    lang: 'EN' },
+    { url: 'https://www.imf.org/external/rss/feeds.aspx?category=News',                source: 'IMF News',           lang: 'EN' },
+    { url: 'https://www.bis.org/rss/bio_rss.rss',                                      source: 'BIS',                lang: 'EN' },
+    { url: 'https://feeds.reuters.com/reuters/businessNews',                            source: 'Reuters Finance',    lang: 'EN' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml',                 source: 'NYT Economy',        lang: 'EN' },
+    { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines',        source: 'MarketWatch',        lang: 'EN' },
   ],
 
   'CME · Futuros': [
-    { url: 'https://www.infomoney.com.br/mercados/feed/',                               source: 'InfoMoney',        lang: 'BR' },
-    { url: 'https://valor.globo.com/rss/',                                              source: 'Valor Econômico',  lang: 'BR' },
-    { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
-    { url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',                            source: 'WSJ Markets',      lang: 'EN' },
-    { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069', source: 'CNBC', lang: 'EN' },
-    { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                      source: 'OilPrice',         lang: 'EN' },
-    { url: 'https://feeds.bbci.co.uk/news/business/rss.xml',                           source: 'BBC Business',     lang: 'EN' },
-    { url: 'https://feeds.reuters.com/reuters/marketsNews',                             source: 'Reuters Markets',  lang: 'EN' },
+    { url: 'https://www.infomoney.com.br/mercados/feed/',                               source: 'InfoMoney Mercados', lang: 'BR' },
+    { url: 'https://br.investing.com/rss/news_301.rss',                                source: 'Investing.com BR',   lang: 'BR' },
+    { url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',                            source: 'WSJ Markets',        lang: 'EN' },
+    { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069', source: 'CNBC Markets', lang: 'EN' },
+    { url: 'https://feeds.reuters.com/reuters/marketsNews',                             source: 'Reuters Markets',    lang: 'EN' },
+    { url: 'https://feeds.feedburner.com/oilprice/breaking-news',                      source: 'OilPrice',           lang: 'EN' },
+    { url: 'https://www.cmegroup.com/rss/cmegroup-news.rss',                           source: 'CME Group',          lang: 'EN' },
+    { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines',        source: 'MarketWatch',        lang: 'EN' },
   ],
 
   'Commodities': [
@@ -824,13 +823,14 @@ const RSS_FEEDS = {
   ],
 
   'Metais Preciosos': [
-    { url: 'https://www.infomoney.com.br/onde-investir/feed/',                          source: 'InfoMoney',        lang: 'BR' },
-    { url: 'https://www.kitco.com/rss/KitcoNews.xml',                                  source: 'Kitco',            lang: 'EN' },
-    { url: 'https://feeds.bloomberg.com/markets/news.rss',                             source: 'Bloomberg',        lang: 'EN' },
-    { url: 'https://www.spglobal.com/commodityinsights/en/rss-feed',                   source: 'S&P Commodities',  lang: 'EN' },
-    { url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml',                            source: 'WSJ Markets',      lang: 'EN' },
-    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml',                source: 'NYT Business',     lang: 'EN' },
+    { url: 'https://www.infomoney.com.br/onde-investir/feed/',                          source: 'InfoMoney Invest',   lang: 'BR' },
+    { url: 'https://br.investing.com/rss/news_4.rss',                                  source: 'Investing.com Metais', lang: 'BR' },
+    { url: 'https://www.kitco.com/rss/KitcoNews.xml',                                  source: 'Kitco',              lang: 'EN' },
+    { url: 'https://www.mining.com/feed/',                                              source: 'Mining.com',         lang: 'EN' },
+    { url: 'https://goldprice.org/rss',                                                 source: 'GoldPrice.org',      lang: 'EN' },
     { url: 'https://feeds.reuters.com/reuters/commoditiesNews',                         source: 'Reuters Commodities', lang: 'EN' },
+    { url: 'https://www.spglobal.com/commodityinsights/en/rss-feed',                   source: 'S&P Commodities',    lang: 'EN' },
+    { url: 'https://www.mineweb.com/rss/',                                              source: 'Mineweb',            lang: 'EN' },
   ],
 
   'Cripto': [
