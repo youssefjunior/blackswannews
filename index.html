@@ -683,6 +683,67 @@ function buildTicker_init() {
   setInterval(refreshTicker, 60_000);
 }
   
+// ── AGRO QUOTES — Yahoo Finance via Proxy ──
+const AGRO_YAHOO_MAP = [
+  { id:'ag-ZS', sym:'ZS=F', unit:'/bu',  mult:0.01 }, // soja em cents/bu -> $/bu
+  { id:'ag-ZC', sym:'ZC=F', unit:'/bu',  mult:0.01 },
+  { id:'ag-ZW', sym:'ZW=F', unit:'/bu',  mult:0.01 },
+  { id:'ag-ZR', sym:'ZR=F', unit:'/cwt', mult:0.01 },
+  { id:'ag-ZM', sym:'ZM=F', unit:'/t',   mult:1    },
+  { id:'ag-LE', sym:'LE=F', unit:'¢/lb', mult:1    },
+  { id:'ag-HE', sym:'HE=F', unit:'¢/lb', mult:1    },
+  { id:'ag-SB', sym:'SB=F', unit:'/lb',  mult:1    },
+  { id:'ag-CL', sym:'CL=F', unit:'/bbl', mult:1    },
+  { id:'ag-CT', sym:'CT=F', unit:'/lb',  mult:1    },
+  { id:'ag-KC', sym:'KC=F', unit:'/lb',  mult:1    },
+  { id:'ag-OJ', sym:'OJ=F', unit:'/lb',  mult:1    },
+  { id:'ag-CC', sym:'CC=F', unit:'/t',   mult:1    },
+];
+
+async function fetchAgroYahooOne(item) {
+  try {
+    const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(item.sym)}?interval=1m&range=1d`;
+    const res = await fetch(`${PROXY}?rss=${encodeURIComponent(yahooUrl)}`);
+    if (!res.ok) return null;
+    const data = JSON.parse(await res.text());
+    const meta = data?.chart?.result?.[0]?.meta;
+    if (!meta || !meta.regularMarketPrice) return null;
+    const price = meta.regularMarketPrice * item.mult;
+    const prev  = (meta.chartPreviousClose || meta.previousClose || meta.regularMarketPrice) * item.mult;
+    const chg   = ((price - prev) / prev * 100);
+    const up    = chg >= 0;
+    return { id: item.id, price, unit: item.unit, chg, up };
+  } catch { return null; }
+}
+
+function applyAgroQuote(q) {
+  if (!q) return;
+  const valEl = document.getElementById(q.id);
+  const chgEl = document.getElementById(q.id + '-chg');
+  if (valEl) {
+    const priceStr = q.price >= 1000
+      ? q.price.toLocaleString('en-US', {maximumFractionDigits:0})
+      : q.price.toFixed(2);
+    valEl.textContent = '$' + priceStr + q.unit;
+  }
+  if (chgEl) {
+    chgEl.textContent = (q.up ? '▲ +' : '▼ ') + q.chg.toFixed(1) + '%';
+    chgEl.classList.toggle('up', q.up);
+    chgEl.classList.toggle('dn', !q.up);
+  }
+}
+
+async function refreshAgroQuotes() {
+  const BATCH = 5;
+  const DELAY = 600;
+  for (let i = 0; i < AGRO_YAHOO_MAP.length; i += BATCH) {
+    const batch = AGRO_YAHOO_MAP.slice(i, i + BATCH);
+    const results = await Promise.allSettled(batch.map(fetchAgroYahooOne));
+    results.forEach(r => { if (r.status === 'fulfilled' && r.value) applyAgroQuote(r.value); });
+    if (i + BATCH < AGRO_YAHOO_MAP.length) await new Promise(r => setTimeout(r, DELAY));
+  }
+}
+  
 // ── MOBILE ──
 const isMobile = () => window.innerWidth <= 768;
 function setupMobSearch() {
